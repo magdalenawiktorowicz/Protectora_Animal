@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".Login">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="172dp"
+        android:layout_height="158dp"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.51"
+        app:srcCompat="@drawable/logo" />
+
+    <EditText
+        android:id="@+id/contrasena"
+        style="@style/HintText"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/prompt_contrasena"
+        android:hint="@string/prompt_contrasena"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintVertical_bias="0.034" />
+
+    <Button
+        android:id="@+id/btnAcceder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:enabled="true"
+        android:text="@string/btnAcceder"
+        android:textColor="@color/background"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchSaveCredentials"
+        app:layout_constraintVertical_bias="0.11" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchSaveCredentials"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:checked="false"
+        android:text="@string/switchSaveCredentials"
+        android:textColor="@color/grey"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:theme="@style/CustomizedSwitch"
+        android:typeface="sans"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contrasena"
+        app:layout_constraintVertical_bias="0.084"
+        tools:ignore="TextSizeCheck" />
+
+    <EditText
+        android:id="@+id/username"
+        style="@style/HintText"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/prompt_usuario"
+        android:hint="@string/prompt_usuario"
+        android:selectAllOnFocus="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.371" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

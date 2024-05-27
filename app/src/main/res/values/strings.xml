@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Los Amigos De Viky</string>
+    <string name="prompt_usuario">Usuario</string>
+    <string name="prompt_contrasena">Contraseña</string>
+    <string name="switchSaveCredentials">Guardar las credenciales</string>
+    <string name="btnAcceder">ACCEDER</string>
+
+    <string name="borrarCredenciales">Borrar las credenciales</string>
+    <string name="credencialesBorradas">Credenciales borradas</string>
+
+    <string name="ayuntamientos">Ayuntamientos</string>
+    <string name="protectoras">Protectoras</string>
+    <string name="colonias">Colonias</string>
+    <string name="gatos">Gatos</string>
+    <string name="veterinarios">Veterinarios</string>
+    <string name="cuidados">Cuidados</string>
+    <string name="ayuda">Selecciona la sección que quieres gestionar.</string>
+
+    <string name="placeholder">Ayuntamiento...</string>
+    <string name="telefono">Teléfono:</string>
+    <string name="responsable">Responsable:</string>
+    <string name="direccion">Dirección:</string>
+
+</resources>
