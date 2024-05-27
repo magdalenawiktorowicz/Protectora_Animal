@@ -16,6 +16,15 @@ public class Ayuntamiento {
         this.cpAyuntamiento = cpAyuntamiento;
     }
 
+    public Ayuntamiento(int idAyuntamiento, String nombreAyuntamiento, int telefonoAyuntamiento, String responsableAyuntamiento, String direccionAyuntamiento, int cpAyuntamiento) {
+        this.idAyuntamiento = idAyuntamiento;
+        this.nombreAyuntamiento = nombreAyuntamiento;
+        this.telefonoAyuntamiento = telefonoAyuntamiento;
+        this.responsableAyuntamiento = responsableAyuntamiento;
+        this.direccionAyuntamiento = direccionAyuntamiento;
+        this.cpAyuntamiento = cpAyuntamiento;
+    }
+
     public int getIdAyuntamiento() {
         return idAyuntamiento;
     }
@@ -42,6 +51,13 @@ public class Ayuntamiento {
 
     @Override
     public String toString() {
-        return nombreAyuntamiento;
+        return "Ayuntamiento{" +
+                "idAyuntamiento=" + idAyuntamiento +
+                ", nombreAyuntamiento='" + nombreAyuntamiento + '\'' +
+                ", telefonoAyuntamiento=" + telefonoAyuntamiento +
+                ", responsableAyuntamiento='" + responsableAyuntamiento + '\'' +
+                ", direccionAyuntamiento='" + direccionAyuntamiento + '\'' +
+                ", cpAyuntamiento=" + cpAyuntamiento +
+                '}';
     }
 }
