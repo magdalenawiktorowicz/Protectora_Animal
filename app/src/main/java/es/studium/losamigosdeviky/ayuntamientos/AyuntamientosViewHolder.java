@@ -1,5 +1,6 @@
 package es.studium.losamigosdeviky.ayuntamientos;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,22 +16,31 @@ public class AyuntamientosViewHolder extends RecyclerView.ViewHolder implements 
     private final TextView responsableAyuntamiento;
     private final TextView direccionAyuntamiento;
     private final RecyclerViewOnItemClickListener listener;
+    private Context contexto;
 
     public AyuntamientosViewHolder(@NonNull View itemView, @NonNull RecyclerViewOnItemClickListener listener) {
         super(itemView);
+        contexto = itemView.getContext();
         nombreAyuntamiento = itemView.findViewById(R.id.textViewNombreAyuntamiento);
         telefonoAyuntamiento = itemView.findViewById(R.id.textViewTelefonoAyuntamiento);
         responsableAyuntamiento = itemView.findViewById(R.id.textViewResponsableAyuntamiento);
         direccionAyuntamiento = itemView.findViewById(R.id.textViewDireccionAyuntamiento);
         this.listener = listener;
         itemView.setOnClickListener(this);
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                listener.onLongClick(v, getAbsoluteAdapterPosition());
+                return true;
+            }
+        });
     }
 
     public void bindRow(@NonNull Ayuntamiento ayuntamiento) {
         nombreAyuntamiento.setText(ayuntamiento.getNombreAyuntamiento());
-        telefonoAyuntamiento.setText(String.valueOf(ayuntamiento.getTelefonoAyuntamiento()));
-        responsableAyuntamiento.setText(ayuntamiento.getResponsableAyuntamiento());
-        direccionAyuntamiento.setText(ayuntamiento.getDireccionAyuntamiento() + ", " + ayuntamiento.getCpAyuntamiento());
+        telefonoAyuntamiento.setText(contexto.getResources().getString(R.string.telefono) + " " + String.valueOf(ayuntamiento.getTelefonoAyuntamiento()));
+        responsableAyuntamiento.setText(contexto.getResources().getString(R.string.responsable) + " " +ayuntamiento.getResponsableAyuntamiento());
+        direccionAyuntamiento.setText(contexto.getResources().getString(R.string.direccion) + " " +ayuntamiento.getDireccionAyuntamiento() + ", " + ayuntamiento.getCpAyuntamiento());
     }
 
     @Override

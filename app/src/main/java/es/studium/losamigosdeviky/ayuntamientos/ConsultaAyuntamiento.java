@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import es.studium.losamigosdeviky.BDConexion;
@@ -60,9 +61,9 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         List<String> spinnerArray = new ArrayList<String>();
-        spinnerArray.add("por nombre de ayuntamiento");
-        spinnerArray.add("por responsable de ayuntamiento");
-        spinnerArray.add("por localización");
+        spinnerArray.add("nombre de ayuntamiento");
+        spinnerArray.add("responsable de ayuntamiento");
+        spinnerArray.add("localización");
         spinnerOrdenarAyuntamientos = view.findViewById(R.id.spinnerOrdenarAyuntamientos);
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -92,17 +93,16 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
         recyclerView.setAdapter(new AyuntamientosAdapter(ayuntamientos, new RecyclerViewOnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
-                Toast.makeText(getContext(), "short click on " + ayuntamientos.get(position), Toast.LENGTH_SHORT).show();
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Modificación
+                    Toast.makeText(getContext(), "short click on " + ayuntamientos.get(position), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onLongClick(View v, int position) {
-                Toast.makeText(getContext(), "long click on " + ayuntamientos.get(position), Toast.LENGTH_SHORT).show();
                 if (MainActivity.tipoUsuario == 0) {
-                    // fragment Borrado
+                    Toast.makeText(getContext(), "long click on " + ayuntamientos.get(position), Toast.LENGTH_SHORT).show();
                 }
             }
         }));
@@ -123,7 +123,9 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
 
             @Override
             public void onOperacionCorrectaUpdated(boolean resultado) {
-                // Implement if needed
+                if (resultado) {
+
+                }
             }
         });
     }
@@ -137,8 +139,25 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // ordenar por el nombre de ayuntamiento
+        if (spinnerOrdenarAyuntamientos.getSelectedItemPosition() == 0) {
+            ayuntamientos.sort(Comparator.comparing((Ayuntamiento a) -> a.getNombreAyuntamiento().toLowerCase()));
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+        // ordenar por el nombre del responsable de ayuntamiento
+        else if (spinnerOrdenarAyuntamientos.getSelectedItemPosition() == 1) {
+            ayuntamientos.sort(Comparator.comparing((Ayuntamiento a) -> a.getResponsableAyuntamiento().toLowerCase()));
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+        // ordenar por la localización, según código postal
+        else if (spinnerOrdenarAyuntamientos.getSelectedItemPosition() == 2) {
+            ayuntamientos.sort(Comparator.comparing((Ayuntamiento a) -> a.getCpAyuntamiento()));
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+    }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {}
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
 }
