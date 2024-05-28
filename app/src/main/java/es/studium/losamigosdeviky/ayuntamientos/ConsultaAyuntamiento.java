@@ -79,7 +79,7 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
         setUpRecyclerView(view);
         fetchAyuntamientosData();
 
-        getParentFragmentManager().setFragmentResultListener("altaAyuntamientoRequestKey", this, new FragmentResultListener() {
+        fm.setFragmentResultListener("altaAyuntamientoRequestKey", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 boolean success = result.getBoolean("operationSuccess");

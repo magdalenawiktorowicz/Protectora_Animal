@@ -64,7 +64,6 @@ public class AltaAyuntamiento extends DialogFragment {
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
-                                        dismiss();
                                     });
                                 }
 
@@ -72,24 +71,24 @@ public class AltaAyuntamiento extends DialogFragment {
                                 public void onResponse(Call call, Response response) throws IOException {
                                     new Handler(Looper.getMainLooper()).post(() -> {
                                         if (response.code() == 200) {
-                                            Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
                                             if (isAdded()) {
                                                 sendResult(true);
                                             }
+                                            Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
                                         } else {
-                                            Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
                                             // Send result
                                             if (isAdded()) {
                                                 sendResult(false);
                                             }
+                                            Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
                                         }
-                                        dismiss();
                                     });
                                 }
                             });
                         } else {
                             Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
                         }
+                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
