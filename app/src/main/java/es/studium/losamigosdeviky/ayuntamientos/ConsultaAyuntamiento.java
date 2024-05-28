@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,7 +38,7 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
     RecyclerView recyclerView;
     Spinner spinnerOrdenarAyuntamientos;
     Button btnNuevoAyuntamiento;
-
+    AyuntamientosAdapter adapter;
     FragmentManager fm;
     FragmentTransaction ft;
     DialogFragment altaAyuntamiento;
@@ -76,6 +77,15 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
         fm = getActivity().getSupportFragmentManager();
         setUpRecyclerView(view);
         fetchAyuntamientosData();
+        getParentFragmentManager().setFragmentResultListener("altaAyuntamientoRequestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                boolean success = result.getBoolean("operationSuccess");
+                if (success) {
+                    fetchAyuntamientosData();
+                }
+            }
+        });
 
         // establecer el título en la barra superior
         if (getActivity() != null) {
@@ -92,7 +102,7 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), ((LinearLayoutManager) recyclerView.getLayoutManager()).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        recyclerView.setAdapter(new AyuntamientosAdapter(ayuntamientos, new RecyclerViewOnItemClickListener() {
+        adapter = new AyuntamientosAdapter(ayuntamientos, new RecyclerViewOnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
                 if (MainActivity.tipoUsuario == 0) {
@@ -107,24 +117,27 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
                     Toast.makeText(getContext(), "long click on " + ayuntamientos.get(position), Toast.LENGTH_SHORT).show();
                 }
             }
-        }));
+        });
+        recyclerView.setAdapter(adapter);
     }
 
     private void fetchAyuntamientosData() {
         BDConexion.consultarAyuntamientos(new AyuntamientoCallback() {
             @Override
-            public void onResult(ArrayList<Ayuntamiento> ays) {
+            public void onResult(final ArrayList<Ayuntamiento> ays) {
                 if (ays != null) {
-                    ayuntamientos.clear();
-                    ayuntamientos.addAll(ays);
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onOperacionCorrectaUpdated(boolean resultado) {
-                if (resultado) {
-                    fetchAyuntamientosData();
+                    // Ensure this code runs on the main thread
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ayuntamientos.clear();
+                                ayuntamientos.addAll(ays);
+                                ayuntamientos.sort(Comparator.comparing((Ayuntamiento a) -> a.getNombreAyuntamiento().toLowerCase()));
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -145,17 +158,17 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
         // ordenar por el nombre de ayuntamiento
         if (spinnerOrdenarAyuntamientos.getSelectedItemPosition() == 0) {
             ayuntamientos.sort(Comparator.comparing((Ayuntamiento a) -> a.getNombreAyuntamiento().toLowerCase()));
-            recyclerView.getAdapter().notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
         // ordenar por el nombre del responsable de ayuntamiento
         else if (spinnerOrdenarAyuntamientos.getSelectedItemPosition() == 1) {
             ayuntamientos.sort(Comparator.comparing((Ayuntamiento a) -> a.getResponsableAyuntamiento().toLowerCase()));
-            recyclerView.getAdapter().notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
         // ordenar por la localización, según código postal
         else if (spinnerOrdenarAyuntamientos.getSelectedItemPosition() == 2) {
             ayuntamientos.sort(Comparator.comparing((Ayuntamiento a) -> a.getCpAyuntamiento()));
-            recyclerView.getAdapter().notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
     }
 

@@ -60,7 +60,10 @@ public class AltaAyuntamiento extends DialogFragment {
                                 public void onFailure(Call call, IOException e) {
                                     new Handler(Looper.getMainLooper()).post(() -> {
                                         Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-
+                                        // Send result
+                                        if (isAdded()) {
+                                            sendResult(false);
+                                        }
                                     });
                                 }
 
@@ -68,10 +71,16 @@ public class AltaAyuntamiento extends DialogFragment {
                                 public void onResponse(Call call, Response response) throws IOException {
                                     new Handler(Looper.getMainLooper()).post(() -> {
                                         if (response.code() == 200) {
-                                            // alta realizada correctamente
                                             Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                            if (isAdded()) {
+                                                sendResult(true);
+                                            }
                                         } else {
                                             Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                            // Send result
+                                            if (isAdded()) {
+                                                sendResult(false);
+                                            }
                                         }
                                     });
                                 }
@@ -93,5 +102,13 @@ public class AltaAyuntamiento extends DialogFragment {
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawableResource(R.color.background);
         return alertDialog;
+    }
+
+    private void sendResult(boolean success) {
+        Bundle result = new Bundle();
+        result.putBoolean("operationSuccess", success);
+        if (isAdded()) {
+            getParentFragmentManager().setFragmentResult("altaAyuntamientoRequestKey", result);
+        }
     }
 }
