@@ -117,13 +117,14 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
                 if (ays != null) {
                     ayuntamientos.clear();
                     ayuntamientos.addAll(ays);
+                    recyclerView.getAdapter().notifyDataSetChanged();
                 }
             }
 
             @Override
             public void onOperacionCorrectaUpdated(boolean resultado) {
                 if (resultado) {
-
+                    fetchAyuntamientosData();
                 }
             }
         });
