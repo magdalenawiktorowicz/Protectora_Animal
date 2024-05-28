@@ -1,5 +1,6 @@
 package es.studium.losamigosdeviky.ayuntamientos;
 
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -22,7 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
+import android.util.Log;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -81,7 +82,9 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 boolean success = result.getBoolean("operationSuccess");
+                Log.d("ConsultaAyuntamiento", "Fragment result received: " + success);
                 if (success) {
+                    Log.d("ConsultaAyuntamiento", "Calling fetchAyuntamientosData after successful result");
                     fetchAyuntamientosData();
                 }
             }
@@ -94,6 +97,24 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
             // establecer el título de la barra superior
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.ayuntamientos);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchAyuntamientosData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        fetchAyuntamientosData();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        fetchAyuntamientosData();
     }
 
     private void setUpRecyclerView(View view) {
@@ -122,10 +143,12 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
     }
 
     private void fetchAyuntamientosData() {
+        Log.d("ConsultaAyuntamiento", "Fetching ayuntamientos data");
         BDConexion.consultarAyuntamientos(new AyuntamientoCallback() {
             @Override
             public void onResult(final ArrayList<Ayuntamiento> ays) {
                 if (ays != null) {
+                    Log.d("ConsultaAyuntamiento", "Data fetched: " + ays.size() + " ayuntamientos");
                     // Ensure this code runs on the main thread
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
@@ -135,8 +158,13 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
                                 ayuntamientos.addAll(ays);
                                 ayuntamientos.sort(Comparator.comparing((Ayuntamiento a) -> a.getNombreAyuntamiento().toLowerCase()));
                                 adapter.notifyDataSetChanged();
+                                Log.d("ConsultaAyuntamiento", "Ayuntamientos list updated");
+
                             }
                         });
+                    }
+                    else {
+                        Log.d("ConsultaAyuntamiento", "No ayuntamientos data received");
                     }
                 }
             }
@@ -149,7 +177,8 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
         if (v.getId() == btnNuevoAyuntamiento.getId()) {
             altaAyuntamiento = new AltaAyuntamiento();
             altaAyuntamiento.setCancelable(false);
-            altaAyuntamiento.show(getActivity().getSupportFragmentManager(), "AltaAyuntamiento");
+            fm.beginTransaction().add(altaAyuntamiento, "AltaAyuntamiento");
+            altaAyuntamiento.show(fm, "AltaAyuntamiento");
         }
     }
 
