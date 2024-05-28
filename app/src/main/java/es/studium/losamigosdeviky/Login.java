@@ -36,6 +36,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public static final String Usuario = "usuarioKey";
     public static final String Clave = "claveKey";
     public static final String Tipo = "tipoKey";
+    public static final String Creds = "credencialesGuardadas";
     SharedPreferences sharedpreferences;
 
     String usuarioInput, contrasenaInput;
@@ -161,6 +162,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             editor.putString(Usuario, usuario);
             editor.putString(Clave, contrasena);
             editor.putInt(Tipo, MainActivity.tipoUsuario);
+            editor.putBoolean(Creds, true);
             editor.commit();
         }
         // pasar a la ventana principal

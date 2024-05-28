@@ -1,5 +1,7 @@
 package es.studium.losamigosdeviky;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -23,6 +25,7 @@ public class Principal extends Fragment implements View.OnClickListener {
     FragmentManager fm;
     FragmentTransaction ft;
     Fragment consultaAyuntamiento;
+    SharedPreferences sharedPreferences;
 
     public Principal() {
         // Required empty public constructor
@@ -37,6 +40,8 @@ public class Principal extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_principal, container, false);
+
+        sharedPreferences = getContext().getSharedPreferences("LoginCredenciales", Context.MODE_PRIVATE);
 
         Toast.makeText(getContext(), "" + MainActivity.tipoUsuario, Toast.LENGTH_SHORT).show();
         imageBtnHelp = v.findViewById(R.id.imageBtnHelp);
@@ -55,6 +60,10 @@ public class Principal extends Fragment implements View.OnClickListener {
         btnCuidados.setOnClickListener(this);
         btnBorrarCredenciales = v.findViewById(R.id.btnBorrarCredenciales);
         btnBorrarCredenciales.setOnClickListener(this);
+        btnBorrarCredenciales.setEnabled(false);
+        if (sharedPreferences.getBoolean("credencialesGuardadas", false)) {
+            btnBorrarCredenciales.setEnabled(true);
+        }
         fm = getActivity().getSupportFragmentManager();
 
         return v;
@@ -71,6 +80,24 @@ public class Principal extends Fragment implements View.OnClickListener {
                         .addToBackStack(null)
                         .commit();
             }
+        } else if (v.getId() == btnProtectoras.getId()) {
+
+        } else if (v.getId() == btnColonias.getId()) {
+
+        } else if (v.getId() == btnGatos.getId()) {
+
+        } else if (v.getId() == btnVeterinarios.getId()) {
+
+        } else if (v.getId() == btnCuidados.getId()) {
+
+        } else if (v.getId() == imageBtnHelp.getId()) {
+
+        } else if (v.getId() == btnBorrarCredenciales.getId()) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
+            btnBorrarCredenciales.setEnabled(false);
+            Toast.makeText(getContext(), "Credenciales borradas", Toast.LENGTH_SHORT).show();
         }
     }
 }

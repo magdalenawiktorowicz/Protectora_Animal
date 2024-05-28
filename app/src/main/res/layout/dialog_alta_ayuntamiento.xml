@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    tools:context=".ayuntamientos.AltaAyuntamiento">
+
+    <TextView
+        android:id="@+id/textViewAltaNombreAyuntamiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ayuntamiento"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.099" />
+
+    <TextView
+        android:id="@+id/textViewAltaTelefonoAyuntamiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/telefono"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaNombreAyuntamiento"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaNombreAyuntamiento"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaNombreAyuntamiento"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewAltaResponsableAyuntamiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/responsable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaTelefonoAyuntamiento"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaTelefonoAyuntamiento"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaTelefonoAyuntamiento"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewAltaDireccionAyuntamiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/direccion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaResponsableAyuntamiento"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaResponsableAyuntamiento"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaResponsableAyuntamiento"
+        app:layout_constraintVertical_bias="0.009" />
+
+    <TextView
+        android:id="@+id/textViewAltaCpAyuntamiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/cp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaDireccionAyuntamiento"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaDireccionAyuntamiento"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaDireccionAyuntamiento"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextAltaTelefonoAyuntamiento"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/telefonoPlaceholder"
+        android:inputType="phone"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaTelefonoAyuntamiento"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaTelefonoAyuntamiento"
+        app:layout_constraintVertical_bias="0.653" />
+
+    <EditText
+        android:id="@+id/editTextAltaNombreAyuntamiento"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/ayuntamientoPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaNombreAyuntamiento"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.862"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaNombreAyuntamiento"
+        app:layout_constraintVertical_bias="0.576" />
+
+    <EditText
+        android:id="@+id/editTextAltaResponsableAyuntamiento"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/responsablePlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaResponsableAyuntamiento"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaResponsableAyuntamiento"
+        app:layout_constraintVertical_bias="0.73" />
+
+    <EditText
+        android:id="@+id/editTextAltaDireccionAyuntamiento"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/direccionPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaDireccionAyuntamiento"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaDireccionAyuntamiento"
+        app:layout_constraintVertical_bias="0.615" />
+
+    <EditText
+        android:id="@+id/editTextAltaCpAyuntamiento"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/cpPlaceholder"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaCpAyuntamiento"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaCpAyuntamiento"
+        app:layout_constraintVertical_bias="0.692" />
+</androidx.constraintlayout.widget.ConstraintLayout>

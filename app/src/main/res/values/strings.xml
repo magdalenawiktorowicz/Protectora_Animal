@@ -16,13 +16,22 @@
     <string name="cuidados">Cuidados</string>
     <string name="ayuda">Selecciona la sección que quieres gestionar.</string>
 
-    <string name="placeholder">Ayuntamiento...</string>
+    <string name="ayuntamiento">Nombre:</string>
     <string name="telefono">Teléfono:</string>
     <string name="responsable">Responsable:</string>
     <string name="direccion">Dirección:</string>
     <string name="ordenarAyuntamientos">Ordenar por:</string>
     <string name="nuevo">Nuevo</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ayuntamientoPlaceholder">Ayuntamiento de...</string>
+    <string name="telefonoPlaceholder">606505404</string>
+    <string name="responsablePlaceholder">Antonio Gómez Sánchez</string>
+    <string name="direccionPlaceholder">av. de Andalucía, Sevilla</string>
+    <string name="cp">Código postal:</string>
+    <string name="cpPlaceholder">41007</string>
+
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+
+
 
 </resources>

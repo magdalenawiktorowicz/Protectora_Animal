@@ -122,5 +122,38 @@ public class BDConexion {
         });
     }
 
+    // Ayuntamiento - Alta
+    public static void anadirAyuntamiento(Ayuntamiento ayuntamiento, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+                .add("idAyuntamiento", "3")
+                .add("nombreAyuntamiento", ayuntamiento.getNombreAyuntamiento())
+                .add("telefonoAyuntamiento", String.valueOf(ayuntamiento.getTelefonoAyuntamiento()))
+                .add("responsableAyuntamiento", ayuntamiento.getResponsableAyuntamiento())
+                .add("direccionAyuntamiento", ayuntamiento.getDireccionAyuntamiento())
+                .add("cpAyuntamiento", String.valueOf(ayuntamiento.getCpAyuntamiento()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/ayuntamientos.php")
+                .post(formBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                } else {
+                }
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
 
 }

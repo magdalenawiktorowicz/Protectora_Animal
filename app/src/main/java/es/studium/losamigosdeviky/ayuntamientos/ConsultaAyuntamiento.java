@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -39,6 +40,7 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
 
     FragmentManager fm;
     FragmentTransaction ft;
+    DialogFragment altaAyuntamiento;
 
     public ConsultaAyuntamiento() {
         // Required empty public constructor
@@ -115,9 +117,6 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
                 if (ays != null) {
                     ayuntamientos.clear();
                     ayuntamientos.addAll(ays);
-                    if (recyclerView.getAdapter() != null) {
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                    }
                 }
             }
 
@@ -134,7 +133,9 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
     @Override
     public void onClick(View v) {
         if (v.getId() == btnNuevoAyuntamiento.getId()) {
-            // fragment - Alta
+            altaAyuntamiento = new AltaAyuntamiento();
+            altaAyuntamiento.setCancelable(false);
+            altaAyuntamiento.show(getActivity().getSupportFragmentManager(), "AltaAyuntamiento");
         }
     }
 
