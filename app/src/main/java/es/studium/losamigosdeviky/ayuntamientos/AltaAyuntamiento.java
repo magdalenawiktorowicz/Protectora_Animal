@@ -54,34 +54,39 @@ public class AltaAyuntamiento extends DialogFragment {
                             String direccionAyuntamiento = editTextDireccionAyuntamiento.getText().toString();
                             int cpAyuntamiento = Integer.parseInt(editTextCpAyuntamiento.getText().toString());
 
-                            Log.d("AltaAyuntamiento", "Adding new ayuntamiento: " + nombreAyuntamiento);
-
                             // DAR DE ALTA + INFORMAR SOBRE EL RESULTADO
                             BDConexion.anadirAyuntamiento(new Ayuntamiento(nombreAyuntamiento, telefonoAyuntamiento, responsableAyuntamiento, direccionAyuntamiento, cpAyuntamiento), new Callback() {
                                 @Override
                                 public void onFailure(Call call, IOException e) {
-                                    Log.e("AltaAyuntamiento", "Failed to add ayuntamiento", e);
                                     new Handler(Looper.getMainLooper()).post(() -> {
                                         Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                        sendResult(false);
+                                        // Send result
+                                        if (isAdded()) {
+                                            sendResult(false);
+                                        }
+                                        dismiss();
                                     });
                                 }
 
                                 @Override
                                 public void onResponse(Call call, Response response) throws IOException {
-                                    Log.d("AltaAyuntamiento", "Response code: " + response.code());
                                     new Handler(Looper.getMainLooper()).post(() -> {
                                         if (response.code() == 200) {
                                             Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
-                                            sendResult(true);
+                                            if (isAdded()) {
+                                                sendResult(true);
+                                            }
                                         } else {
                                             Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                            sendResult(false);
+                                            // Send result
+                                            if (isAdded()) {
+                                                sendResult(false);
+                                            }
                                         }
+                                        dismiss();
                                     });
                                 }
                             });
-                            dismiss();
                         } else {
                             Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
                         }
@@ -100,10 +105,10 @@ public class AltaAyuntamiento extends DialogFragment {
     }
 
     private void sendResult(boolean success) {
-        Log.d("AltaAyuntamiento", "Sending result: " + success);
         Bundle result = new Bundle();
         result.putBoolean("operationSuccess", success);
         if (isAdded()) {
+            Log.d("AltaAyuntamiento", "Fragment is added, sending result: " + success);
             getParentFragmentManager().setFragmentResult("altaAyuntamientoRequestKey", result);
         } else {
             Log.d("AltaAyuntamiento", "Fragment not added, result not sent");

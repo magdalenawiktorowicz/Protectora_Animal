@@ -42,7 +42,7 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
     AyuntamientosAdapter adapter;
     FragmentManager fm;
     FragmentTransaction ft;
-    DialogFragment altaAyuntamiento;
+    AltaAyuntamiento altaAyuntamiento;
 
     public ConsultaAyuntamiento() {
         // Required empty public constructor
@@ -78,6 +78,7 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
         fm = getActivity().getSupportFragmentManager();
         setUpRecyclerView(view);
         fetchAyuntamientosData();
+
         getParentFragmentManager().setFragmentResultListener("altaAyuntamientoRequestKey", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
@@ -102,12 +103,6 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
     @Override
     public void onResume() {
         super.onResume();
-        fetchAyuntamientosData();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         fetchAyuntamientosData();
     }
 
@@ -175,10 +170,10 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
     @Override
     public void onClick(View v) {
         if (v.getId() == btnNuevoAyuntamiento.getId()) {
+            Log.d("ConsultaAyuntamiento", "Showing AltaAyuntamiento dialog");
             altaAyuntamiento = new AltaAyuntamiento();
             altaAyuntamiento.setCancelable(false);
-            fm.beginTransaction().add(altaAyuntamiento, "AltaAyuntamiento");
-            altaAyuntamiento.show(fm, "AltaAyuntamiento");
+            altaAyuntamiento.show(getParentFragmentManager(), "AltaAyuntamiento");
         }
     }
 
