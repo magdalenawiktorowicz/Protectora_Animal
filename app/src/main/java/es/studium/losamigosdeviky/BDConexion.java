@@ -156,4 +156,42 @@ public class BDConexion {
         });
     }
 
+    // Ayuntamiento - Modificacion
+    public static void modificarAyuntamiento(Ayuntamiento ayuntamiento, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/ayuntamientos.php").newBuilder();
+        // Add query parameters
+        queryUrlBuilder.addQueryParameter("idAyuntamiento", String.valueOf(ayuntamiento.getIdAyuntamiento()));
+        queryUrlBuilder.addQueryParameter("nombreAyuntamiento", ayuntamiento.getNombreAyuntamiento());
+        queryUrlBuilder.addQueryParameter("telefonoAyuntamiento", String.valueOf(ayuntamiento.getTelefonoAyuntamiento()));
+        queryUrlBuilder.addQueryParameter("responsableAyuntamiento", ayuntamiento.getResponsableAyuntamiento());
+        queryUrlBuilder.addQueryParameter("direccionAyuntamiento", ayuntamiento.getDireccionAyuntamiento());
+        queryUrlBuilder.addQueryParameter("cpAyuntamiento", String.valueOf(ayuntamiento.getCpAyuntamiento()));
+
+        // Create request body (empty for PUT requests)
+        RequestBody requestBody = new FormBody.Builder()
+                .build();
+
+        // Build the request
+        Request request = new Request.Builder()
+                .url(queryUrlBuilder.build())
+                .put(requestBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                } else {
+                }
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
 }

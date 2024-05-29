@@ -49,6 +49,26 @@ public class Ayuntamiento {
         return cpAyuntamiento;
     }
 
+    void setNombreAyuntamiento(String nombreAyuntamiento) {
+        this.nombreAyuntamiento = nombreAyuntamiento;
+    }
+
+    void setTelefonoAyuntamiento(int telefonoAyuntamiento) {
+        this.telefonoAyuntamiento = telefonoAyuntamiento;
+    }
+
+    void setResponsableAyuntamiento(String responsableAyuntamiento) {
+        this.responsableAyuntamiento = responsableAyuntamiento;
+    }
+
+    void setDireccionAyuntamiento(String direccionAyuntamiento) {
+        this.direccionAyuntamiento = direccionAyuntamiento;
+    }
+
+    void setCpAyuntamiento(int cpAyuntamiento) {
+        this.cpAyuntamiento = cpAyuntamiento;
+    }
+
     @Override
     public String toString() {
         return "Ayuntamiento{" +
