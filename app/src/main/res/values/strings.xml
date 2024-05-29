@@ -39,7 +39,10 @@
     <string name="si">Sí</string>
     <string name="no">No</string>
     <string name="protectora">Nombre:</string>
-
+    <string name="protectoraPlaceholder">Nombre de protectora...</string>
+    <string name="localidad">Localidad:</string>
+    <string name="localidadPlaceholder">Sevilla, 41003</string>
+    <string name="correoPlaceholder">correo@gmail.com</string>
 
 
 </resources>

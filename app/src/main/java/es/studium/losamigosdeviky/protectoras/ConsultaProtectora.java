@@ -41,7 +41,7 @@ public class ConsultaProtectora extends Fragment implements AdapterView.OnItemSe
     ProtectorasAdapter adapter;
     FragmentManager fm;
     FragmentTransaction ft;
-    //AltaProtectora altaProtectora;
+    AltaProtectora altaProtectora;
     //ModificacionProtectora modificacionProtectora;
     //BorradoProtectora borradoProtectora;
 
@@ -199,9 +199,9 @@ public class ConsultaProtectora extends Fragment implements AdapterView.OnItemSe
     public void onClick(View v) {
         if (v.getId() == btnNuevaProtectora.getId()) {
             Log.d("ConsultaProtectora", "Showing AltaProtectora dialog");
-            //altaProtectora = new AltaProtectora();
-            //altaProtectora.setCancelable(false);
-            //altaProtectora.show(getParentFragmentManager(), "AltaProtectora");
+            altaProtectora = new AltaProtectora();
+            altaProtectora.setCancelable(false);
+            altaProtectora.show(getParentFragmentManager(), "AltaProtectora");
         }
     }
 
