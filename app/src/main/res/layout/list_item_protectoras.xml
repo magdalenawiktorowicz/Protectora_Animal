@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/orange_light"
+    app:layout_anchorGravity="top">
+    <TextView
+        android:id="@+id/textViewNombreProtectora"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:background="@color/orange"
+        android:gravity="center"
+        android:text="@string/protectora"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewDireccionProtectora"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:gravity="left"
+        android:text="@string/direccion" />
+
+    <TextView
+        android:id="@+id/textViewTelefonoProtectora"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:gravity="left"
+        android:text="@string/telefono" />
+
+    <TextView
+        android:id="@+id/textViewCorreoProtectora"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:gravity="left"
+        android:text="@string/correo" />
+
+</LinearLayout>

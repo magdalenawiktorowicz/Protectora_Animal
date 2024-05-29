@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import es.studium.losamigosdeviky.ayuntamientos.Ayuntamiento;
 import es.studium.losamigosdeviky.ayuntamientos.AyuntamientoCallback;
+import es.studium.losamigosdeviky.protectoras.Protectora;
+import es.studium.losamigosdeviky.protectoras.ProtectoraCallback;
 import okhttp3.*;
 
 import org.json.JSONArray;
@@ -216,6 +218,50 @@ public class BDConexion {
                 } else {
                 }
                 callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
+    // Protectoras - Consulta
+    public static void consultarProtectoras(final ProtectoraCallback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/protectoras.php")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("BDConexion", "Network error: " + e.getMessage());
+                // Handle the error appropriately
+                callback.onResult(new ArrayList<>()); // Return empty list on failure
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                ArrayList<Protectora> protectoras = new ArrayList<>();
+//                if (response.isSuccessful()) {
+//                    try {
+//                        JSONArray result = new JSONArray(response.body().string());
+//                        for (int i = 0; i < result.length(); i++) {
+//                            JSONObject jsonObject = result.getJSONObject(i);
+//                            int idAyuntamiento = jsonObject.getInt("idAyuntamiento");
+//                            String nombreAyuntamiento = jsonObject.getString("nombreAyuntamiento");
+//                            int telefonoAyuntamiento = jsonObject.getInt("telefonoAyuntamiento");
+//                            String responsableAyuntamiento = jsonObject.getString("responsableAyuntamiento");
+//                            String direccionAyuntamiento = jsonObject.getString("direccionAyuntamiento");
+//                            int cpAyuntamiento = jsonObject.getInt("cpAyuntamiento");
+//
+//                            ayuntamientos.add(new Ayuntamiento(idAyuntamiento, nombreAyuntamiento, telefonoAyuntamiento, responsableAyuntamiento, direccionAyuntamiento, cpAyuntamiento));
+//                        }
+//                    } catch (JSONException e) {
+//                        Log.e("BDConexion", "JSON parsing error: " + e.getMessage());
+//                    }
+//                } else {
+//                    Log.e("BDConexion", "Response not successful: " + response.message());
+//                }
+                // Pass the result to the callback
+                callback.onResult(protectoras);
             }
         });
     }

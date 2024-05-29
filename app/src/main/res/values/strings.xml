@@ -20,8 +20,10 @@
     <string name="telefono">Teléfono:</string>
     <string name="responsable">Responsable:</string>
     <string name="direccion">Dirección:</string>
-    <string name="ordenarAyuntamientos">Ordenar por:</string>
+    <string name="correo">Correo electrónico:</string>
+    <string name="ordenar">Ordenar por:</string>
     <string name="nuevo">Nuevo</string>
+    <string name="nueva">Nueva</string>
     <string name="ayuntamientoPlaceholder">Ayuntamiento de...</string>
     <string name="telefonoPlaceholder">606505404</string>
     <string name="responsablePlaceholder">Antonio Gómez Sánchez</string>
@@ -36,6 +38,8 @@
     <string name="mensajeConfirmacionBorrado">"¿Estás seguro/a de que quieres eliminar: "</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
+    <string name="protectora">Nombre:</string>
+
 
 
 </resources>
