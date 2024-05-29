@@ -44,6 +44,7 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
     FragmentTransaction ft;
     AltaAyuntamiento altaAyuntamiento;
     ModificacionAyuntamiento modificacionAyuntamiento;
+    BorradoAyuntamiento borradoAyuntamiento;
 
     public ConsultaAyuntamiento() {
         // Required empty public constructor
@@ -104,6 +105,18 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
             }
         });
 
+        fm.setFragmentResultListener("borradoAyuntamientoRequestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                boolean success = result.getBoolean("operationSuccess");
+                Log.d("ConsultaAyuntamiento", "Fragment result received: " + success);
+                if (success) {
+                    Log.d("ConsultaAyuntamiento", "Calling fetchAyuntamientosData after successful result");
+                    fetchAyuntamientosData();
+                }
+            }
+        });
+
         // establecer el título en la barra superior
         if (getActivity() != null) {
             // establecer el color del fondo de la barra superior
@@ -136,7 +149,6 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
             public void onClick(View v, int position) {
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Modificación
-                    Toast.makeText(getContext(), "short click on " + ayuntamientos.get(position), Toast.LENGTH_SHORT).show();
                     Log.d("ConsultaAyuntamiento", "Showing ModificacionAyuntamiento dialog");
                     modificacionAyuntamiento = new ModificacionAyuntamiento(ayuntamientos.get(position));
                     modificacionAyuntamiento.setCancelable(false);
@@ -147,7 +159,11 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
             @Override
             public void onLongClick(View v, int position) {
                 if (MainActivity.tipoUsuario == 0) {
-                    Toast.makeText(getContext(), "long click on " + ayuntamientos.get(position), Toast.LENGTH_SHORT).show();
+                    // fragment Borrado
+                    Log.d("ConsultaAyuntamiento", "Showing BorradoAyuntamiento dialog");
+                    borradoAyuntamiento = new BorradoAyuntamiento(ayuntamientos.get(position));
+                    borradoAyuntamiento.setCancelable(false);
+                    borradoAyuntamiento.show(getParentFragmentManager(), "BorradoAyuntamiento");
                 }
             }
         });

@@ -81,6 +81,7 @@ public class ModificacionAyuntamiento extends DialogFragment {
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
+                                        dismiss();
                                     });
                                 }
 
@@ -99,13 +100,13 @@ public class ModificacionAyuntamiento extends DialogFragment {
                                             }
                                             Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
                                         }
+                                        dismiss();
                                     });
                                 }
                             });
                         } else {
                             Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
                         }
-                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {

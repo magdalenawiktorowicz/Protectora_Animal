@@ -194,4 +194,29 @@ public class BDConexion {
             }
         });
     }
+
+    // Ayuntamiento - Borrado
+    public static void borrarAyuntamiento(Ayuntamiento ayuntamiento, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/ayuntamientos.php?idAyuntamiento=" + ayuntamiento.getIdAyuntamiento())
+                .delete()
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                } else {
+                }
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
 }
