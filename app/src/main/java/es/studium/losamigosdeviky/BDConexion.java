@@ -240,26 +240,26 @@ public class BDConexion {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 ArrayList<Protectora> protectoras = new ArrayList<>();
-//                if (response.isSuccessful()) {
-//                    try {
-//                        JSONArray result = new JSONArray(response.body().string());
-//                        for (int i = 0; i < result.length(); i++) {
-//                            JSONObject jsonObject = result.getJSONObject(i);
-//                            int idAyuntamiento = jsonObject.getInt("idAyuntamiento");
-//                            String nombreAyuntamiento = jsonObject.getString("nombreAyuntamiento");
-//                            int telefonoAyuntamiento = jsonObject.getInt("telefonoAyuntamiento");
-//                            String responsableAyuntamiento = jsonObject.getString("responsableAyuntamiento");
-//                            String direccionAyuntamiento = jsonObject.getString("direccionAyuntamiento");
-//                            int cpAyuntamiento = jsonObject.getInt("cpAyuntamiento");
-//
-//                            ayuntamientos.add(new Ayuntamiento(idAyuntamiento, nombreAyuntamiento, telefonoAyuntamiento, responsableAyuntamiento, direccionAyuntamiento, cpAyuntamiento));
-//                        }
-//                    } catch (JSONException e) {
-//                        Log.e("BDConexion", "JSON parsing error: " + e.getMessage());
-//                    }
-//                } else {
-//                    Log.e("BDConexion", "Response not successful: " + response.message());
-//                }
+                if (response.isSuccessful()) {
+                    try {
+                        JSONArray result = new JSONArray(response.body().string());
+                        for (int i = 0; i < result.length(); i++) {
+                            JSONObject jsonObject = result.getJSONObject(i);
+                            int idProtectora = jsonObject.getInt("idProtectora");
+                            String nombreProtectora = jsonObject.getString("nombreProtectora");
+                            String direccionProtectora = jsonObject.getString("direccionProtectora");
+                            String localidadProtectora = jsonObject.getString("localidadProtectora");
+                            int telefonoProtectora = jsonObject.getInt("telefonoProtectora");
+                            String correoProtectora = jsonObject.getString("correoProtectora");
+
+                            protectoras.add(new Protectora(idProtectora, nombreProtectora, direccionProtectora, localidadProtectora, telefonoProtectora, correoProtectora));
+                        }
+                    } catch (JSONException e) {
+                        Log.e("BDConexion", "JSON parsing error: " + e.getMessage());
+                    }
+                } else {
+                    Log.e("BDConexion", "Response not successful: " + response.message());
+                }
                 // Pass the result to the callback
                 callback.onResult(protectoras);
             }
