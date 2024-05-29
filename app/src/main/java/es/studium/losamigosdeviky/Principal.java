@@ -2,6 +2,7 @@ package es.studium.losamigosdeviky;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -65,6 +66,13 @@ public class Principal extends Fragment implements View.OnClickListener {
             btnBorrarCredenciales.setEnabled(true);
         }
         fm = getActivity().getSupportFragmentManager();
+
+        if (getActivity() != null) {
+            // establecer el color del fondo de la barra superior
+            ((MainActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.pink)));
+            // establecer el título de la barra superior
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
+        }
 
         return v;
     }
