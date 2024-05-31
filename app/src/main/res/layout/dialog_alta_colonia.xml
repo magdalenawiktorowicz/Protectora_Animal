@@ -139,4 +139,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewAltaAyuntamientoFK1"
         app:layout_constraintVertical_bias="0.683" />
+
+    <TextView
+        android:id="@+id/textViewAltaProtectoraFK2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/protectoraFK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaAyuntamientoFK1"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaAyuntamientoFK1"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaAyuntamientoFK1"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Spinner
+        android:id="@+id/spinnerAltaProtectoraFKColonia"
+        android:layout_width="240dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaProtectoraFK2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaProtectoraFK2"
+        app:layout_constraintVertical_bias="0.824" />
 </androidx.constraintlayout.widget.ConstraintLayout>
