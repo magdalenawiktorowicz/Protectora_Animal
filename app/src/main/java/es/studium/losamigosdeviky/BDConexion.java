@@ -488,4 +488,42 @@ public class BDConexion {
         });
     }
 
+    // Colonia - Modificacion
+    public static void modificarColonia(Colonia colonia, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/colonias.php").newBuilder();
+        // Add query parameters
+        queryUrlBuilder.addQueryParameter("idColonia", String.valueOf(colonia.getIdColonia()));
+        queryUrlBuilder.addQueryParameter("nombreColonia", colonia.getNombreColonia());
+        queryUrlBuilder.addQueryParameter("cpColonia", String.valueOf(colonia.getCpColonia()));
+        queryUrlBuilder.addQueryParameter("latitudColonia", colonia.getLatitudColonia());
+        queryUrlBuilder.addQueryParameter("longitudColonia", colonia.getLongitudColonia());
+        queryUrlBuilder.addQueryParameter("direccionColonia", colonia.getDireccionColonia());
+        queryUrlBuilder.addQueryParameter("idAyuntamientoFK1", String.valueOf(colonia.getIdAyuntamientoFK1()));
+        queryUrlBuilder.addQueryParameter("idProtectoraFK2", String.valueOf(colonia.getIdProtectoraFK2()));
+
+        // Create request body (empty for PUT requests)
+        RequestBody requestBody = new FormBody.Builder()
+                .build();
+
+        // Build the request
+        Request request = new Request.Builder()
+                .url(queryUrlBuilder.build())
+                .put(requestBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
 }
