@@ -54,8 +54,8 @@ public class ColoniasViewHolder extends RecyclerView.ViewHolder implements View.
             public void onResult(ArrayList<Ayuntamiento> ayuntamientos) {
                 if (!ayuntamientos.isEmpty()) {
                     Ayuntamiento ayuntamiento = ayuntamientos.get(0);
-                    String ayuntamientoData = ayuntamiento.getNombreAyuntamiento() + "\n" +
-                            ayuntamiento.getResponsableAyuntamiento() + "\n" +
+                    String ayuntamientoData = ayuntamiento.getNombreAyuntamiento() + "\n\t\t\t" +
+                            ayuntamiento.getResponsableAyuntamiento() + "\n\t\t\t" +
                             ayuntamiento.getTelefonoAyuntamiento();
 
                     // Update the UI with the Ayuntamiento data
@@ -69,8 +69,8 @@ public class ColoniasViewHolder extends RecyclerView.ViewHolder implements View.
             public void onResult(ArrayList<Protectora> protectoras) {
                 if (!protectoras.isEmpty()) {
                     Protectora protectora = protectoras.get(0);
-                    String protectoraData = protectora.getNombreProtectora() + "\n" +
-                            protectora.getCorreoProtectora() + "\n" +
+                    String protectoraData = protectora.getNombreProtectora() + "\n\t\t\t" +
+                            protectora.getCorreoProtectora() + "\n\t\t\t" +
                             protectora.getTelefonoProtectora();
 
                     // Update the UI with the Protectora data
@@ -79,7 +79,6 @@ public class ColoniasViewHolder extends RecyclerView.ViewHolder implements View.
             }
         });
 
-        // Set the initial data that does not depend on the async call
         nombreColonia.setText(colonia.getNombreColonia());
         direccionColonia.setText(contexto.getResources().getString(R.string.direccion) + " " + colonia.getDireccionColonia() + ", " + colonia.getCpColonia());
         coordinadasGeograficasColonia.setText(contexto.getResources().getString(R.string.coordinadas) + " " + colonia.getLatitudColonia() + ", " + colonia.getLongitudColonia());
