@@ -43,8 +43,10 @@
     <string name="localidad">Localidad:</string>
     <string name="localidadPlaceholder">Sevilla, 41003</string>
     <string name="correoPlaceholder">correo@gmail.com</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="colonia">Nombre:</string>
+    <string name="coordinadas">Coordinadas geográficas:</string>
+    <string name="ayuntamientoFK">Ayuntamiento:</string>
+    <string name="protectoraFK">Protectora:</string>
 
 </resources>

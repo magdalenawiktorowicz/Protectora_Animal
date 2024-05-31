@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import es.studium.losamigosdeviky.ayuntamientos.Ayuntamiento;
 import es.studium.losamigosdeviky.ayuntamientos.AyuntamientoCallback;
+import es.studium.losamigosdeviky.colonias.Colonia;
+import es.studium.losamigosdeviky.colonias.ColoniaCallback;
 import es.studium.losamigosdeviky.protectoras.Protectora;
 import es.studium.losamigosdeviky.protectoras.ProtectoraCallback;
 import okhttp3.*;
@@ -80,18 +82,26 @@ public class BDConexion {
         }).start();
     }
 
-    // Ayuntamientos - Consulta
+    // Ayuntamientos - Consulta (todos o por id)
     public static void consultarAyuntamientos(final AyuntamientoCallback callback) {
+        consultarAyuntamientos(null, callback);
+    }
+
+    public static void consultarAyuntamientos(Integer idAyuntamiento, final AyuntamientoCallback callback) {
         OkHttpClient client = new OkHttpClient();
+        String url = "http://192.168.1.131/ApiProtectora/ayuntamientos.php";
+        if (idAyuntamiento != null) {
+            url += "?idAyuntamiento=" + idAyuntamiento;
+        }
+
         Request request = new Request.Builder()
-                .url("http://192.168.1.131/ApiProtectora/ayuntamientos.php")
+                .url(url)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("BDConexion", "Network error: " + e.getMessage());
-                // Handle the error appropriately
                 callback.onResult(new ArrayList<>()); // Return empty list on failure
             }
 
@@ -100,17 +110,29 @@ public class BDConexion {
                 ArrayList<Ayuntamiento> ayuntamientos = new ArrayList<>();
                 if (response.isSuccessful()) {
                     try {
-                        JSONArray result = new JSONArray(response.body().string());
-                        for (int i = 0; i < result.length(); i++) {
-                            JSONObject jsonObject = result.getJSONObject(i);
-                            int idAyuntamiento = jsonObject.getInt("idAyuntamiento");
-                            String nombreAyuntamiento = jsonObject.getString("nombreAyuntamiento");
-                            int telefonoAyuntamiento = jsonObject.getInt("telefonoAyuntamiento");
-                            String responsableAyuntamiento = jsonObject.getString("responsableAyuntamiento");
-                            String direccionAyuntamiento = jsonObject.getString("direccionAyuntamiento");
-                            int cpAyuntamiento = jsonObject.getInt("cpAyuntamiento");
+                        if (idAyuntamiento == null) {
+                            JSONArray result = new JSONArray(response.body().string());
+                            for (int i = 0; i < result.length(); i++) {
+                                JSONObject jsonObject = result.getJSONObject(i);
+                                int id = jsonObject.getInt("idAyuntamiento");
+                                String nombre = jsonObject.getString("nombreAyuntamiento");
+                                int telefono = jsonObject.getInt("telefonoAyuntamiento");
+                                String responsable = jsonObject.getString("responsableAyuntamiento");
+                                String direccion = jsonObject.getString("direccionAyuntamiento");
+                                int cp = jsonObject.getInt("cpAyuntamiento");
 
-                            ayuntamientos.add(new Ayuntamiento(idAyuntamiento, nombreAyuntamiento, telefonoAyuntamiento, responsableAyuntamiento, direccionAyuntamiento, cpAyuntamiento));
+                                ayuntamientos.add(new Ayuntamiento(id, nombre, telefono, responsable, direccion, cp));
+                            }
+                        } else {
+                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            int id = jsonObject.getInt("idAyuntamiento");
+                            String nombre = jsonObject.getString("nombreAyuntamiento");
+                            int telefono = jsonObject.getInt("telefonoAyuntamiento");
+                            String responsable = jsonObject.getString("responsableAyuntamiento");
+                            String direccion = jsonObject.getString("direccionAyuntamiento");
+                            int cp = jsonObject.getInt("cpAyuntamiento");
+
+                            ayuntamientos.add(new Ayuntamiento(id, nombre, telefono, responsable, direccion, cp));
                         }
                     } catch (JSONException e) {
                         Log.e("BDConexion", "JSON parsing error: " + e.getMessage());
@@ -118,11 +140,11 @@ public class BDConexion {
                 } else {
                     Log.e("BDConexion", "Response not successful: " + response.message());
                 }
-                // Pass the result to the callback
                 callback.onResult(ayuntamientos);
             }
         });
     }
+
 
     // Ayuntamiento - Alta
     public static void anadirAyuntamiento(Ayuntamiento ayuntamiento, Callback callback) {
@@ -213,11 +235,20 @@ public class BDConexion {
         });
     }
 
-    // Protectoras - Consulta
+    // Protectoras - Consulta (todas o por id)
     public static void consultarProtectoras(final ProtectoraCallback callback) {
+        consultarProtectoras(null, callback);
+    }
+
+    public static void consultarProtectoras(Integer idProtectora, final ProtectoraCallback callback) {
         OkHttpClient client = new OkHttpClient();
+        String url = "http://192.168.1.131/ApiProtectora/protectoras.php";
+        if (idProtectora != null) {
+            url += "?idProtectora=" + idProtectora;
+        }
+
         Request request = new Request.Builder()
-                .url("http://192.168.1.131/ApiProtectora/protectoras.php")
+                .url(url)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -233,17 +264,29 @@ public class BDConexion {
                 ArrayList<Protectora> protectoras = new ArrayList<>();
                 if (response.isSuccessful()) {
                     try {
-                        JSONArray result = new JSONArray(response.body().string());
-                        for (int i = 0; i < result.length(); i++) {
-                            JSONObject jsonObject = result.getJSONObject(i);
-                            int idProtectora = jsonObject.getInt("idProtectora");
-                            String nombreProtectora = jsonObject.getString("nombreProtectora");
-                            String direccionProtectora = jsonObject.getString("direccionProtectora");
-                            String localidadProtectora = jsonObject.getString("localidadProtectora");
-                            int telefonoProtectora = jsonObject.getInt("telefonoProtectora");
-                            String correoProtectora = jsonObject.getString("correoProtectora");
+                        if (idProtectora == null) {
+                            JSONArray result = new JSONArray(response.body().string());
+                            for (int i = 0; i < result.length(); i++) {
+                                JSONObject jsonObject = result.getJSONObject(i);
+                                int idProtectora = jsonObject.getInt("idProtectora");
+                                String nombreProtectora = jsonObject.getString("nombreProtectora");
+                                String direccionProtectora = jsonObject.getString("direccionProtectora");
+                                String localidadProtectora = jsonObject.getString("localidadProtectora");
+                                int telefonoProtectora = jsonObject.getInt("telefonoProtectora");
+                                String correoProtectora = jsonObject.getString("correoProtectora");
 
-                            protectoras.add(new Protectora(idProtectora, nombreProtectora, direccionProtectora, localidadProtectora, telefonoProtectora, correoProtectora));
+                                protectoras.add(new Protectora(idProtectora, nombreProtectora, direccionProtectora, localidadProtectora, telefonoProtectora, correoProtectora));
+                            }
+                        } else {
+                                JSONObject jsonObject = new JSONObject(response.body().string());
+                                int idProtectora = jsonObject.getInt("idProtectora");
+                                String nombreProtectora = jsonObject.getString("nombreProtectora");
+                                String direccionProtectora = jsonObject.getString("direccionProtectora");
+                                String localidadProtectora = jsonObject.getString("localidadProtectora");
+                                int telefonoProtectora = jsonObject.getInt("telefonoProtectora");
+                                String correoProtectora = jsonObject.getString("correoProtectora");
+
+                                protectoras.add(new Protectora(idProtectora, nombreProtectora, direccionProtectora, localidadProtectora, telefonoProtectora, correoProtectora));
                         }
                     } catch (JSONException e) {
                         Log.e("BDConexion", "JSON parsing error: " + e.getMessage());
@@ -345,4 +388,71 @@ public class BDConexion {
             }
         });
     }
+
+
+    // Colonias - Consulta (todas o por id)
+    public static void consultarColonias(final ColoniaCallback callback) {
+        consultarColonias(null, callback);
+    }
+
+    public static void consultarColonias(Integer idColonia, final ColoniaCallback callback) {
+        OkHttpClient client = new OkHttpClient();
+        String url = "http://192.168.1.131/ApiProtectora/colonias.php";
+        if (idColonia != null) {
+            url += "?idColonia=" + idColonia;
+        }
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("BDConexion", "Network error: " + e.getMessage());
+                callback.onResult(new ArrayList<>()); // Return empty list on failure
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                ArrayList<Colonia> colonias = new ArrayList<>();
+                if (response.isSuccessful()) {
+                    try {
+                        if (idColonia == null) {
+                            JSONArray result = new JSONArray(response.body().string());
+                            for (int i = 0; i < result.length(); i++) {
+                                JSONObject jsonObject = result.getJSONObject(i);
+                                int id = jsonObject.getInt("idColonia");
+                                String nombre = jsonObject.getString("nombreColonia");
+                                int cp = jsonObject.getInt("cpColonia");
+                                String latitud = jsonObject.getString("latitudColonia");
+                                String longitud = jsonObject.getString("longitudColonia");
+                                String direccion = jsonObject.getString("direccionColonia");
+                                int idAyuntamientoFK = jsonObject.getInt("idAyuntamientoFK1");
+                                int idProtectoraFK = jsonObject.getInt("idProtectoraFK2");
+                                colonias.add(new Colonia(id, nombre, cp, latitud, longitud, direccion, idAyuntamientoFK, idProtectoraFK));
+                            }
+                        } else {
+                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            int id = jsonObject.getInt("idColonia");
+                            String nombre = jsonObject.getString("nombreColonia");
+                            int cp = jsonObject.getInt("cpColonia");
+                            String latitud = jsonObject.getString("latitudColonia");
+                            String longitud = jsonObject.getString("longitudColonia");
+                            String direccion = jsonObject.getString("direccionColonia");
+                            int idAyuntamientoFK = jsonObject.getInt("idAyuntamientoFK1");
+                            int idProtectoraFK = jsonObject.getInt("idProtectoraFK2");
+                            colonias.add(new Colonia(id, nombre, cp, latitud, longitud, direccion, idAyuntamientoFK, idProtectoraFK));
+                        }
+                    } catch (JSONException e) {
+                        Log.e("BDConexion", "JSON parsing error: " + e.getMessage());
+                    }
+                } else {
+                    Log.e("BDConexion", "Response not successful: " + response.message());
+                }
+                callback.onResult(colonias);
+            }
+        });
+    }
+
 }
