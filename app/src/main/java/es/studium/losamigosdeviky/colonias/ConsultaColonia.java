@@ -45,7 +45,7 @@ public class ConsultaColonia extends Fragment implements AdapterView.OnItemSelec
     FragmentTransaction ft;
     AltaColonia altaColonia;
     ModificacionColonia modificacionColonia;
-    //BorradoColonia borradoColonia;
+    BorradoColonia borradoColonia;
 
     public ConsultaColonia() {
         // Required empty public constructor
@@ -162,9 +162,9 @@ public class ConsultaColonia extends Fragment implements AdapterView.OnItemSelec
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Borrado
                     Log.d("ConsultaColonia", "Showing BorradoColonia dialog");
-                    //borradoColonia = new BorradoColonia(colonias.get(position));
-                    //borradoColonia.setCancelable(false);
-                    //borradoColonia.show(getParentFragmentManager(), "BorradoColonia");
+                    borradoColonia = new BorradoColonia(colonias.get(position));
+                    borradoColonia.setCancelable(false);
+                    borradoColonia.show(getParentFragmentManager(), "BorradoColonia");
                 }
             }
         });

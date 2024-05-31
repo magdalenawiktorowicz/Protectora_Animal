@@ -526,4 +526,26 @@ public class BDConexion {
         });
     }
 
+    // Colonia - Borrado
+    public static void borrarColonia(Colonia colonia, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/colonias.php?idColonia=" + colonia.getIdColonia())
+                .delete()
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
 }
