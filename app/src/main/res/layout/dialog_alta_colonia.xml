@@ -17,13 +17,13 @@
         app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.099" />
+        app:layout_constraintVertical_bias="0.081" />
 
     <TextView
         android:id="@+id/textViewAltaCpColonia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="40dp"
         android:text="@string/cp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,7 @@
         android:id="@+id/textViewAltaLatitudColonia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="40dp"
         android:text="@string/latitud"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textViewAltaCpColonia"
@@ -51,7 +51,7 @@
         android:id="@+id/textViewAltaLongitudColonia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="40dp"
         android:text="@string/longitud"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textViewAltaLatitudColonia"
@@ -64,13 +64,13 @@
         android:id="@+id/textViewAltaAyuntamientoFK1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="40dp"
         android:text="@string/ayuntamientoFK"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewAltaLongitudColonia"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaDireccionColonia"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewAltaLongitudColonia"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAltaLongitudColonia"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaDireccionColonia"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaDireccionColonia"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
@@ -163,4 +163,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewAltaProtectoraFK2"
         app:layout_constraintVertical_bias="0.824" />
+
+    <TextView
+        android:id="@+id/textViewAltaDireccionColonia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/direccion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaLongitudColonia"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaLongitudColonia"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaLongitudColonia"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextAltaDireccionColonia"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/direccionPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaDireccionColonia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaDireccionColonia"
+        app:layout_constraintVertical_bias="0.616" />
 </androidx.constraintlayout.widget.ConstraintLayout>

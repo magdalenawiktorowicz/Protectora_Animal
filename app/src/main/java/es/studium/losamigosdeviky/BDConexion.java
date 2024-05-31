@@ -455,4 +455,37 @@ public class BDConexion {
         });
     }
 
+    // Colonia - Alta
+    public static void anadirColonia(Colonia colonia, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+                .add("idColonia", "")
+                .add("nombreColonia", colonia.getNombreColonia())
+                .add("cpColonia", String.valueOf(colonia.getCpColonia()))
+                .add("latitudColonia", colonia.getLatitudColonia())
+                .add("longitudColonia", colonia.getLongitudColonia())
+                .add("direccionColonia", colonia.getDireccionColonia())
+                .add("idAyuntamientoFK1", String.valueOf(colonia.getIdAyuntamientoFK1()))
+                .add("idProtectoraFK2", String.valueOf(colonia.getIdProtectoraFK2()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/colonias.php")
+                .post(formBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
 }
