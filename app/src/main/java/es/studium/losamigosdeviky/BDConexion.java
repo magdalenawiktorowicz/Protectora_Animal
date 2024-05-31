@@ -150,9 +150,6 @@ public class BDConexion {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                } else {
-                }
                 callback.onResponse(call, response); // Forward the response to the provided callback
             }
         });
@@ -189,9 +186,6 @@ public class BDConexion {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                } else {
-                }
                 callback.onResponse(call, response); // Forward the response to the provided callback
             }
         });
@@ -214,9 +208,6 @@ public class BDConexion {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                } else {
-                }
                 callback.onResponse(call, response); // Forward the response to the provided callback
             }
         });
@@ -292,9 +283,64 @@ public class BDConexion {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                } else {
-                }
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
+    // Protectora - Modificacion
+    public static void modificarProtectora(Protectora protectora, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/protectoras.php").newBuilder();
+        // Add query parameters
+        queryUrlBuilder.addQueryParameter("idProtectora", String.valueOf(protectora.getIdProtectora()));
+        queryUrlBuilder.addQueryParameter("nombreProtectora", protectora.getNombreProtectora());
+        queryUrlBuilder.addQueryParameter("direccionProtectora", protectora.getDireccionProtectora());
+        queryUrlBuilder.addQueryParameter("localidadProtectora", protectora.getLocalidadProtectora());
+        queryUrlBuilder.addQueryParameter("telefonoProtectora", String.valueOf(protectora.getTelefonoProtectora()));
+        queryUrlBuilder.addQueryParameter("correoProtectora", protectora.getCorreoProtectora());
+
+        // Create request body (empty for PUT requests)
+        RequestBody requestBody = new FormBody.Builder()
+                .build();
+
+        // Build the request
+        Request request = new Request.Builder()
+                .url(queryUrlBuilder.build())
+                .put(requestBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
+    // Protectora - Borrado
+    public static void borrarProtectora(Protectora protectora, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/protectoras.php?idProtectora=" + protectora.getIdProtectora())
+                .delete()
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
                 callback.onResponse(call, response); // Forward the response to the provided callback
             }
         });

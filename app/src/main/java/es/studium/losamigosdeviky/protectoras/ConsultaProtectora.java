@@ -42,8 +42,8 @@ public class ConsultaProtectora extends Fragment implements AdapterView.OnItemSe
     FragmentManager fm;
     FragmentTransaction ft;
     AltaProtectora altaProtectora;
-    //ModificacionProtectora modificacionProtectora;
-    //BorradoProtectora borradoProtectora;
+    ModificacionProtectora modificacionProtectora;
+    BorradoProtectora borradoProtectora;
 
     public ConsultaProtectora() {
         // Required empty public constructor
@@ -147,9 +147,9 @@ public class ConsultaProtectora extends Fragment implements AdapterView.OnItemSe
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Modificación
                     Log.d("ConsultaProtectora", "Showing ModificacionProtectora dialog");
-                    //modificacionProtectora = new ModificacionProtectora(protectoras.get(position));
-                    //modificacionProtectora.setCancelable(false);
-                    //modificacionProtectora.show(getParentFragmentManager(), "ModificacionProtectora");
+                    modificacionProtectora = new ModificacionProtectora(protectoras.get(position));
+                    modificacionProtectora.setCancelable(false);
+                    modificacionProtectora.show(getParentFragmentManager(), "ModificacionProtectora");
                 }
             }
 
@@ -158,9 +158,9 @@ public class ConsultaProtectora extends Fragment implements AdapterView.OnItemSe
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Borrado
                     Log.d("ConsultaProtectora", "Showing BorradoProtectora dialog");
-                    //borradoProtectora = new BorradoProtectora(protectoras.get(position));
-                    //borradoProtectora.setCancelable(false);
-                    //borradoProtectora.show(getParentFragmentManager(), "BorradoProtectora");
+                    borradoProtectora = new BorradoProtectora(protectoras.get(position));
+                    borradoProtectora.setCancelable(false);
+                    borradoProtectora.show(getParentFragmentManager(), "BorradoProtectora");
                 }
             }
         });

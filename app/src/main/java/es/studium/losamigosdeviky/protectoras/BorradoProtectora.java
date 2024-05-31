@@ -1,4 +1,4 @@
-package es.studium.losamigosdeviky.ayuntamientos;
+package es.studium.losamigosdeviky.protectoras;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,27 +23,27 @@ import es.studium.losamigosdeviky.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+public class BorradoProtectora extends DialogFragment implements View.OnClickListener {
 
-public class BorradoAyuntamiento extends DialogFragment implements View.OnClickListener {
-
-    Ayuntamiento ayuntamiento;
+    Protectora protectora;
     private TextView textViewMensajeConfirmacion;
     private Button btnSi, btnNo;
     private Context context;
-    public BorradoAyuntamiento(Ayuntamiento ayuntamiento) {
-        this.ayuntamiento = ayuntamiento;
+
+    public BorradoProtectora(Protectora protectora) {
+        this.protectora = protectora;
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.dialog_borrado_ayuntamiento, null);
+        View v = inflater.inflate(R.layout.dialog_borrado_protectora, null);
         context = v.getContext();
-        textViewMensajeConfirmacion = v.findViewById(R.id.textViewConfirmacionBorradoAyuntamiento);
-        textViewMensajeConfirmacion.setText(textViewMensajeConfirmacion.getText() + ayuntamiento.getNombreAyuntamiento());
-        btnSi = v.findViewById(R.id.btnSiBorradoAyuntamiento);
+        textViewMensajeConfirmacion = v.findViewById(R.id.textViewConfirmacionBorradoProtectora);
+        textViewMensajeConfirmacion.setText(textViewMensajeConfirmacion.getText() + protectora.getNombreProtectora());
+        btnSi = v.findViewById(R.id.btnSiBorradoProtectora);
         btnSi.setOnClickListener(this);
-        btnNo = v.findViewById(R.id.btnNoBorradoAyuntamiento);
+        btnNo = v.findViewById(R.id.btnNoBorradoProtectora);
         btnNo.setOnClickListener(this);
         builder.setView(v);
         AlertDialog alertDialog = builder.create();
@@ -51,13 +51,12 @@ public class BorradoAyuntamiento extends DialogFragment implements View.OnClickL
         return alertDialog;
     }
 
-
     @Override
     public void onClick(View v) {
         if (v.getId() == btnNo.getId()) {
             dismiss();
         } else if (v.getId() == btnSi.getId()) {
-            BDConexion.borrarAyuntamiento(ayuntamiento, new Callback() {
+            BDConexion.borrarProtectora(protectora, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     new Handler(Looper.getMainLooper()).post(() -> {
@@ -96,10 +95,10 @@ public class BorradoAyuntamiento extends DialogFragment implements View.OnClickL
         Bundle result = new Bundle();
         result.putBoolean("operationSuccess", success);
         if (isAdded()) {
-            Log.d("BorradoAyuntamiento", "Fragment is added, sending result: " + success);
-            getParentFragmentManager().setFragmentResult("borradoAyuntamientoRequestKey", result);
+            Log.d("BorradoProtectora", "Fragment is added, sending result: " + success);
+            getParentFragmentManager().setFragmentResult("borradoProtectoraRequestKey", result);
         } else {
-            Log.d("BorradoAyuntamiento", "Fragment not added, result not sent");
+            Log.d("BorradoProtectora", "Fragment not added, result not sent");
         }
     }
 }

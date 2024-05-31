@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
+    android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:maxHeight="150dp"
@@ -16,9 +16,9 @@
     android:paddingEnd="10dp"
     android:paddingRight="10dp"
     android:paddingBottom="10dp"
-    tools:context=".ayuntamientos.BorradoAyuntamiento">
+    tools:context=".protectoras.BorradoProtectora">
     <TextView
-        android:id="@+id/textViewConfirmacionBorradoAyuntamiento"
+        android:id="@+id/textViewConfirmacionBorradoProtectora"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:text="@string/mensajeConfirmacion"
@@ -30,7 +30,7 @@
         app:layout_constraintVertical_bias="0.024"/>
 
     <Button
-        android:id="@+id/btnSiBorradoAyuntamiento"
+        android:id="@+id/btnSiBorradoProtectora"
         android:layout_width="140dp"
         android:layout_height="50dp"
         android:layout_marginTop="15dp"
@@ -38,21 +38,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewConfirmacionBorradoAyuntamiento"
-        app:layout_constraintTop_toBottomOf="@+id/textViewConfirmacionBorradoAyuntamiento"
+        app:layout_constraintStart_toStartOf="@+id/textViewConfirmacionBorradoProtectora"
+        app:layout_constraintTop_toBottomOf="@+id/textViewConfirmacionBorradoProtectora"
         app:layout_constraintVertical_bias="0.051" />
 
     <Button
-        android:id="@+id/btnNoBorradoAyuntamiento"
+        android:id="@+id/btnNoBorradoProtectora"
         android:layout_width="140dp"
         android:layout_height="50dp"
         android:layout_marginTop="15dp"
         android:text="@string/no"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewConfirmacionBorradoAyuntamiento"
+        app:layout_constraintEnd_toEndOf="@+id/textViewConfirmacionBorradoProtectora"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/btnSiBorradoAyuntamiento"
-        app:layout_constraintTop_toBottomOf="@+id/textViewConfirmacionBorradoAyuntamiento"
+        app:layout_constraintStart_toEndOf="@+id/btnSiBorradoProtectora"
+        app:layout_constraintTop_toBottomOf="@+id/textViewConfirmacionBorradoProtectora"
         app:layout_constraintVertical_bias="0.051" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

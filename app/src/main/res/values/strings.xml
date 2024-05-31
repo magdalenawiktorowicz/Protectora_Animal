@@ -35,7 +35,7 @@
     <string name="cancelar">Cancelar</string>
 
     <string name="eliminar">Eliminar</string>
-    <string name="mensajeConfirmacionBorrado">"¿Estás seguro/a de que quieres eliminar: "</string>
+    <string name="mensajeConfirmacion">"¿Estás seguro/a de que quieres eliminar: "</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
     <string name="protectora">Nombre:</string>
@@ -43,6 +43,8 @@
     <string name="localidad">Localidad:</string>
     <string name="localidadPlaceholder">Sevilla, 41003</string>
     <string name="correoPlaceholder">correo@gmail.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

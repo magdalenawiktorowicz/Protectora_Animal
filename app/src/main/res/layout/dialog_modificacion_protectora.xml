@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout5"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    tools:context=".protectoras.ModificacionProtectora">
+
+    <TextView
+        android:id="@+id/textViewModificacionNombreProtectora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/protectora"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.099" />
+
+    <TextView
+        android:id="@+id/textViewModificacionDireccionProtectora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/direccion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewModificacionNombreProtectora"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="@+id/textViewModificacionNombreProtectora"
+        app:layout_constraintTop_toBottomOf="@+id/textViewModificacionNombreProtectora"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewModificacionLocalidadProtectora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/localidad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewModificacionDireccionProtectora"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewModificacionDireccionProtectora"
+        app:layout_constraintTop_toBottomOf="@+id/textViewModificacionDireccionProtectora"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewModificacionTelefonoProtectora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/telefono"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewModificacionLocalidadProtectora"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewModificacionLocalidadProtectora"
+        app:layout_constraintTop_toBottomOf="@+id/textViewModificacionLocalidadProtectora"
+        app:layout_constraintVertical_bias="0.009" />
+
+    <TextView
+        android:id="@+id/textViewModificacionCorreoProtectora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/correo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewModificacionTelefonoProtectora"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewModificacionTelefonoProtectora"
+        app:layout_constraintTop_toBottomOf="@+id/textViewModificacionTelefonoProtectora"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextModificacionDireccionProtectora"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/direccionPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionDireccionProtectora"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionDireccionProtectora"
+        app:layout_constraintVertical_bias="0.653" />
+
+    <EditText
+        android:id="@+id/editTextModificacionNombreProtectora"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/protectoraPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionNombreProtectora"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.862"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionNombreProtectora"
+        app:layout_constraintVertical_bias="0.576" />
+
+    <EditText
+        android:id="@+id/editTextModificacionLocalidadProtectora"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/localidadPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionLocalidadProtectora"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionLocalidadProtectora"
+        app:layout_constraintVertical_bias="0.73" />
+
+    <EditText
+        android:id="@+id/editTextModificacionTelefonoProtectora"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/telefonoPlaceholder"
+        android:inputType="phone"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionTelefonoProtectora"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionTelefonoProtectora"
+        app:layout_constraintVertical_bias="0.615" />
+
+    <EditText
+        android:id="@+id/editTextModificacionCorreoProtectora"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/correoPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionCorreoProtectora"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionCorreoProtectora"
+        app:layout_constraintVertical_bias="0.692" />
+</androidx.constraintlayout.widget.ConstraintLayout>
