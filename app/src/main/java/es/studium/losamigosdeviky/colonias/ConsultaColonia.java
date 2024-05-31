@@ -43,7 +43,7 @@ public class ConsultaColonia extends Fragment implements AdapterView.OnItemSelec
     ColoniasAdapter adapter;
     FragmentManager fm;
     FragmentTransaction ft;
-    //AltaColonia altaColonia;
+    AltaColonia altaColonia;
     //ModificacionColonia modificacionColonia;
     //BorradoColonia borradoColonia;
 
@@ -204,9 +204,9 @@ public class ConsultaColonia extends Fragment implements AdapterView.OnItemSelec
     public void onClick(View v) {
         if (v.getId() == btnNuevaColonia.getId()) {
             Log.d("ConsultaColonia", "Showing AltaColonia dialog");
-            //altaColonia = new AltaColonia();
-            //altaColonia.setCancelable(false);
-            //altaColonia.show(getParentFragmentManager(), "AltaColonia");
+            altaColonia = new AltaColonia();
+            altaColonia.setCancelable(false);
+            altaColonia.show(getParentFragmentManager(), "AltaColonia");
         }
     }
 

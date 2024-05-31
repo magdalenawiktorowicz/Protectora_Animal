@@ -48,5 +48,10 @@
     <string name="coordinadas">Coordinadas geográficas:</string>
     <string name="ayuntamientoFK">Ayuntamiento:</string>
     <string name="protectoraFK">Protectora:</string>
+    <string name="coloniaPlaceholder">Colonia...</string>
+    <string name="latitud">Latitud:</string>
+    <string name="longitud">Longitud:</string>
+    <string name="latitudPlaceholder">37.401893</string>
+    <string name="longitudPlaceholder">-5.950948</string>
 
 </resources>
