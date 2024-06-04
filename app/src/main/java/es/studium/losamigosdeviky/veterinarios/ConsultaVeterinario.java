@@ -42,8 +42,8 @@ public class ConsultaVeterinario extends Fragment implements AdapterView.OnItemS
     FragmentManager fm;
     FragmentTransaction ft;
     AltaVeterinario altaVeterinario;
-    //ModificacionVeterinario modificacionVeterinario;
-    //BorradoVeterinario borradoVeterinario;
+    ModificacionVeterinario modificacionVeterinario;
+    BorradoVeterinario borradoVeterinario;
 
     public ConsultaVeterinario() {
         // Required empty public constructor
@@ -147,9 +147,9 @@ public class ConsultaVeterinario extends Fragment implements AdapterView.OnItemS
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Modificación
                     Log.d("ConsultaVeterinario", "Showing ModificacionVeterinario dialog");
-                    //modificacionVeterinario = new ModificacionVeterinario(veterinarios.get(position));
-                    //modificacionVeterinario.setCancelable(false);
-                    //modificacionVeterinario.show(getParentFragmentManager(), "ModificacionVeterinario");
+                    modificacionVeterinario = new ModificacionVeterinario(veterinarios.get(position));
+                    modificacionVeterinario.setCancelable(false);
+                    modificacionVeterinario.show(getParentFragmentManager(), "ModificacionVeterinario");
                 }
             }
 
@@ -158,9 +158,9 @@ public class ConsultaVeterinario extends Fragment implements AdapterView.OnItemS
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Borrado
                     Log.d("ConsultaVeterinario", "Showing BorradoVeterinario dialog");
-                    //borradoVeterinario = new BorradoVeterinario(veterinarios.get(position));
-                    //borradoVeterinario.setCancelable(false);
-                    //borradoVeterinario.show(getParentFragmentManager(), "BorradoVeterinario");
+                    borradoVeterinario = new BorradoVeterinario(veterinarios.get(position));
+                    borradoVeterinario.setCancelable(false);
+                    borradoVeterinario.show(getParentFragmentManager(), "BorradoVeterinario");
                 }
             }
         });
