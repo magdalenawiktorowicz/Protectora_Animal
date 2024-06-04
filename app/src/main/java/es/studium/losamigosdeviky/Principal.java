@@ -19,6 +19,7 @@ import android.widget.Toast;
 import es.studium.losamigosdeviky.ayuntamientos.ConsultaAyuntamiento;
 import es.studium.losamigosdeviky.colonias.ConsultaColonia;
 import es.studium.losamigosdeviky.protectoras.ConsultaProtectora;
+import es.studium.losamigosdeviky.veterinarios.ConsultaVeterinario;
 
 public class Principal extends Fragment implements View.OnClickListener {
 
@@ -27,7 +28,7 @@ public class Principal extends Fragment implements View.OnClickListener {
 
     FragmentManager fm;
     FragmentTransaction ft;
-    Fragment consultaAyuntamiento, consultaProtectora, consultaColonia;
+    Fragment consultaAyuntamiento, consultaProtectora, consultaColonia, consultaVeterinario;
     SharedPreferences sharedPreferences;
 
     public Principal() {
@@ -111,7 +112,14 @@ public class Principal extends Fragment implements View.OnClickListener {
         } else if (v.getId() == btnGatos.getId()) {
 
         } else if (v.getId() == btnVeterinarios.getId()) {
-
+            consultaVeterinario = fm.findFragmentByTag("consultaVeterinario");
+            if (consultaVeterinario == null) {
+                consultaVeterinario = new ConsultaVeterinario();
+                ft = fm.beginTransaction();
+                ft.replace(R.id.container, consultaVeterinario, "consultaVeterinario")
+                        .addToBackStack(null)
+                        .commit();
+            }
         } else if (v.getId() == btnCuidados.getId()) {
 
         } else if (v.getId() == imageBtnHelp.getId()) {

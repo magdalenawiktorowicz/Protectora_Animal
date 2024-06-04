@@ -13,6 +13,8 @@ import es.studium.losamigosdeviky.colonias.Colonia;
 import es.studium.losamigosdeviky.colonias.ColoniaCallback;
 import es.studium.losamigosdeviky.protectoras.Protectora;
 import es.studium.losamigosdeviky.protectoras.ProtectoraCallback;
+import es.studium.losamigosdeviky.veterinarios.Veterinario;
+import es.studium.losamigosdeviky.veterinarios.VeterinarioCallback;
 import okhttp3.*;
 
 import org.json.JSONArray;
@@ -548,4 +550,151 @@ public class BDConexion {
         });
     }
 
+    // Veterinarios - Consulta (todos o por id)
+    public static void consultarVeterinarios(final VeterinarioCallback callback) {
+        consultarVeterinarios(null, callback);
+    }
+
+    public static void consultarVeterinarios(Integer idVeterinario, final VeterinarioCallback callback) {
+        OkHttpClient client = new OkHttpClient();
+        String url = "http://192.168.1.131/ApiProtectora/veterinarios.php";
+        if (idVeterinario != null) {
+            url += "?idVeterinario=" + idVeterinario;
+        }
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("BDConexion", "Network error: " + e.getMessage());
+                callback.onResult(new ArrayList<>()); // Return empty list on failure
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                ArrayList<Veterinario> veterinarios = new ArrayList<>();
+                if (response.isSuccessful()) {
+                    try {
+                        if (idVeterinario == null) {
+                            JSONArray result = new JSONArray(response.body().string());
+                            for (int i = 0; i < result.length(); i++) {
+                                JSONObject jsonObject = result.getJSONObject(i);
+                                int id = jsonObject.getInt("idVeterinario");
+                                String nombre = jsonObject.getString("nombreVeterinario");
+                                String apellidos = jsonObject.getString("apellidosVeterinario");
+                                int telefono = jsonObject.getInt("telefonoVeterinario");
+                                String especialidad = jsonObject.getString("especialidadVeterinario");
+
+                                veterinarios.add(new Veterinario(id, nombre, apellidos, telefono, especialidad));
+                            }
+                        } else {
+                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            int id = jsonObject.getInt("idVeterinario");
+                            String nombre = jsonObject.getString("nombreVeterinario");
+                            String apellidos = jsonObject.getString("apellidosVeterinario");
+                            int telefono = jsonObject.getInt("telefonoVeterinario");
+                            String especialidad = jsonObject.getString("especialidadVeterinario");
+
+                            veterinarios.add(new Veterinario(id, nombre, apellidos, telefono, especialidad));
+                        }
+                    } catch (JSONException e) {
+                        Log.e("BDConexion", "JSON parsing error: " + e.getMessage());
+                    }
+                } else {
+                    Log.e("BDConexion", "Response not successful: " + response.message());
+                }
+                callback.onResult(veterinarios);
+            }
+        });
+    }
+
+    // Veterinario - Alta
+    public static void anadirVeterinario(Veterinario veterinario, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+                .add("idAyuntamiento", "")
+                .add("nombreVeterinario", veterinario.getNombreVeterinario())
+                .add("apellidosVeterinario", veterinario.getApellidosVeterinario())
+                .add("telefonoVeterinario", String.valueOf(veterinario.getTelefonoVeterinario()))
+                .add("especialidadVeterinario", veterinario.getEspecialidadVeterinario())
+                .build();
+
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/veterinarios.php")
+                .post(formBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
+    // Veterinario - Modificacion
+    public static void modificarVeterinario(Veterinario veterinario, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/veterinarios.php").newBuilder();
+        // Add query parameters
+        queryUrlBuilder.addQueryParameter("idVeterinario", String.valueOf(veterinario.getIdVeterinario()));
+        queryUrlBuilder.addQueryParameter("nombreVeterinario", veterinario.getNombreVeterinario());
+        queryUrlBuilder.addQueryParameter("apellidosVeterinario", veterinario.getApellidosVeterinario());
+        queryUrlBuilder.addQueryParameter("telefonoVeterinario", String.valueOf(veterinario.getTelefonoVeterinario()));
+        queryUrlBuilder.addQueryParameter("especialidadVeterinario", veterinario.getEspecialidadVeterinario());
+
+        // Create request body (empty for PUT requests)
+        RequestBody requestBody = new FormBody.Builder()
+                .build();
+
+        // Build the request
+        Request request = new Request.Builder()
+                .url(queryUrlBuilder.build())
+                .put(requestBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
+    // Veterinario - Borrado
+    public static void borrarVeterinario(Veterinario veterinario, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/veterinarios.php?idVeterinario=" + veterinario.getIdVeterinario())
+                .delete()
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
 }
