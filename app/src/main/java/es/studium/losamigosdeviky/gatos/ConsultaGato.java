@@ -31,10 +31,6 @@ import es.studium.losamigosdeviky.BDConexion;
 import es.studium.losamigosdeviky.MainActivity;
 import es.studium.losamigosdeviky.R;
 import es.studium.losamigosdeviky.RecyclerViewOnItemClickListener;
-import es.studium.losamigosdeviky.protectoras.AltaProtectora;
-import es.studium.losamigosdeviky.protectoras.BorradoProtectora;
-import es.studium.losamigosdeviky.protectoras.ModificacionProtectora;
-import es.studium.losamigosdeviky.protectoras.Protectora;
 
 public class ConsultaGato extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
@@ -205,10 +201,10 @@ public class ConsultaGato extends Fragment implements AdapterView.OnItemSelected
     @Override
     public void onClick(View v) {
         if (v.getId() == btnNuevoGato.getId()) {
-//            Log.d("ConsultaGato", "Showing AltaGato dialog");
-//            altaGato = new AltaGato();
-//            altaGato.setCancelable(false);
-//            altaGato.show(getParentFragmentManager(), "AltaProtectora");
+            Log.d("ConsultaGato", "Showing AltaGato dialog");
+        //    altaGato = new AltaGato();
+        //    altaGato.setCancelable(false);
+        //    altaGato.show(getParentFragmentManager(), "AltaProtectora");
         }
     }
 

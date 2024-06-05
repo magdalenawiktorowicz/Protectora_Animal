@@ -729,9 +729,11 @@ public class BDConexion {
             public void onResponse(Call call, Response response) throws IOException {
                 ArrayList<Gato> gatos = new ArrayList<>();
                 if (response.isSuccessful()) {
+                    String responseBody = response.body().string();
+                    Log.d("BDConexion", "Server Response: " + responseBody);
                     try {
                         if (idGato == null) {
-                            JSONArray result = new JSONArray(response.body().string());
+                            JSONArray result = new JSONArray(responseBody);
                             for (int i = 0; i < result.length(); i++) {
                                 JSONObject jsonObject = result.getJSONObject(i);
                                 int id = jsonObject.getInt("idGato");
@@ -739,8 +741,11 @@ public class BDConexion {
                                 String sexo = jsonObject.getString("sexoGato");
                                 String descripcion = jsonObject.getString("descripcionGato");
                                 int esEsterilizado = jsonObject.getInt("esEsterilizado");
-                                String fotoGatoBase64 = jsonObject.getString("fotoGato");
-                                byte[] fotoGato = Base64.decode(fotoGatoBase64, Base64.DEFAULT);
+                                String fotoGatoBase64 = jsonObject.optString("fotoGato");
+                                byte[] fotoGato = null;
+                                if (!fotoGatoBase64.isEmpty()) {
+                                    fotoGato = Base64.decode(fotoGatoBase64, Base64.DEFAULT);
+                                }
                                 String[] fn = jsonObject.getString("fechaNacimientoGato").split("-");
                                 LocalDate fechaNacimientoGato = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
                                 String chipGato = jsonObject.getString("chipGato");
@@ -749,14 +754,17 @@ public class BDConexion {
                                 gatos.add(new Gato(id, nombre, sexo, descripcion, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, idVeterinarioFK, idColoniaFK));
                             }
                         } else {
-                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            JSONObject jsonObject = new JSONObject(responseBody);
                             int id = jsonObject.getInt("idGato");
                             String nombre = jsonObject.getString("nombreGato");
                             String sexo = jsonObject.getString("sexoGato");
                             String descripcion = jsonObject.getString("descripcionGato");
                             int esEsterilizado = jsonObject.getInt("esEsterilizado");
-                            String fotoGatoBase64 = jsonObject.getString("fotoGato");
-                            byte[] fotoGato = Base64.decode(fotoGatoBase64, Base64.DEFAULT);
+                            String fotoGatoBase64 = jsonObject.optString("fotoGato");
+                            byte[] fotoGato = null;
+                            if (!fotoGatoBase64.isEmpty()) {
+                                fotoGato = Base64.decode(fotoGatoBase64, Base64.DEFAULT);
+                            }
                             String[] fn = jsonObject.getString("fechaNacimientoGato").split("-");
                             LocalDate fechaNacimientoGato = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
                             String chipGato = jsonObject.getString("chipGato");

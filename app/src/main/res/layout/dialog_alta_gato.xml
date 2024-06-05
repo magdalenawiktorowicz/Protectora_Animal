@@ -1,6 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout13"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".gatos.AltaGato"/>
+    android:layout_height="460dp"
+    tools:context=".gatos.AltaGato">
+
+    <ImageView
+        android:id="@+id/imageViewAltaFotoGato"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.047"
+        app:srcCompat="@drawable/baseline_add_a_photo_24" />
+
+    <TextView
+        android:id="@+id/textViewAltaNombreGato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gato"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.077" />
+
+    <TextView
+        android:id="@+id/textViewAltaSexoGato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="@string/sexo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaNombreGato"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaNombreGato"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaNombreGato"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewAltaDescripcionGato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/descripcion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaEsterilizadoGato"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaEsterilizadoGato"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaEsterilizadoGato"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewAltaFechaNacimientoGato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/fecha_nacimiento2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaDescripcionGato"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaDescripcionGato"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaDescripcionGato"
+        app:layout_constraintVertical_bias="0.009" />
+
+    <TextView
+        android:id="@+id/textViewAltaVeterinarioFK3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="@string/veterinarioFK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaChipGato"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaChipGato"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaChipGato"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextAltaSexoGato"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/sexoGatoPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaSexoGato"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaSexoGato"
+        app:layout_constraintVertical_bias="0.692" />
+
+    <EditText
+        android:id="@+id/editTextAltaNombreGato"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/nombreGatoPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaNombreGato"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaNombreGato"
+        app:layout_constraintVertical_bias="0.692" />
+
+    <EditText
+        android:id="@+id/editTextAltaDescripcionGato"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/descripcionGatoPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaDescripcionGato"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.678"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaDescripcionGato"
+        app:layout_constraintVertical_bias="0.653" />
+
+    <EditText
+        android:id="@+id/editTextAltaFechaNacimientoGato"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/fechaPlaceholder"
+        android:inputType="date"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaFechaNacimientoGato"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.678"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaFechaNacimientoGato"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Spinner
+        android:id="@+id/spinnerAltaVeterinarioFKGato"
+        android:layout_width="240dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaVeterinarioFK3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.678"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaVeterinarioFK3"
+        app:layout_constraintVertical_bias="0.653" />
+
+    <TextView
+        android:id="@+id/textViewAltaColoniaFK4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="@string/coloniaFK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaVeterinarioFK3"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaVeterinarioFK3"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaVeterinarioFK3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Spinner
+        android:id="@+id/spinnerAltaColoniaFKGato"
+        android:layout_width="240dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaColoniaFK4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.678"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaColoniaFK4"
+        app:layout_constraintVertical_bias="0.73" />
+
+    <TextView
+        android:id="@+id/textViewAltaChipGato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/chip"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaFechaNacimientoGato"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaFechaNacimientoGato"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaFechaNacimientoGato"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextAltaChipGato"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/chipPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaChipGato"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.678"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaChipGato"
+        app:layout_constraintVertical_bias="0.692" />
+
+    <TextView
+        android:id="@+id/textViewAltaEsterilizadoGato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/esterilizado"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaSexoGato"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaSexoGato"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaSexoGato"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Switch
+        android:id="@+id/switchAltaEsterlizadoGato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="No"
+        android:textOn="Sí"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaEsterilizadoGato"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.359"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaEsterilizadoGato"
+        app:layout_constraintVertical_bias="0.875" />
+</androidx.constraintlayout.widget.ConstraintLayout>

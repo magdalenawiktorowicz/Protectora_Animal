@@ -62,11 +62,17 @@
     <string name="especialidadPlaceholder">Traumatología</string>
     <string name="gato">Nombre:</string>
     <string name="fecha_nacimiento">Fecha nacimiento:</string>
+    <string name="fecha_nacimiento2">Fecha \n \t nacimiento:</string>
     <string name="chip">Chip:</string>
     <string name="sexo">Sexo:</string>
     <string name="esterilizado">Esterilizado:</string>
     <string name="descripcion">Descripción:</string>
     <string name="veterinarioFK">Veterinario:</string>
     <string name="coloniaFK">Colonia:</string>
+    <string name="nombreGatoPlaceholder">Garfield</string>
+    <string name="sexoGatoPlaceholder">Masculino</string>
+    <string name="descripcionGatoPlaceholder">Descripción del gato...</string>
+    <string name="fechaPlaceholder">2020-03-20</string>
+    <string name="chipPlaceholder">865345675354325</string>
 
 </resources>
