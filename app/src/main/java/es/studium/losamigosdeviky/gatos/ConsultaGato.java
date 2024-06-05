@@ -202,9 +202,9 @@ public class ConsultaGato extends Fragment implements AdapterView.OnItemSelected
     public void onClick(View v) {
         if (v.getId() == btnNuevoGato.getId()) {
             Log.d("ConsultaGato", "Showing AltaGato dialog");
-        //    altaGato = new AltaGato();
-        //    altaGato.setCancelable(false);
-        //    altaGato.show(getParentFragmentManager(), "AltaProtectora");
+            altaGato = new AltaGato();
+            altaGato.setCancelable(false);
+            altaGato.show(getParentFragmentManager(), "AltaProtectora");
         }
     }
 

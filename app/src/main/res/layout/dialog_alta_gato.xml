@@ -214,7 +214,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewAltaSexoGato"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchAltaEsterlizadoGato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -222,8 +222,8 @@
         android:textOn="Sí"
         app:layout_constraintBottom_toBottomOf="@+id/textViewAltaEsterilizadoGato"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.359"
+        app:layout_constraintHorizontal_bias="0.319"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewAltaEsterilizadoGato"
-        app:layout_constraintVertical_bias="0.875" />
+        app:layout_constraintVertical_bias="0.517" />
 </androidx.constraintlayout.widget.ConstraintLayout>
