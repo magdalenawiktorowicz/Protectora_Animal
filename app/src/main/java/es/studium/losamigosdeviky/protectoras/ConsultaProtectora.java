@@ -174,7 +174,6 @@ public class ConsultaProtectora extends Fragment implements AdapterView.OnItemSe
             public void onResult(final ArrayList<Protectora> pros) {
                 if (pros != null) {
                     Log.d("ConsultaProtectora", "Data fetched: " + pros.size() + " protectoras");
-                    // Ensure this code runs on the main thread
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override

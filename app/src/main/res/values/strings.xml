@@ -60,5 +60,13 @@
     <string name="nombrePlaceholder">José Antonio</string>
     <string name="apellidosPlaceholder">Muñoz Rodríguez</string>
     <string name="especialidadPlaceholder">Traumatología</string>
+    <string name="gato">Nombre:</string>
+    <string name="fecha_nacimiento">Fecha nacimiento:</string>
+    <string name="chip">Chip:</string>
+    <string name="sexo">Sexo:</string>
+    <string name="esterilizado">Esterilizado:</string>
+    <string name="descripcion">Descripción:</string>
+    <string name="veterinarioFK">Veterinario:</string>
+    <string name="coloniaFK">Colonia:</string>
 
 </resources>

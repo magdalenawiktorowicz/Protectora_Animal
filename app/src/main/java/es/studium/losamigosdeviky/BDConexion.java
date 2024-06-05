@@ -2,15 +2,19 @@ package es.studium.losamigosdeviky;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import es.studium.losamigosdeviky.ayuntamientos.Ayuntamiento;
 import es.studium.losamigosdeviky.ayuntamientos.AyuntamientoCallback;
 import es.studium.losamigosdeviky.colonias.Colonia;
 import es.studium.losamigosdeviky.colonias.ColoniaCallback;
+import es.studium.losamigosdeviky.gatos.Gato;
+import es.studium.losamigosdeviky.gatos.GatoCallback;
 import es.studium.losamigosdeviky.protectoras.Protectora;
 import es.studium.losamigosdeviky.protectoras.ProtectoraCallback;
 import es.studium.losamigosdeviky.veterinarios.Veterinario;
@@ -694,6 +698,79 @@ public class BDConexion {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
+    // Gatos - Consulta (todos o por id)
+    public static void consultarGatos(final GatoCallback callback) {
+        consultarGatos(null, callback);
+    }
+
+    public static void consultarGatos(Integer idGato, final GatoCallback callback) {
+        OkHttpClient client = new OkHttpClient();
+        String url = "http://192.168.1.131/ApiProtectora/gatos.php";
+        if (idGato != null) {
+            url += "?idGato=" + idGato;
+        }
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("BDConexion", "Network error: " + e.getMessage());
+                callback.onResult(new ArrayList<>()); // Return empty list on failure
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                ArrayList<Gato> gatos = new ArrayList<>();
+                if (response.isSuccessful()) {
+                    try {
+                        if (idGato == null) {
+                            JSONArray result = new JSONArray(response.body().string());
+                            for (int i = 0; i < result.length(); i++) {
+                                JSONObject jsonObject = result.getJSONObject(i);
+                                int id = jsonObject.getInt("idGato");
+                                String nombre = jsonObject.getString("nombreGato");
+                                String sexo = jsonObject.getString("sexoGato");
+                                String descripcion = jsonObject.getString("descripcionGato");
+                                int esEsterilizado = jsonObject.getInt("esEsterilizado");
+                                String fotoGatoBase64 = jsonObject.getString("fotoGato");
+                                byte[] fotoGato = Base64.decode(fotoGatoBase64, Base64.DEFAULT);
+                                String[] fn = jsonObject.getString("fechaNacimientoGato").split("-");
+                                LocalDate fechaNacimientoGato = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
+                                String chipGato = jsonObject.getString("chipGato");
+                                int idVeterinarioFK = jsonObject.getInt("idVeterinarioFK3");
+                                int idColoniaFK = jsonObject.getInt("idColoniaFK4");
+                                gatos.add(new Gato(id, nombre, sexo, descripcion, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, idVeterinarioFK, idColoniaFK));
+                            }
+                        } else {
+                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            int id = jsonObject.getInt("idGato");
+                            String nombre = jsonObject.getString("nombreGato");
+                            String sexo = jsonObject.getString("sexoGato");
+                            String descripcion = jsonObject.getString("descripcionGato");
+                            int esEsterilizado = jsonObject.getInt("esEsterilizado");
+                            String fotoGatoBase64 = jsonObject.getString("fotoGato");
+                            byte[] fotoGato = Base64.decode(fotoGatoBase64, Base64.DEFAULT);
+                            String[] fn = jsonObject.getString("fechaNacimientoGato").split("-");
+                            LocalDate fechaNacimientoGato = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
+                            String chipGato = jsonObject.getString("chipGato");
+                            int idVeterinarioFK = jsonObject.getInt("idVeterinarioFK3");
+                            int idColoniaFK = jsonObject.getInt("idColoniaFK4");
+                            gatos.add(new Gato(id, nombre, sexo, descripcion, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, idVeterinarioFK, idColoniaFK));
+                        }
+                    } catch (JSONException e) {
+                        Log.e("BDConexion", "JSON parsing error: " + e.getMessage());
+                    }
+                } else {
+                    Log.e("BDConexion", "Response not successful: " + response.message());
+                }
+                callback.onResult(gatos);
             }
         });
     }
