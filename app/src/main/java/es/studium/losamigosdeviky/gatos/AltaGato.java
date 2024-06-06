@@ -1,8 +1,10 @@
 package es.studium.losamigosdeviky.gatos;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +14,8 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -42,9 +46,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import es.studium.losamigosdeviky.BDConexion;
 import es.studium.losamigosdeviky.R;
@@ -65,6 +75,10 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
     private List<Veterinario> veterinarios = new ArrayList<>();
     private List<Colonia> colonias = new ArrayList<>();
     private Uri imageUri = null;
+    private static final int CAMERA_REQUEST_CODE = 100;
+    private static final int STORAGE_REQUEST_CODE = 101;
+    private String[] cameraPermissions;
+    private String[] storagePermissions;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -72,6 +86,9 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_alta_gato, null);
         Context context = v.getContext();
+        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
         imageViewFotoGato = v.findViewById(R.id.imageViewAltaFotoGato);
         imageViewFotoGato.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,15 +157,106 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                             String sexoGato = editTextSexoGato.getText().toString();
                             String descripcionGato = editTextDescripcionGato.getText().toString();
                             int esEsterilizado = (switchEsterilizadoGato.isChecked() ? 1 : 0);
-                            //byte[] fotoGato = ????
+                            byte[] fotoGato = null;
+                            if (imageViewFotoGato != null) {
+                                try {
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
+                                    fotoGato = convertBitmapToByteArray(bitmap);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                            LocalDate fechaNacimientoGato = null;
+                            if (comprobarFecha(editTextFechaNacimientoGato.getText().toString())) {
+                                String[] fn = (editTextFechaNacimientoGato.getText().toString()).split("-");
+                                fechaNacimientoGato = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
+                            }
+                            String chipGato = editTextChipGato.getText().toString();
+                            String veterinarioNombreApellidos = spinnerVeterinarioFKGato.getSelectedItem().toString();
+                            int veterinarioFKGato = veterinarios.stream()
+                                    .filter(v -> (v.getNombreVeterinario() + " " + v.getApellidosVeterinario()).equals(veterinarioNombreApellidos))
+                                    .map(Veterinario::getIdVeterinario)
+                                    .findFirst()
+                                    .orElse(-1);
+                            String coloniaNombre = spinnerColoniaFKGato.getSelectedItem().toString();
+                            int coloniaFKGato = colonias.stream()
+                                    .filter(c -> (c.getNombreColonia()).equals(coloniaNombre))
+                                    .map(Colonia::getIdColonia)
+                                    .findFirst()
+                                    .orElse(-1);
 
+                            Gato newGato = new Gato(nombreGato, sexoGato, descripcionGato, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, veterinarioFKGato, coloniaFKGato);
+                            // DAR DE ALTA + INFORMAR SOBRE EL RESULTADO
+                            BDConexion.anadirGato(newGato, new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    new Handler(Looper.getMainLooper()).post(() -> {
+                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                        // Send result
+                                        if (isAdded()) {
+                                            sendResult(false);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    new Handler(Looper.getMainLooper()).post(() -> {
+                                        if (response.code() == 200) {
+                                            if (isAdded()) {
+                                                sendResult(true);
+                                            }
+                                            Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            // Send result
+                                            if (isAdded()) {
+                                                sendResult(false);
+                                            }
+                                            Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
                         }
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
-
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawableResource(R.color.background);
         return alertDialog;
+    }
+
+    private void sendResult(boolean success) {
+        Bundle result = new Bundle();
+        result.putBoolean("operationSuccess", success);
+        if (isAdded()) {
+            getParentFragmentManager().setFragmentResult("altaGatoRequestKey", result);
+        }
+    }
+
+    private boolean comprobarFecha(String string) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        dateFormat.setLenient(false); // Ensures strict parsing
+        try {
+            dateFormat.parse(string);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    private byte[] convertBitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 30, stream);
+        return stream.toByteArray();
     }
 
     private void showInputImageDialog() {
@@ -161,9 +269,19 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == 1) {
-                    pickImageCamera(); // método para hacer una foto
+                    // comprobar los permisos de la cámara
+                    if (checkCameraPermissions()) {
+                        pickImageCamera(); // método para hacer una foto
+                    } else {
+                        requestCameraPermissions();
+                    }
                 } else if (item.getItemId() == 2) {
-                    pickImageGallery(); // método para seleccionar una imagen
+                    // comprobar los permisos a los archivos del móvil
+                    if (checkStoragePermission()) {
+                        pickImageGallery(); // método para seleccionar una imagen
+                    } else {
+                        requestStoragePermission();
+                    }
                 }
                 return false;
             }
@@ -226,6 +344,29 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                 }
             }
     );
+
+    // comprobar los permisos a los archivos del móvil
+    private boolean checkStoragePermission() {
+        boolean result = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+
+    // pedir los permisos a los archivos del móvil
+    private void requestStoragePermission() {
+        ActivityCompat.requestPermissions(getActivity(), storagePermissions, STORAGE_REQUEST_CODE);
+    }
+
+    // comprobar los permisos a la cámara
+    private boolean checkCameraPermissions() {
+        boolean cameraResult = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        boolean storageResult = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return cameraResult && storageResult;
+    }
+
+    // pedir los permisos a la cámara
+    private void requestCameraPermissions() {
+        ActivityCompat.requestPermissions(getActivity(), cameraPermissions, CAMERA_REQUEST_CODE);
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

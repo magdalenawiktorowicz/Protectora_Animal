@@ -782,4 +782,51 @@ public class BDConexion {
             }
         });
     }
+
+    // Gato - Alta
+    public static void anadirGato(Gato gato, Callback callback) {
+        String base64fotoGato = convertByteToBase64(gato.getFotoGato());
+        Log.d("AltaGato", "Base64 Image: " + base64fotoGato);
+        Log.d("AltaGato", "Nombre Gato: " + gato.getNombreGato());
+        OkHttpClient client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+                .add("idGato", "")
+                .add("nombreGato", gato.getNombreGato())
+                .add("sexoGato", gato.getSexoGato())
+                .add("descripcionGato", gato.getDescripcionGato())
+                .add("esEsterilizado", String.valueOf(gato.getEsEsterilizado()))
+                .add("fotoGato", base64fotoGato)
+                .add("fechaNacimientoGato", gato.getFechaNacimientoGato().toString())
+                .add("chipGato", gato.getChipGato())
+                .add("idVeterinarioFK3", String.valueOf(gato.getIdVeterinarioFK3()))
+                .add("idColoniaFK4", String.valueOf(gato.getIdColoniaFK4()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/gatos.php")
+                .post(formBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body().string();
+                Log.d("API Response", responseBody);
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
+    private static String convertByteToBase64(byte[] fotoGato) {
+        if (fotoGato != null) {
+            return Base64.encodeToString(fotoGato, Base64.DEFAULT);
+        }
+        return "";
+    }
 }
