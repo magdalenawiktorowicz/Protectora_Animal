@@ -74,5 +74,10 @@
     <string name="descripcionGatoPlaceholder">Descripción del gato...</string>
     <string name="fechaPlaceholder">2020-03-20</string>
     <string name="chipPlaceholder">865345675354325</string>
+    <string name="cuidado">Cuidado: </string>
+    <string name="gatoFK">Gato: </string>
+    <string name="fechaInicio">Fecha de inicio: </string>
+    <string name="fechaFin">Fecha de fin: </string>
+    <string name="posologia">Posología: </string>
 
 </resources>

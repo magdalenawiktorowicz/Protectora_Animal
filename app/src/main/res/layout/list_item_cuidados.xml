@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:background="@color/orange_light"
+    android:orientation="vertical"
+    app:layout_anchorGravity="top">
+
+    <TextView
+        android:id="@+id/textViewNumeroCuidado"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:background="@color/orange"
+        android:gravity="center"
+        android:text="@string/cuidado"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewVeterinarioCuidado"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="2"
+        android:gravity="left"
+        android:text="@string/veterinarioFK" />
+
+    <TextView
+        android:id="@+id/textViewGatoCuidado"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:layout_weight="2"
+        android:gravity="left"
+        android:text="@string/gatoFK" />
+
+    <TextView
+        android:id="@+id/textViewFechaInicioCuidado"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:text="@string/fechaInicio" />
+
+    <TextView
+        android:id="@+id/textViewFechaFinCuidado"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:text="@string/fechaFin" />
+
+    <TextView
+        android:id="@+id/textViewDescripcionCuidado"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:layout_weight="2"
+        android:gravity="left"
+        android:text="@string/descripcion" />
+
+    <TextView
+        android:id="@+id/textViewPosologiaCuidado"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="2"
+        android:gravity="left"
+        android:text="@string/posologia" />
+
+</LinearLayout>

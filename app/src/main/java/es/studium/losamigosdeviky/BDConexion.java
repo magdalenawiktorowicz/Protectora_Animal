@@ -13,6 +13,8 @@ import es.studium.losamigosdeviky.ayuntamientos.Ayuntamiento;
 import es.studium.losamigosdeviky.ayuntamientos.AyuntamientoCallback;
 import es.studium.losamigosdeviky.colonias.Colonia;
 import es.studium.losamigosdeviky.colonias.ColoniaCallback;
+import es.studium.losamigosdeviky.cuidados.Cuidado;
+import es.studium.losamigosdeviky.cuidados.CuidadoCallback;
 import es.studium.losamigosdeviky.gatos.Gato;
 import es.studium.losamigosdeviky.gatos.GatoCallback;
 import es.studium.losamigosdeviky.protectoras.Protectora;
@@ -866,6 +868,73 @@ public class BDConexion {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
+    // Cuidados - Consulta (todos o por id)
+    public static void consultarCuidados(final CuidadoCallback callback) {
+        consultarCuidados(null, callback);
+    }
+
+    public static void consultarCuidados(Integer idCuidado, final CuidadoCallback callback) {
+        OkHttpClient client = new OkHttpClient();
+        String url = "http://192.168.1.131/ApiProtectora/cuidados.php";
+        if (idCuidado != null) {
+            url += "?idCuidado=" + idCuidado;
+        }
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("BDConexion", "Network error: " + e.getMessage());
+                callback.onResult(new ArrayList<>()); // Return empty list on failure
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                ArrayList<Cuidado> cuidados = new ArrayList<>();
+                if (response.isSuccessful()) {
+                    try {
+                        if (idCuidado == null) {
+                            JSONArray result = new JSONArray(response.body().string());
+                            for (int i = 0; i < result.length(); i++) {
+                                JSONObject jsonObject = result.getJSONObject(i);
+                                int id = jsonObject.getInt("idCuida");
+                                String[] fi = jsonObject.getString("fechaInicioCuidado").split("-");
+                                LocalDate fechaInicio = LocalDate.of(Integer.parseInt(fi[0]), Integer.parseInt(fi[1]), Integer.parseInt(fi[2]));
+                                String[] ff = jsonObject.getString("fechaFinCuidado").split("-");
+                                LocalDate fechaFin = LocalDate.of(Integer.parseInt(ff[0]), Integer.parseInt(ff[1]), Integer.parseInt(ff[2]));
+                                String descripcion = jsonObject.getString("descripcionCuidado");
+                                String posologia = jsonObject.getString("posologiaCuidado");
+                                int idGatoFK = jsonObject.getInt("idGatoFK5");
+                                int idVeterinarioFK = jsonObject.getInt("idVeterinarioFK6");
+                                cuidados.add(new Cuidado(id, fechaInicio, fechaFin, descripcion, posologia, idGatoFK, idVeterinarioFK));
+                            }
+                        } else {
+                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            int id = jsonObject.getInt("idCuida");
+                            String[] fi = jsonObject.getString("fechaInicioCuidado").split("-");
+                            LocalDate fechaInicio = LocalDate.of(Integer.parseInt(fi[0]), Integer.parseInt(fi[1]), Integer.parseInt(fi[2]));
+                            String[] ff = jsonObject.getString("fechaFinCuidado").split("-");
+                            LocalDate fechaFin = LocalDate.of(Integer.parseInt(ff[0]), Integer.parseInt(ff[1]), Integer.parseInt(ff[2]));
+                            String descripcion = jsonObject.getString("descripcionCuidado");
+                            String posologia = jsonObject.getString("posologiaCuidado");
+                            int idGatoFK = jsonObject.getInt("idGatoFK5");
+                            int idVeterinarioFK = jsonObject.getInt("idVeterinarioFK6");
+                            cuidados.add(new Cuidado(id, fechaInicio, fechaFin, descripcion, posologia, idGatoFK, idVeterinarioFK));
+                        }
+                    } catch (JSONException e) {
+                        Log.e("BDConexion", "JSON parsing error: " + e.getMessage());
+                    }
+                } else {
+                    Log.e("BDConexion", "Response not successful: " + response.message());
+                }
+                callback.onResult(cuidados);
             }
         });
     }

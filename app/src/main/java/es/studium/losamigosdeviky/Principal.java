@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import es.studium.losamigosdeviky.ayuntamientos.ConsultaAyuntamiento;
 import es.studium.losamigosdeviky.colonias.ConsultaColonia;
+import es.studium.losamigosdeviky.cuidados.ConsultaCuidado;
 import es.studium.losamigosdeviky.gatos.ConsultaGato;
 import es.studium.losamigosdeviky.protectoras.ConsultaProtectora;
 import es.studium.losamigosdeviky.veterinarios.ConsultaVeterinario;
@@ -29,7 +30,7 @@ public class Principal extends Fragment implements View.OnClickListener {
 
     FragmentManager fm;
     FragmentTransaction ft;
-    Fragment consultaAyuntamiento, consultaProtectora, consultaColonia, consultaVeterinario, consultaGato;
+    Fragment consultaAyuntamiento, consultaProtectora, consultaColonia, consultaVeterinario, consultaGato, consultaCuidado;
     SharedPreferences sharedPreferences;
 
     public Principal() {
@@ -130,6 +131,14 @@ public class Principal extends Fragment implements View.OnClickListener {
                         .commit();
             }
         } else if (v.getId() == btnCuidados.getId()) {
+            consultaCuidado = fm.findFragmentByTag("consultaCuidado");
+            if (consultaCuidado == null) {
+                consultaCuidado = new ConsultaCuidado();
+                ft = fm.beginTransaction();
+                ft.replace(R.id.container, consultaCuidado, "consultaCuidado")
+                        .addToBackStack(null)
+                        .commit();
+            }
 
         } else if (v.getId() == imageBtnHelp.getId()) {
 
