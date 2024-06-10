@@ -741,17 +741,12 @@ public class BDConexion {
                                 String sexo = jsonObject.getString("sexoGato");
                                 String descripcion = jsonObject.getString("descripcionGato");
                                 int esEsterilizado = jsonObject.getInt("esEsterilizado");
-                                String fotoGatoBase64 = jsonObject.optString("fotoGato");
-                                byte[] fotoGato = null;
-                                if (!fotoGatoBase64.isEmpty()) {
-                                    fotoGato = Base64.decode(fotoGatoBase64, Base64.DEFAULT);
-                                }
+                                String fotoGato = jsonObject.getString("fotoGato");
                                 String[] fn = jsonObject.getString("fechaNacimientoGato").split("-");
                                 LocalDate fechaNacimientoGato = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
                                 String chipGato = jsonObject.getString("chipGato");
-                                int idVeterinarioFK = jsonObject.getInt("idVeterinarioFK3");
                                 int idColoniaFK = jsonObject.getInt("idColoniaFK4");
-                                gatos.add(new Gato(id, nombre, sexo, descripcion, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, idVeterinarioFK, idColoniaFK));
+                                gatos.add(new Gato(id, nombre, sexo, descripcion, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, idColoniaFK));
                             }
                         } else {
                             JSONObject jsonObject = new JSONObject(responseBody);
@@ -760,17 +755,12 @@ public class BDConexion {
                             String sexo = jsonObject.getString("sexoGato");
                             String descripcion = jsonObject.getString("descripcionGato");
                             int esEsterilizado = jsonObject.getInt("esEsterilizado");
-                            String fotoGatoBase64 = jsonObject.optString("fotoGato");
-                            byte[] fotoGato = null;
-                            if (!fotoGatoBase64.isEmpty()) {
-                                fotoGato = Base64.decode(fotoGatoBase64, Base64.DEFAULT);
-                            }
+                            String fotoGato = jsonObject.getString("fotoGato");
                             String[] fn = jsonObject.getString("fechaNacimientoGato").split("-");
                             LocalDate fechaNacimientoGato = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
                             String chipGato = jsonObject.getString("chipGato");
-                            int idVeterinarioFK = jsonObject.getInt("idVeterinarioFK3");
                             int idColoniaFK = jsonObject.getInt("idColoniaFK4");
-                            gatos.add(new Gato(id, nombre, sexo, descripcion, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, idVeterinarioFK, idColoniaFK));
+                            gatos.add(new Gato(id, nombre, sexo, descripcion, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, idColoniaFK));
                         }
                     } catch (JSONException e) {
                         Log.e("BDConexion", "JSON parsing error: " + e.getMessage());
@@ -785,9 +775,6 @@ public class BDConexion {
 
     // Gato - Alta
     public static void anadirGato(Gato gato, Callback callback) {
-        String base64fotoGato = convertByteToBase64(gato.getFotoGato());
-        Log.d("AltaGato", "Base64 Image: " + base64fotoGato);
-        Log.d("AltaGato", "Nombre Gato: " + gato.getNombreGato());
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
                 .add("idGato", "")
@@ -795,10 +782,9 @@ public class BDConexion {
                 .add("sexoGato", gato.getSexoGato())
                 .add("descripcionGato", gato.getDescripcionGato())
                 .add("esEsterilizado", String.valueOf(gato.getEsEsterilizado()))
-                .add("fotoGato", base64fotoGato)
+                .add("fotoGato", gato.getFotoGato())
                 .add("fechaNacimientoGato", gato.getFechaNacimientoGato().toString())
                 .add("chipGato", gato.getChipGato())
-                .add("idVeterinarioFK3", String.valueOf(gato.getIdVeterinarioFK3()))
                 .add("idColoniaFK4", String.valueOf(gato.getIdColoniaFK4()))
                 .build();
 
@@ -823,10 +809,65 @@ public class BDConexion {
         });
     }
 
-    private static String convertByteToBase64(byte[] fotoGato) {
-        if (fotoGato != null) {
-            return Base64.encodeToString(fotoGato, Base64.DEFAULT);
-        }
-        return "";
+    // Gato - Modificacion
+    public static void modificarGato(Gato gato, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/gatos.php").newBuilder();
+        // Add query parameters
+        queryUrlBuilder.addQueryParameter("idGato", String.valueOf(gato.getIdGato()));
+        queryUrlBuilder.addQueryParameter("nombreGato", gato.getNombreGato());
+        queryUrlBuilder.addQueryParameter("sexoGato", gato.getSexoGato());
+        queryUrlBuilder.addQueryParameter("descripcionGato", gato.getDescripcionGato());
+        queryUrlBuilder.addQueryParameter("esEsterilizado", String.valueOf(gato.getEsEsterilizado()));
+        queryUrlBuilder.addQueryParameter("fotoGato", gato.getFotoGato());
+        queryUrlBuilder.addQueryParameter("fechaNacimientoGato", gato.getFechaNacimientoGato().toString());
+        queryUrlBuilder.addQueryParameter("chipGato", gato.getChipGato());
+        queryUrlBuilder.addQueryParameter("idColoniaFK4", String.valueOf(gato.getIdColoniaFK4()));
+
+        // Create request body (empty for PUT requests)
+        RequestBody requestBody = new FormBody.Builder()
+                .build();
+
+        // Build the request
+        Request request = new Request.Builder()
+                .url(queryUrlBuilder.build())
+                .put(requestBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
     }
+
+    // Gato - Borrado
+    public static void borrarGato(Gato gato, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/gatos.php?idGato=" + gato.getIdGato())
+                .delete()
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
 }

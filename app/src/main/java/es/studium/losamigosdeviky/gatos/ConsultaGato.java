@@ -69,7 +69,6 @@ public class ConsultaGato extends Fragment implements AdapterView.OnItemSelected
         spinnerArray.add("fecha de nacimiento");
         spinnerArray.add("chip");
         spinnerArray.add("esterilización");
-        spinnerArray.add("veterinario");
         spinnerArray.add("colonia");
         spinnerOrdenarGatos = view.findViewById(R.id.spinnerOrdenarGatos);
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);
@@ -150,10 +149,10 @@ public class ConsultaGato extends Fragment implements AdapterView.OnItemSelected
             public void onClick(View v, int position) {
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Modificación
-//                    Log.d("ConsultaGato", "Showing ModificacionGato dialog");
-//                    modificacionGato = new ModificacionGato(gatos.get(position));
-//                    modificacionGato.setCancelable(false);
-//                    modificacionGato.show(getParentFragmentManager(), "ModificacionGato");
+                    Log.d("ConsultaGato", "Showing ModificacionGato dialog");
+                    modificacionGato = new ModificacionGato(gatos.get(position));
+                    modificacionGato.setCancelable(false);
+                    modificacionGato.show(getParentFragmentManager(), "ModificacionGato");
                 }
             }
 
@@ -161,10 +160,10 @@ public class ConsultaGato extends Fragment implements AdapterView.OnItemSelected
             public void onLongClick(View v, int position) {
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Borrado
-//                    Log.d("ConsultaGato", "Showing BorradoGato dialog");
-//                    borradoGato = new BorradoGato(gatos.get(position));
-//                    borradoGato.setCancelable(false);
-//                    borradoGato.show(getParentFragmentManager(), "BorradoGato");
+                    Log.d("ConsultaGato", "Showing BorradoGato dialog");
+                    borradoGato = new BorradoGato(gatos.get(position));
+                    borradoGato.setCancelable(false);
+                    borradoGato.show(getParentFragmentManager(), "BorradoGato");
                 }
             }
         });
@@ -230,13 +229,8 @@ public class ConsultaGato extends Fragment implements AdapterView.OnItemSelected
             gatos.sort(Comparator.comparing((Gato g) -> g.getEsEsterilizado()));
             adapter.notifyDataSetChanged();
         }
-        // ordenar por el veterinario
-        else if (spinnerOrdenarGatos.getSelectedItemPosition() == 4) {
-            gatos.sort(Comparator.comparing((Gato g) -> g.getIdVeterinarioFK3()));
-            adapter.notifyDataSetChanged();
-        }
         // ordenar por la colonia
-        else if (spinnerOrdenarGatos.getSelectedItemPosition() == 5) {
+        else if (spinnerOrdenarGatos.getSelectedItemPosition() == 4) {
             gatos.sort(Comparator.comparing((Gato g) -> g.getIdColoniaFK4()));
             adapter.notifyDataSetChanged();
         }

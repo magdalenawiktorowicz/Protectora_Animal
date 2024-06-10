@@ -71,8 +71,7 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
     ImageView imageViewFotoGato;
     EditText editTextNombreGato, editTextSexoGato, editTextDescripcionGato, editTextFechaNacimientoGato, editTextChipGato;
     SwitchCompat switchEsterilizadoGato;
-    Spinner spinnerVeterinarioFKGato, spinnerColoniaFKGato;
-    private List<Veterinario> veterinarios = new ArrayList<>();
+    Spinner spinnerColoniaFKGato;
     private List<Colonia> colonias = new ArrayList<>();
     private Uri imageUri = null;
     private static final int CAMERA_REQUEST_CODE = 100;
@@ -102,28 +101,7 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
         editTextFechaNacimientoGato = v.findViewById(R.id.editTextAltaFechaNacimientoGato);
         editTextChipGato = v.findViewById(R.id.editTextAltaChipGato);
         switchEsterilizadoGato = v.findViewById(R.id.switchAltaEsterlizadoGato);
-        spinnerVeterinarioFKGato = v.findViewById(R.id.spinnerAltaVeterinarioFKGato);
         spinnerColoniaFKGato = v.findViewById(R.id.spinnerAltaColoniaFKGato);
-
-        // Set up Veterinario Spinner
-        BDConexion.consultarVeterinarios(new VeterinarioCallback() {
-            @Override
-            public void onResult(ArrayList<Veterinario> vets) {
-                if (vets != null && getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        veterinarios.addAll(vets);
-                        List<String> spinnerArrayVeterinarios = new ArrayList<>();
-                        spinnerArrayVeterinarios.add("Selecciona el veterinario...");
-                        for (Veterinario v : veterinarios) {
-                            spinnerArrayVeterinarios.add(v.getNombreVeterinario() + " " + v.getApellidosVeterinario());
-                        }
-                        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, spinnerArrayVeterinarios);
-                        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-                        spinnerVeterinarioFKGato.setAdapter(spinnerArrayAdapter);
-                    });
-                }
-            }
-        });
 
         // Set up Colonia Spinner
         BDConexion.consultarColonias(new ColoniaCallback() {
@@ -145,39 +123,24 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
             }
         });
 
-        spinnerVeterinarioFKGato.setOnItemSelectedListener(this);
         spinnerColoniaFKGato.setOnItemSelectedListener(this);
 
         builder.setView(v)
                 .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (!editTextNombreGato.getText().toString().isBlank() && !editTextSexoGato.getText().toString().isBlank() && !editTextDescripcionGato.getText().toString().isBlank() && !editTextFechaNacimientoGato.getText().toString().isBlank() && !editTextChipGato.getText().toString().isBlank() && spinnerVeterinarioFKGato.getSelectedItemPosition() != 0 && spinnerColoniaFKGato.getSelectedItemPosition() != 0) {
+                        if (!editTextNombreGato.getText().toString().isBlank() && !editTextSexoGato.getText().toString().isBlank() && !editTextDescripcionGato.getText().toString().isBlank() && !editTextFechaNacimientoGato.getText().toString().isBlank() && !editTextChipGato.getText().toString().isBlank() && spinnerColoniaFKGato.getSelectedItemPosition() != 0) {
                             String nombreGato = editTextNombreGato.getText().toString();
                             String sexoGato = editTextSexoGato.getText().toString();
                             String descripcionGato = editTextDescripcionGato.getText().toString();
                             int esEsterilizado = (switchEsterilizadoGato.isChecked() ? 1 : 0);
-                            byte[] fotoGato = null;
-                            if (imageViewFotoGato != null) {
-                                try {
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
-                                    fotoGato = convertBitmapToByteArray(bitmap);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            }
+                            String fotoGato = String.valueOf(imageUri);
                             LocalDate fechaNacimientoGato = null;
                             if (comprobarFecha(editTextFechaNacimientoGato.getText().toString())) {
                                 String[] fn = (editTextFechaNacimientoGato.getText().toString()).split("-");
                                 fechaNacimientoGato = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
                             }
                             String chipGato = editTextChipGato.getText().toString();
-                            String veterinarioNombreApellidos = spinnerVeterinarioFKGato.getSelectedItem().toString();
-                            int veterinarioFKGato = veterinarios.stream()
-                                    .filter(v -> (v.getNombreVeterinario() + " " + v.getApellidosVeterinario()).equals(veterinarioNombreApellidos))
-                                    .map(Veterinario::getIdVeterinario)
-                                    .findFirst()
-                                    .orElse(-1);
                             String coloniaNombre = spinnerColoniaFKGato.getSelectedItem().toString();
                             int coloniaFKGato = colonias.stream()
                                     .filter(c -> (c.getNombreColonia()).equals(coloniaNombre))
@@ -185,7 +148,7 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                                     .findFirst()
                                     .orElse(-1);
 
-                            Gato newGato = new Gato(nombreGato, sexoGato, descripcionGato, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, veterinarioFKGato, coloniaFKGato);
+                            Gato newGato = new Gato(nombreGato, sexoGato, descripcionGato, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, coloniaFKGato);
                             // DAR DE ALTA + INFORMAR SOBRE EL RESULTADO
                             BDConexion.anadirGato(newGato, new Callback() {
                                 @Override
@@ -217,10 +180,10 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                                     });
                                 }
                             });
+                            dialog.dismiss();
                         } else {
                             Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
                         }
-                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
@@ -251,12 +214,6 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
         } catch (ParseException e) {
             return false;
         }
-    }
-
-    private byte[] convertBitmapToByteArray(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 30, stream);
-        return stream.toByteArray();
     }
 
     private void showInputImageDialog() {
@@ -369,12 +326,8 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

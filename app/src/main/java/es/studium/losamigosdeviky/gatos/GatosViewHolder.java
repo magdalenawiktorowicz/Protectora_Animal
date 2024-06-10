@@ -3,6 +3,7 @@ package es.studium.losamigosdeviky.gatos;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,7 +31,6 @@ public class GatosViewHolder extends RecyclerView.ViewHolder implements View.OnC
     private final TextView sexoGato;
     private final TextView esterilizadoGato;
     private final TextView descripcionGato;
-    private final TextView veterinarioFKGato;
     private final TextView coloniaFKGato;
 
     private final RecyclerViewOnItemClickListener listener;
@@ -46,7 +46,6 @@ public class GatosViewHolder extends RecyclerView.ViewHolder implements View.OnC
         sexoGato = itemView.findViewById(R.id.textViewSexoGato);
         esterilizadoGato = itemView.findViewById(R.id.textViewEsterilizadoGato);
         descripcionGato = itemView.findViewById(R.id.textViewDescripcionGato);
-        veterinarioFKGato = itemView.findViewById(R.id.textViewVeterinarioFKGato);
         coloniaFKGato = itemView.findViewById(R.id.textViewColoniaFKGato);
         this.listener = listener;
         itemView.setOnClickListener(this);
@@ -62,13 +61,12 @@ public class GatosViewHolder extends RecyclerView.ViewHolder implements View.OnC
     public void bindRow(@NonNull Gato gato) {
         final Gato currentGato = gato;
 
-        byte[] imageBlob = gato.getFotoGato();
-        if (imageBlob != null) {
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(imageBlob, 0, imageBlob.length);
+        String imageUri = gato.getFotoGato();
+        if (imageUri != null && !imageUri.equals("null") && !imageUri.isBlank()) {
             Glide.with(contexto)
-                    .load(bitmapImage)
-                    .placeholder(R.drawable.help) // en caso de que no hay acceso a la imagen seleccionada
-                    .error(R.drawable.help)
+                    .load(Uri.parse(imageUri))
+                    .placeholder(R.drawable.no_photo) // en caso de que no hay acceso a la imagen seleccionada
+                    .error(R.drawable.no_photo)
                     .into(imagenGato);
         }
 
@@ -78,21 +76,7 @@ public class GatosViewHolder extends RecyclerView.ViewHolder implements View.OnC
         sexoGato.setText(contexto.getResources().getString(R.string.sexo) + " " +gato.getSexoGato());
         esterilizadoGato.setText(contexto.getResources().getString(R.string.esterilizado) + " " + (gato.getEsEsterilizado() == 1 ? "sí" : "no"));
         descripcionGato.setText(contexto.getResources().getString(R.string.descripcion) + " " + gato.getDescripcionGato());
-        veterinarioFKGato.setText(contexto.getResources().getString(R.string.veterinarioFK) + "...");
         coloniaFKGato.setText(contexto.getResources().getString(R.string.coloniaFK));
-
-        BDConexion.consultarVeterinarios(gato.getIdVeterinarioFK3(), new VeterinarioCallback() {
-            @Override
-            public void onResult(ArrayList<Veterinario> veterinarios) {
-                if (!veterinarios.isEmpty()) {
-                    Veterinario veterinario = veterinarios.get(0);
-                    String veterinarioData = veterinario.getNombreVeterinario() + " " + veterinario.getApellidosVeterinario() + "\n\t\t\t" + veterinario.getTelefonoVeterinario();
-
-                    // Update the UI with the Veterinario data
-                    updateUIWithVeterinarioData(currentGato, veterinarioData);
-                }
-            }
-        });
 
         BDConexion.consultarColonias(gato.getIdColoniaFK4(), new ColoniaCallback() {
             @Override
@@ -108,9 +92,6 @@ public class GatosViewHolder extends RecyclerView.ViewHolder implements View.OnC
         });
     }
 
-    private void updateUIWithVeterinarioData(Gato gato, String veterinarioData) {
-        veterinarioFKGato.setText(contexto.getResources().getString(R.string.veterinarioFK) + " " + veterinarioData);
-    }
 
     private void updateUIWithColoniaData(Gato gato, String coloniaData) {
         coloniaFKGato.setText(contexto.getResources().getString(R.string.coloniaFK) + " " + coloniaData);

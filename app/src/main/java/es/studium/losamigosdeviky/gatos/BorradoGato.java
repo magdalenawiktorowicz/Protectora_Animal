@@ -1,66 +1,107 @@
 package es.studium.losamigosdeviky.gatos;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.DialogFragment;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
+
+import es.studium.losamigosdeviky.BDConexion;
 import es.studium.losamigosdeviky.R;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BorradoGato#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class BorradoGato extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class BorradoGato extends DialogFragment implements View.OnClickListener {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    Gato gato;
+    private TextView textViewMensajeConfirmacion;
+    private Button btnSi, btnNo;
+    private Context context;
 
-    public BorradoGato() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BorradoGato.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BorradoGato newInstance(String param1, String param2) {
-        BorradoGato fragment = new BorradoGato();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public BorradoGato(Gato gato) {
+        this.gato = gato;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View v = inflater.inflate(R.layout.dialog_borrado_gato, null);
+        context = v.getContext();
+        textViewMensajeConfirmacion = v.findViewById(R.id.textViewConfirmacionBorradoGato);
+        textViewMensajeConfirmacion.setText(textViewMensajeConfirmacion.getText() + gato.getNombreGato());
+        btnSi = v.findViewById(R.id.btnSiBorradoGato);
+        btnSi.setOnClickListener(this);
+        btnNo = v.findViewById(R.id.btnNoBorradoGato);
+        btnNo.setOnClickListener(this);
+        builder.setView(v);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawableResource(R.color.background);
+        return alertDialog;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == btnNo.getId()) {
+            dismiss();
+        } else if (v.getId() == btnSi.getId()) {
+            BDConexion.borrarGato(gato, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                        // Send result
+                        if (isAdded()) {
+                            sendResult(false);
+                        }
+                        dismiss();
+                    });
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        if (response.code() == 200) {
+                            if (isAdded()) {
+                                sendResult(true);
+                            }
+                            Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Send result
+                            if (isAdded()) {
+                                sendResult(false);
+                            }
+                            Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                        }
+                        dismiss();
+                    });
+                }
+            });
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.dialog_borrado_gato, container, false);
+    private void sendResult(boolean success) {
+        Bundle result = new Bundle();
+        result.putBoolean("operationSuccess", success);
+        if (isAdded()) {
+            Log.d("BorradoGato", "Fragment is added, sending result: " + success);
+            getParentFragmentManager().setFragmentResult("borradoGatoRequestKey", result);
+        } else {
+            Log.d("BorradoGato", "Fragment not added, result not sent");
+        }
     }
 }

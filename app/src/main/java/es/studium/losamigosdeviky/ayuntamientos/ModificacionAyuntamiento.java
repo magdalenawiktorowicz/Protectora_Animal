@@ -53,17 +53,16 @@ public class ModificacionAyuntamiento extends DialogFragment {
                 .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String nombreAyuntamientoNuevo = editTextNombreAyuntamiento.getText().toString();
-                        int telefonoAyuntamientoNuevo = Integer.parseInt(editTextTelefonoAyuntamiento.getText().toString());
-                        String responsableAyuntamientoNuevo = editTextResponsableAyuntamiento.getText().toString();
-                        String direccionAyuntamientoNuevo = editTextDireccionAyuntamiento.getText().toString();
-                        int cpAyuntamientoNuevo = Integer.parseInt(editTextCpAyuntamiento.getText().toString());
-
-                        if (!(nombreAyuntamientoNuevo.isBlank()) &&
-                                !(String.valueOf(telefonoAyuntamientoNuevo).isBlank()) &&
-                                !(responsableAyuntamientoNuevo.isBlank()) &&
-                                !(direccionAyuntamientoNuevo.isBlank()) &&
-                                !(String.valueOf(cpAyuntamientoNuevo).isBlank())) {
+                        if (!(editTextNombreAyuntamiento.getText().toString().isBlank()) &&
+                                !(String.valueOf(Integer.parseInt(editTextTelefonoAyuntamiento.getText().toString())).isBlank()) &&
+                                !(editTextResponsableAyuntamiento.getText().toString().isBlank()) &&
+                                !(editTextDireccionAyuntamiento.getText().toString().isBlank()) &&
+                                !(String.valueOf(Integer.parseInt(editTextCpAyuntamiento.getText().toString())).isBlank())) {
+                            String nombreAyuntamientoNuevo = editTextNombreAyuntamiento.getText().toString();
+                            int telefonoAyuntamientoNuevo = Integer.parseInt(editTextTelefonoAyuntamiento.getText().toString());
+                            String responsableAyuntamientoNuevo = editTextResponsableAyuntamiento.getText().toString();
+                            String direccionAyuntamientoNuevo = editTextDireccionAyuntamiento.getText().toString();
+                            int cpAyuntamientoNuevo = Integer.parseInt(editTextCpAyuntamiento.getText().toString());
 
                             ayuntamiento.setNombreAyuntamiento(nombreAyuntamientoNuevo);
                             ayuntamiento.setTelefonoAyuntamiento(telefonoAyuntamientoNuevo);

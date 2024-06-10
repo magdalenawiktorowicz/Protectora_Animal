@@ -53,13 +53,13 @@ public class ModificacionProtectora extends DialogFragment {
                 .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String nombreProtectoraNuevo = editTextNombreProtectora.getText().toString();
-                        String direccionProtectoraNuevo = editTextDireccionProtectora.getText().toString();
-                        String localidadProtectoraNuevo = editTextLocalidadProtectora.getText().toString();
-                        int telefonoProtectoraNuevo = Integer.parseInt(editTextTelefonoProtectora.getText().toString());
-                        String correoProtectoraNuevo = editTextCorreoProtectora.getText().toString();
+                        if (!(editTextNombreProtectora.getText().toString().isBlank()) && !(editTextDireccionProtectora.getText().toString().isBlank()) && !(editTextLocalidadProtectora.getText().toString().isBlank()) && !(editTextTelefonoProtectora.getText().toString()).isBlank() && !(editTextCorreoProtectora.getText().toString().isBlank())) {
+                            String nombreProtectoraNuevo = editTextNombreProtectora.getText().toString();
+                            String direccionProtectoraNuevo = editTextDireccionProtectora.getText().toString();
+                            String localidadProtectoraNuevo = editTextLocalidadProtectora.getText().toString();
+                            int telefonoProtectoraNuevo = Integer.parseInt(editTextTelefonoProtectora.getText().toString());
+                            String correoProtectoraNuevo = editTextCorreoProtectora.getText().toString();
 
-                        if (!(nombreProtectoraNuevo.isBlank()) && !(direccionProtectoraNuevo.isBlank()) && !(localidadProtectoraNuevo.isBlank()) && !(String.valueOf(telefonoProtectoraNuevo).isBlank()) && !(correoProtectoraNuevo.isBlank())) {
                             protectora.setNombreProtectora(nombreProtectoraNuevo);
                             protectora.setDireccionProtectora(direccionProtectoraNuevo);
                             protectora.setLocalidadProtectora(localidadProtectoraNuevo);

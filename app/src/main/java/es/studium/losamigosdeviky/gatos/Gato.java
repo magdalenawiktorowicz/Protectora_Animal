@@ -9,13 +9,12 @@ public class Gato {
     private String sexoGato;
     private String descripcionGato;
     private int esEsterilizado;
-    private byte[] fotoGato;
+    private String fotoGato;
     private LocalDate fechaNacimientoGato;
     private String chipGato;
-    private int idVeterinarioFK3;
     private int idColoniaFK4;
 
-    public Gato(String nombreGato, String sexoGato, String descripcionGato, int esEsterilizado, byte[] fotoGato, LocalDate fechaNacimientoGato, String chipGato, int idVeterinarioFK3, int idColoniaFK4) {
+    public Gato(String nombreGato, String sexoGato, String descripcionGato, int esEsterilizado, String fotoGato, LocalDate fechaNacimientoGato, String chipGato, int idColoniaFK4) {
         this.nombreGato = nombreGato;
         this.sexoGato = sexoGato;
         this.descripcionGato = descripcionGato;
@@ -23,11 +22,10 @@ public class Gato {
         this.fotoGato = fotoGato;
         this.fechaNacimientoGato = fechaNacimientoGato;
         this.chipGato = chipGato;
-        this.idVeterinarioFK3 = idVeterinarioFK3;
         this.idColoniaFK4 = idColoniaFK4;
     }
 
-    public Gato(int idGato, String nombreGato, String sexoGato, String descripcionGato, int esEsterilizado, byte[] fotoGato, LocalDate fechaNacimientoGato, String chipGato, int idVeterinarioFK3, int idColoniaFK4) {
+    public Gato(int idGato, String nombreGato, String sexoGato, String descripcionGato, int esEsterilizado, String fotoGato, LocalDate fechaNacimientoGato, String chipGato, int idColoniaFK4) {
         this.idGato = idGato;
         this.nombreGato = nombreGato;
         this.sexoGato = sexoGato;
@@ -36,7 +34,6 @@ public class Gato {
         this.fotoGato = fotoGato;
         this.fechaNacimientoGato = fechaNacimientoGato;
         this.chipGato = chipGato;
-        this.idVeterinarioFK3 = idVeterinarioFK3;
         this.idColoniaFK4 = idColoniaFK4;
     }
 
@@ -60,7 +57,7 @@ public class Gato {
         return esEsterilizado;
     }
 
-    public byte[] getFotoGato() {
+    public String getFotoGato() {
         return fotoGato;
     }
 
@@ -70,10 +67,6 @@ public class Gato {
 
     public String getChipGato() {
         return chipGato;
-    }
-
-    public int getIdVeterinarioFK3() {
-        return idVeterinarioFK3;
     }
 
     public int getIdColoniaFK4() {
@@ -96,7 +89,7 @@ public class Gato {
         this.esEsterilizado = esEsterilizado;
     }
 
-    public void setFotoGato(byte[] fotoGato) {
+    public void setFotoGato(String fotoGato) {
         this.fotoGato = fotoGato;
     }
 
@@ -106,10 +99,6 @@ public class Gato {
 
     public void setChipGato(String chipGato) {
         this.chipGato = chipGato;
-    }
-
-    public void setIdVeterinarioFK3(int idVeterinarioFK3) {
-        this.idVeterinarioFK3 = idVeterinarioFK3;
     }
 
     public void setIdColoniaFK4(int idColoniaFK4) {
@@ -124,10 +113,9 @@ public class Gato {
                 ", sexoGato='" + sexoGato + '\'' +
                 ", descripcionGato='" + descripcionGato + '\'' +
                 ", esEsterilizado=" + esEsterilizado +
-                ", fotoGato=" + Arrays.toString(fotoGato) +
+                ", fotoGato=" + fotoGato +
                 ", fechaNacimientoGato=" + fechaNacimientoGato +
                 ", chipGato='" + chipGato + '\'' +
-                ", idVeterinarioFK3=" + idVeterinarioFK3 +
                 ", idColoniaFK4=" + idColoniaFK4 +
                 '}';
     }
