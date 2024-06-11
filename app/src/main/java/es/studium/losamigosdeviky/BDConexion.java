@@ -973,4 +973,63 @@ public class BDConexion {
         });
     }
 
+    // Cuidado - Modificacion
+    public static void modificarCuidado(Cuidado cuidado, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/cuidados.php").newBuilder();
+        // Add query parameters
+        queryUrlBuilder.addQueryParameter("idCuidado", String.valueOf(cuidado.getIdCuidado()));
+        queryUrlBuilder.addQueryParameter("fechaInicioCuidado", cuidado.getFechaInicioCuidado().toString());
+        queryUrlBuilder.addQueryParameter("fechaFinCuidado", cuidado.getFechaFinCuidado().toString());
+        queryUrlBuilder.addQueryParameter("descripcionCuidado", cuidado.getDescripcionCuidado());
+        queryUrlBuilder.addQueryParameter("posologiaCuidado", cuidado.getPosologiaCuidado());
+        queryUrlBuilder.addQueryParameter("idGatoFK5", String.valueOf(cuidado.getIdGatoFK()));
+        queryUrlBuilder.addQueryParameter("idVeterinarioFK6", String.valueOf(cuidado.getIdVeterinarioFK()));
+
+        // Create request body (empty for PUT requests)
+        RequestBody requestBody = new FormBody.Builder()
+                .build();
+
+        // Build the request
+        Request request = new Request.Builder()
+                .url(queryUrlBuilder.build())
+                .put(requestBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
+    // Cuidado - Borrado
+    public static void borrarCuidado(Cuidado cuidado, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/cuidados.php?idCuida=" + cuidado.getIdCuidado())
+                .delete()
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
 }

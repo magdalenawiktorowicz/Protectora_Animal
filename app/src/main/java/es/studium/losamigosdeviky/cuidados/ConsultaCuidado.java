@@ -46,8 +46,8 @@ public class ConsultaCuidado extends Fragment implements AdapterView.OnItemSelec
     FragmentManager fm;
     FragmentTransaction ft;
     AltaCuidado altaCuidado;
-//    ModificacionCuidado modificacionCuidado;
-//    BorradoCuidado borradoCuidado;
+    ModificacionCuidado modificacionCuidado;
+    BorradoCuidado borradoCuidado;
 
     public ConsultaCuidado() {
         // Required empty public constructor
@@ -151,10 +151,10 @@ public class ConsultaCuidado extends Fragment implements AdapterView.OnItemSelec
             public void onClick(View v, int position) {
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Modificación
-//                    Log.d("ConsultaCuidado", "Showing ModificacionCuidado dialog");
-//                    modificacionCuidado = new ModificacionCuidado(cuidados.get(position));
-//                    modificacionCuidado.setCancelable(false);
-//                    modificacionCuidado.show(getParentFragmentManager(), "ModificacionCuidado");
+                    Log.d("ConsultaCuidado", "Showing ModificacionCuidado dialog");
+                    modificacionCuidado = new ModificacionCuidado(cuidados.get(position));
+                    modificacionCuidado.setCancelable(false);
+                    modificacionCuidado.show(getParentFragmentManager(), "ModificacionCuidado");
                 }
             }
 
@@ -162,10 +162,10 @@ public class ConsultaCuidado extends Fragment implements AdapterView.OnItemSelec
             public void onLongClick(View v, int position) {
                 if (MainActivity.tipoUsuario == 0) {
                     // fragment Borrado
-//                    Log.d("ConsultaCuidado", "Showing BorradoCuidado dialog");
-//                    borradoCuidado = new BorradoCuidado(cuidados.get(position));
-//                    borradoCuidado.setCancelable(false);
-//                    borradoCuidado.show(getParentFragmentManager(), "BorradoCuidado");
+                    Log.d("ConsultaCuidado", "Showing BorradoCuidado dialog");
+                    borradoCuidado = new BorradoCuidado(cuidados.get(position));
+                    borradoCuidado.setCancelable(false);
+                    borradoCuidado.show(getParentFragmentManager(), "BorradoCuidado");
                 }
             }
         });
@@ -222,7 +222,7 @@ public class ConsultaCuidado extends Fragment implements AdapterView.OnItemSelec
         }
         // ordenar por el gato
         else if (spinnerOrdenarCuidados.getSelectedItemPosition() == 2) {
-            cuidados.sort(Comparator.comparing(Cuidado::getIdGatoFK));
+            cuidados.sort(Comparator.comparing(c -> c.getIdGatoFK()));
             adapter.notifyDataSetChanged();
         }
     }

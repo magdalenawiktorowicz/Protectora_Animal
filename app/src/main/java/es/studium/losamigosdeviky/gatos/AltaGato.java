@@ -160,6 +160,7 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                                             sendResult(false);
                                         }
                                     });
+                                    dialog.dismiss();
                                 }
 
                                 @Override
@@ -178,9 +179,9 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                                             Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
                                         }
                                     });
+                                    dialog.dismiss();
                                 }
                             });
-                            dialog.dismiss();
                         } else {
                             Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
                         }

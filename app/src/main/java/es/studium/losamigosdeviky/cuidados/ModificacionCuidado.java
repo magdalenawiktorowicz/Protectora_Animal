@@ -38,26 +38,34 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSelectedListener {
+public class ModificacionCuidado extends DialogFragment implements AdapterView.OnItemSelectedListener {
 
     EditText editTextFechaInicioCuidado, editTextFechaFinCuidado, editTextDescripcionCuidado, editTextPosologiaCuidado;
     Spinner spinnerGatoFKCuidado, spinnerVeterinarioFKCuidado;
     private List<Gato> gatos = new ArrayList<>();
     private List<Veterinario> veterinarios = new ArrayList<>();
+    Cuidado cuidado;
+
+    public ModificacionCuidado(Cuidado cuidado) {
+        this.cuidado = cuidado;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.dialog_alta_cuidado, null);
+        View v = inflater.inflate(R.layout.dialog_modificacion_cuidado, null);
         Context context = v.getContext();
-        editTextFechaInicioCuidado = v.findViewById(R.id.editTextAltaFechaInicioCuidado);
-        editTextFechaFinCuidado = v.findViewById(R.id.editTextAltaFechaFinCuidado);
-        editTextDescripcionCuidado = v.findViewById(R.id.editTextAltaDescripcionCuidado);
-        editTextPosologiaCuidado = v.findViewById(R.id.editTextAltaPosologiaCuidado);
-
-        spinnerGatoFKCuidado = v.findViewById(R.id.spinnerAltaGatoFKCuidado);
-        spinnerVeterinarioFKCuidado = v.findViewById(R.id.spinnerAltaVeterinarioFKCuidado);
+        editTextFechaInicioCuidado = v.findViewById(R.id.editTextModificacionFechaInicioCuidado);
+        editTextFechaInicioCuidado.setText(cuidado.getFechaInicioCuidado().toString());
+        editTextFechaFinCuidado = v.findViewById(R.id.editTextModificacionFechaFinCuidado);
+        editTextFechaFinCuidado.setText(cuidado.getFechaFinCuidado().toString());
+        editTextDescripcionCuidado = v.findViewById(R.id.editTextModificacionDescripcionCuidado);
+        editTextDescripcionCuidado.setText(cuidado.getDescripcionCuidado());
+        editTextPosologiaCuidado = v.findViewById(R.id.editTextModificacionPosologiaCuidado);
+        editTextPosologiaCuidado.setText(cuidado.getPosologiaCuidado());
+        spinnerGatoFKCuidado = v.findViewById(R.id.spinnerModificacionGatoFKCuidado);
+        spinnerVeterinarioFKCuidado = v.findViewById(R.id.spinnerModificacionVeterinarioFKCuidado);
 
         // Set up Gato Spinner
         BDConexion.consultarGatos(new GatoCallback() {
@@ -74,6 +82,14 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, spinnerArrayGatos);
                         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
                         spinnerGatoFKCuidado.setAdapter(spinnerArrayAdapter);
+
+                        String nombreGato = gatos.stream().filter(g -> g.getIdGato() == cuidado.getIdGatoFK()).map(Gato::getNombreGato).findFirst().orElse("");
+                        for (int i = 0; i < spinnerGatoFKCuidado.getCount(); i++) {
+                            if (spinnerGatoFKCuidado.getItemAtPosition(i).toString().equals(nombreGato)) {
+                                spinnerGatoFKCuidado.setSelection(i);
+                                break;
+                            }
+                        }
                     });
                 }
             }
@@ -94,6 +110,13 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                         ArrayAdapter<String> spinnerArrayAdapter2 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, spinnerArrayVeterinarios);
                         spinnerArrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
                         spinnerVeterinarioFKCuidado.setAdapter(spinnerArrayAdapter2);
+
+                        String nombreVeterinario = veterinarios.stream().filter(v -> v.getIdVeterinario() == cuidado.getIdVeterinarioFK()).map(z -> (z.getNombreVeterinario() + " " + z.getApellidosVeterinario())).findFirst().orElse("");
+                        for (int i = 0; i < spinnerVeterinarioFKCuidado.getCount(); i++) {
+                            if (spinnerVeterinarioFKCuidado.getItemAtPosition(i).toString().equals(nombreVeterinario)) {
+                                spinnerVeterinarioFKCuidado.setSelection(i);
+                            }
+                        }
                     });
                 }
             }
@@ -108,27 +131,33 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                         if (!editTextFechaInicioCuidado.getText().toString().isBlank() && !editTextFechaFinCuidado.getText().toString().isBlank() && !editTextDescripcionCuidado.getText().toString().isBlank() && !editTextPosologiaCuidado.getText().toString().isBlank() && (spinnerGatoFKCuidado.getSelectedItemPosition() != 0) && (spinnerVeterinarioFKCuidado.getSelectedItemPosition() != 0)) {
                             if ((comprobarFecha(editTextFechaInicioCuidado.getText().toString())) && (comprobarFecha(editTextFechaFinCuidado.getText().toString()))) {
                                 String[] fi = (editTextFechaInicioCuidado.getText().toString()).split("-");
-                                LocalDate fechaInicioCuidado = LocalDate.of(Integer.parseInt(fi[0]), Integer.parseInt(fi[1]), Integer.parseInt(fi[2]));
+                                LocalDate fechaInicioCuidadoNuevo = LocalDate.of(Integer.parseInt(fi[0]), Integer.parseInt(fi[1]), Integer.parseInt(fi[2]));
                                 String[] ff = (editTextFechaFinCuidado.getText().toString()).split("-");
-                                LocalDate fechaFinCuidado = LocalDate.of(Integer.parseInt(ff[0]), Integer.parseInt(ff[1]), Integer.parseInt(ff[2]));
-                                String descripcionCuidado = editTextDescripcionCuidado.getText().toString();
-                                String posologiaCuidado = editTextPosologiaCuidado.getText().toString();
-                                String nombreGato = spinnerGatoFKCuidado.getSelectedItem().toString();
-                                int gatoFKCuidado = gatos.stream()
-                                        .filter(g -> (g.getNombreGato()).equals(nombreGato))
+                                LocalDate fechaFinCuidadoNuevo = LocalDate.of(Integer.parseInt(ff[0]), Integer.parseInt(ff[1]), Integer.parseInt(ff[2]));
+                                String descripcionCuidadoNuevo = editTextDescripcionCuidado.getText().toString();
+                                String posologiaCuidadoNuevo = editTextPosologiaCuidado.getText().toString();
+                                String nombreGatoNuevo = spinnerGatoFKCuidado.getSelectedItem().toString();
+                                int gatoFKCuidadoNuevo = gatos.stream()
+                                        .filter(g -> (g.getNombreGato()).equals(nombreGatoNuevo))
                                         .map(Gato::getIdGato)
                                         .findFirst()
                                         .orElse(-1);
-                                String nombreVeterinario = spinnerVeterinarioFKCuidado.getSelectedItem().toString();
-                                int veterinarioFKCuidado = veterinarios.stream()
-                                        .filter(v -> (v.getNombreVeterinario() + " " + v.getApellidosVeterinario()).equals(nombreVeterinario))
+                                String nombreVeterinarioNuevo = spinnerVeterinarioFKCuidado.getSelectedItem().toString();
+                                int veterinarioFKCuidadoNuevo = veterinarios.stream()
+                                        .filter(v -> (v.getNombreVeterinario() + " " + v.getApellidosVeterinario()).equals(nombreVeterinarioNuevo))
                                         .map(Veterinario::getIdVeterinario)
                                         .findFirst()
                                         .orElse(-1);
-                                Cuidado cuidado = new Cuidado(fechaInicioCuidado, fechaFinCuidado, descripcionCuidado, posologiaCuidado, gatoFKCuidado, veterinarioFKCuidado);
 
-                                // DAR DE ALTA + INFORMAR SOBRE EL RESULTADO
-                                BDConexion.anadirCuidado(cuidado, new Callback() {
+                                cuidado.setFechaInicioCuidado(fechaInicioCuidadoNuevo);
+                                cuidado.setFechaFinCuidado(fechaFinCuidadoNuevo);
+                                cuidado.setDescripcionCuidado(descripcionCuidadoNuevo);
+                                cuidado.setPosologiaCuidado(posologiaCuidadoNuevo);
+                                cuidado.setIdGatoFK(gatoFKCuidadoNuevo);
+                                cuidado.setIdVeterinarioFK(veterinarioFKCuidadoNuevo);
+
+                                // REALIZAR LA MODIFICACIÓN + INFORMAR SOBRE EL RESULTADO
+                                BDConexion.modificarCuidado(cuidado, new Callback() {
                                     @Override
                                     public void onFailure(Call call, IOException e) {
                                         new Handler(Looper.getMainLooper()).post(() -> {
@@ -137,7 +166,7 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                                             if (isAdded()) {
                                                 sendResult(false);
                                             }
-                                            dialog.dismiss();
+                                            dismiss();
                                         });
                                     }
 
@@ -156,7 +185,7 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                                                 }
                                                 Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
                                             }
-                                            dialog.dismiss();
+                                            dismiss();
                                         });
                                     }
                                 });
@@ -196,7 +225,7 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
         Bundle result = new Bundle();
         result.putBoolean("operationSuccess", success);
         if (isAdded()) {
-            getParentFragmentManager().setFragmentResult("altaCuidadoRequestKey", result);
+            getParentFragmentManager().setFragmentResult("modificacionCuidadoRequestKey", result);
         }
     }
 

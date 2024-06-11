@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout16"
+    android:id="@+id/frameLayout17"
     android:layout_width="match_parent"
     android:layout_height="460dp"
-    tools:context=".cuidados.AltaCuidado">
+    tools:context=".cuidados.ModificacionCuidado">
 
     <TextView
-        android:id="@+id/textViewAltaGatoFKCuidado"
+        android:id="@+id/textViewModificacionGatoFKCuidado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/gatoFK"
@@ -20,146 +20,146 @@
         app:layout_constraintVertical_bias="0.106" />
 
     <TextView
-        android:id="@+id/textViewAltaVeterinarioFKCuidado"
+        android:id="@+id/textViewModificacionVeterinarioFKCuidado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:text="@string/veterinarioFK"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewAltaGatoFKCuidado"
+        app:layout_constraintEnd_toEndOf="@+id/textViewModificacionGatoFKCuidado"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewAltaGatoFKCuidado"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAltaGatoFKCuidado"
+        app:layout_constraintStart_toStartOf="@+id/textViewModificacionGatoFKCuidado"
+        app:layout_constraintTop_toBottomOf="@+id/textViewModificacionGatoFKCuidado"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textViewAltaFechaInicioCuidado"
+        android:id="@+id/textViewModificacionFechaInicioCuidado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:text="@string/fechaInicio"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewAltaVeterinarioFKCuidado"
+        app:layout_constraintEnd_toEndOf="@+id/textViewModificacionVeterinarioFKCuidado"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewAltaVeterinarioFKCuidado"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAltaVeterinarioFKCuidado"
+        app:layout_constraintStart_toStartOf="@+id/textViewModificacionVeterinarioFKCuidado"
+        app:layout_constraintTop_toBottomOf="@+id/textViewModificacionVeterinarioFKCuidado"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textViewAltaFechaFinCuidado"
+        android:id="@+id/textViewModificacionFechaFinCuidado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:text="@string/fechaFin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewAltaFechaInicioCuidado"
+        app:layout_constraintEnd_toEndOf="@+id/textViewModificacionFechaInicioCuidado"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewAltaFechaInicioCuidado"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAltaFechaInicioCuidado"
+        app:layout_constraintStart_toStartOf="@+id/textViewModificacionFechaInicioCuidado"
+        app:layout_constraintTop_toBottomOf="@+id/textViewModificacionFechaInicioCuidado"
         app:layout_constraintVertical_bias="0.009" />
 
     <TextView
-        android:id="@+id/textViewAltaDescripcionCuidado"
+        android:id="@+id/textViewModificacionDescripcionCuidado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:text="@string/descripcion"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewAltaFechaFinCuidado"
+        app:layout_constraintEnd_toEndOf="@+id/textViewModificacionFechaFinCuidado"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewAltaFechaFinCuidado"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAltaFechaFinCuidado"
+        app:layout_constraintStart_toStartOf="@+id/textViewModificacionFechaFinCuidado"
+        app:layout_constraintTop_toBottomOf="@+id/textViewModificacionFechaFinCuidado"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/editTextAltaFechaInicioCuidado"
+        android:id="@+id/editTextModificacionFechaInicioCuidado"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/fechaInicioPlaceholder"
         android:inputType="date"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaFechaInicioCuidado"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionFechaInicioCuidado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.865"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewAltaFechaInicioCuidado"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionFechaInicioCuidado"
         app:layout_constraintVertical_bias="0.653" />
 
     <EditText
-        android:id="@+id/editTextAltaFechaFinCuidado"
+        android:id="@+id/editTextModificacionFechaFinCuidado"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/fechaFinPlaceholder"
         android:inputType="date"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaFechaFinCuidado"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionFechaFinCuidado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.862"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewAltaFechaFinCuidado"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionFechaFinCuidado"
         app:layout_constraintVertical_bias="0.576" />
 
     <EditText
-        android:id="@+id/editTextAltaDescripcionCuidado"
+        android:id="@+id/editTextModificacionDescripcionCuidado"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/descripcionPlaceholder"
         android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaDescripcionCuidado"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionDescripcionCuidado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.865"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewAltaDescripcionCuidado"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionDescripcionCuidado"
         app:layout_constraintVertical_bias="0.73" />
 
     <EditText
-        android:id="@+id/editTextAltaPosologiaCuidado"
+        android:id="@+id/editTextModificacionPosologiaCuidado"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/posologiaPlaceholder"
         android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaPosologiaCuidado"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionPosologiaCuidado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.865"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewAltaPosologiaCuidado"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionPosologiaCuidado"
         app:layout_constraintVertical_bias="0.615" />
 
     <Spinner
-        android:id="@+id/spinnerAltaGatoFKCuidado"
+        android:id="@+id/spinnerModificacionGatoFKCuidado"
         android:layout_width="240dp"
         android:layout_height="45dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaGatoFKCuidado"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionGatoFKCuidado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.865"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewAltaGatoFKCuidado"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionGatoFKCuidado"
         app:layout_constraintVertical_bias="0.683" />
 
     <TextView
-        android:id="@+id/textViewAltaPosologiaCuidado"
+        android:id="@+id/textViewModificacionPosologiaCuidado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:text="@string/posologia"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textViewAltaDescripcionCuidado"
+        app:layout_constraintEnd_toEndOf="@+id/textViewModificacionDescripcionCuidado"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewAltaDescripcionCuidado"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAltaDescripcionCuidado"
+        app:layout_constraintStart_toStartOf="@+id/textViewModificacionDescripcionCuidado"
+        app:layout_constraintTop_toBottomOf="@+id/textViewModificacionDescripcionCuidado"
         app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
-        android:id="@+id/spinnerAltaVeterinarioFKCuidado"
+        android:id="@+id/spinnerModificacionVeterinarioFKCuidado"
         android:layout_width="240dp"
         android:layout_height="45dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaVeterinarioFKCuidado"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewModificacionVeterinarioFKCuidado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.865"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewAltaVeterinarioFKCuidado"
+        app:layout_constraintTop_toTopOf="@+id/textViewModificacionVeterinarioFKCuidado"
         app:layout_constraintVertical_bias="0.824" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

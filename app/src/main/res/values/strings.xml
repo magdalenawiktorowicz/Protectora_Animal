@@ -83,5 +83,7 @@
     <string name="fechaFinPlaceholder">2020-05-15</string>
     <string name="descripcionPlaceholder">Descripción del cuidado...</string>
     <string name="posologiaPlaceholder">Posología del cuidado...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

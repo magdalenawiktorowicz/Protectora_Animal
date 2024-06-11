@@ -65,6 +65,7 @@ public class AltaProtectora extends DialogFragment {
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
+                                        dialog.dismiss();
                                     });
                                 }
 
@@ -83,13 +84,13 @@ public class AltaProtectora extends DialogFragment {
                                             }
                                             Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
                                         }
+                                        dialog.dismiss();
                                     });
                                 }
                             });
                         } else {
                             Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
                         }
-                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
