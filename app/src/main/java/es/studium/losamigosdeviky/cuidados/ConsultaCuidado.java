@@ -45,7 +45,7 @@ public class ConsultaCuidado extends Fragment implements AdapterView.OnItemSelec
     CuidadosAdapter adapter;
     FragmentManager fm;
     FragmentTransaction ft;
-//    AltaCuidado altaCuidado;
+    AltaCuidado altaCuidado;
 //    ModificacionCuidado modificacionCuidado;
 //    BorradoCuidado borradoCuidado;
 
@@ -201,10 +201,10 @@ public class ConsultaCuidado extends Fragment implements AdapterView.OnItemSelec
     @Override
     public void onClick(View v) {
         if (v.getId() == btnNuevoCuidado.getId()) {
-//            Log.d("ConsultaCuidado", "Showing AltaCuidado dialog");
-//            altaCuidado = new AltaCuidado();
-//            altaCuidado.setCancelable(false);
-//            altaCuidado.show(getParentFragmentManager(), "AltaCuidado");
+            Log.d("ConsultaCuidado", "Showing AltaCuidado dialog");
+            altaCuidado = new AltaCuidado();
+            altaCuidado.setCancelable(false);
+            altaCuidado.show(getParentFragmentManager(), "AltaCuidado");
         }
     }
 

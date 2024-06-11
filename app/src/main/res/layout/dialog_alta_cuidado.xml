@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout16"
+    android:layout_width="match_parent"
+    android:layout_height="460dp"
+    tools:context=".cuidados.AltaCuidado">
+
+    <TextView
+        android:id="@+id/textViewAltaGatoFKCuidado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gatoFK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.246"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.106" />
+
+    <TextView
+        android:id="@+id/textViewAltaVeterinarioFKCuidado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/veterinarioFK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaGatoFKCuidado"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaGatoFKCuidado"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaGatoFKCuidado"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewAltaFechaInicioCuidado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/fechaInicio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaVeterinarioFKCuidado"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaVeterinarioFKCuidado"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaVeterinarioFKCuidado"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewAltaFechaFinCuidado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/fechaFin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaFechaInicioCuidado"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaFechaInicioCuidado"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaFechaInicioCuidado"
+        app:layout_constraintVertical_bias="0.009" />
+
+    <TextView
+        android:id="@+id/textViewAltaDescripcionCuidado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/descripcion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaFechaFinCuidado"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaDireccionColonia"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaFechaFinCuidado"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextAltaFechaInicioCuidado"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/fechaInicioPlaceholder"
+        android:inputType="date"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaFechaInicioCuidado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaFechaInicioCuidado"
+        app:layout_constraintVertical_bias="0.653" />
+
+    <EditText
+        android:id="@+id/editTextAltaFechaFinCuidado"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/fechaFinPlaceholder"
+        android:inputType="date"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaFechaFinCuidado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.862"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaFechaFinCuidado"
+        app:layout_constraintVertical_bias="0.576" />
+
+    <EditText
+        android:id="@+id/editTextAltaDescripcionCuidado"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/descripcionPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaDescripcionCuidado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaDescripcionCuidado"
+        app:layout_constraintVertical_bias="0.73" />
+
+    <EditText
+        android:id="@+id/editTextAltaPosologiaCuidado"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/posologiaPlaceholder"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaPosologiaCuidado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaPosologiaCuidado"
+        app:layout_constraintVertical_bias="0.615" />
+
+    <Spinner
+        android:id="@+id/spinnerAltaGatoFKCuidado"
+        android:layout_width="240dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaGatoFKCuidado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaGatoFKCuidado"
+        app:layout_constraintVertical_bias="0.683" />
+
+    <TextView
+        android:id="@+id/textViewAltaPosologiaCuidado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="@string/posologia"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewAltaDescripcionCuidado"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewAltaDescripcionCuidado"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAltaDescripcionCuidado"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Spinner
+        android:id="@+id/spinnerAltaVeterinarioFKCuidado"
+        android:layout_width="240dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAltaVeterinarioFKCuidado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewAltaVeterinarioFKCuidado"
+        app:layout_constraintVertical_bias="0.824" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

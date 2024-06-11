@@ -939,4 +939,38 @@ public class BDConexion {
         });
     }
 
+    // Cuidado - Alta
+    public static void anadirCuidado(Cuidado cuidado, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+                .add("idCuidado", "") // possible error?
+                .add("fechaInicioCuidado", cuidado.getFechaInicioCuidado().toString())
+                .add("fechaFinCuidado", cuidado.getFechaFinCuidado().toString())
+                .add("descripcionCuidado", cuidado.getDescripcionCuidado())
+                .add("posologiaCuidado", cuidado.getPosologiaCuidado())
+                .add("idGatoFK5", String.valueOf(cuidado.getIdGatoFK()))
+                .add("idVeterinarioFK6", String.valueOf(cuidado.getIdVeterinarioFK()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url("http://192.168.1.131/ApiProtectora/cuidados.php")
+                .post(formBody)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure(call, e); // Forward the failure to the provided callback
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body().string();
+                Log.d("API Response", responseBody);
+                callback.onResponse(call, response); // Forward the response to the provided callback
+            }
+        });
+    }
+
 }

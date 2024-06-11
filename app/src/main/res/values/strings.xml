@@ -79,5 +79,9 @@
     <string name="fechaInicio">Fecha de inicio: </string>
     <string name="fechaFin">Fecha de fin: </string>
     <string name="posologia">Posología: </string>
+    <string name="fechaInicioPlaceholder">2020-03-20</string>
+    <string name="fechaFinPlaceholder">2020-05-15</string>
+    <string name="descripcionPlaceholder">Descripción del cuidado...</string>
+    <string name="posologiaPlaceholder">Posología del cuidado...</string>
 
 </resources>

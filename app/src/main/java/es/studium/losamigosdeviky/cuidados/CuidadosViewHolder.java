@@ -66,7 +66,7 @@ public class CuidadosViewHolder extends RecyclerView.ViewHolder implements View.
             public void onResult(ArrayList<Veterinario> vets) {
                 if (!vets.isEmpty()) {
                     Veterinario veterinario = vets.get(0);
-                    String veterinarioData = veterinario.getNombreVeterinario() + " " + veterinario.getApellidosVeterinario() + "\n\t\t\t" + veterinario.getTelefonoVeterinario();
+                    String veterinarioData = veterinario.getNombreVeterinario() + " " + veterinario.getApellidosVeterinario() + "\n\t\t\t tel: " + veterinario.getTelefonoVeterinario();
 
                     // Update the UI with the Veterinario data
                     updateUIWithVeterinarioData(currentCuidado, veterinarioData);
@@ -79,7 +79,7 @@ public class CuidadosViewHolder extends RecyclerView.ViewHolder implements View.
             public void onResult(ArrayList<Gato> gatos) {
                 if (!gatos.isEmpty()) {
                     Gato gato = gatos.get(0);
-                    String gatoData = gato.getNombreGato() + "\n\t\t\t" + gato.getChipGato();
+                    String gatoData = gato.getNombreGato() + "\n\t\t\t chip: " + gato.getChipGato();
 
                     // Update the UI with the Gato data
                     updateUIWithGatoData(currentCuidado, gatoData);
