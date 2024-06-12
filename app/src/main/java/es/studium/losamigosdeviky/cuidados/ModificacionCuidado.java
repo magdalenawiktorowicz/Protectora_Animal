@@ -125,80 +125,7 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
         spinnerVeterinarioFKCuidado.setOnItemSelectedListener(this);
 
         builder.setView(v)
-                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (!editTextFechaInicioCuidado.getText().toString().isBlank() && !editTextFechaFinCuidado.getText().toString().isBlank() && !editTextDescripcionCuidado.getText().toString().isBlank() && !editTextPosologiaCuidado.getText().toString().isBlank() && (spinnerGatoFKCuidado.getSelectedItemPosition() != 0) && (spinnerVeterinarioFKCuidado.getSelectedItemPosition() != 0)) {
-                            if ((comprobarFecha(editTextFechaInicioCuidado.getText().toString())) && (comprobarFecha(editTextFechaFinCuidado.getText().toString()))) {
-                                String[] fi = (editTextFechaInicioCuidado.getText().toString()).split("-");
-                                LocalDate fechaInicioCuidadoNuevo = LocalDate.of(Integer.parseInt(fi[0]), Integer.parseInt(fi[1]), Integer.parseInt(fi[2]));
-                                String[] ff = (editTextFechaFinCuidado.getText().toString()).split("-");
-                                LocalDate fechaFinCuidadoNuevo = LocalDate.of(Integer.parseInt(ff[0]), Integer.parseInt(ff[1]), Integer.parseInt(ff[2]));
-                                String descripcionCuidadoNuevo = editTextDescripcionCuidado.getText().toString();
-                                String posologiaCuidadoNuevo = editTextPosologiaCuidado.getText().toString();
-                                String nombreGatoNuevo = spinnerGatoFKCuidado.getSelectedItem().toString();
-                                int gatoFKCuidadoNuevo = gatos.stream()
-                                        .filter(g -> (g.getNombreGato()).equals(nombreGatoNuevo))
-                                        .map(Gato::getIdGato)
-                                        .findFirst()
-                                        .orElse(-1);
-                                String nombreVeterinarioNuevo = spinnerVeterinarioFKCuidado.getSelectedItem().toString();
-                                int veterinarioFKCuidadoNuevo = veterinarios.stream()
-                                        .filter(v -> (v.getNombreVeterinario() + " " + v.getApellidosVeterinario()).equals(nombreVeterinarioNuevo))
-                                        .map(Veterinario::getIdVeterinario)
-                                        .findFirst()
-                                        .orElse(-1);
-
-                                cuidado.setFechaInicioCuidado(fechaInicioCuidadoNuevo);
-                                cuidado.setFechaFinCuidado(fechaFinCuidadoNuevo);
-                                cuidado.setDescripcionCuidado(descripcionCuidadoNuevo);
-                                cuidado.setPosologiaCuidado(posologiaCuidadoNuevo);
-                                cuidado.setIdGatoFK(gatoFKCuidadoNuevo);
-                                cuidado.setIdVeterinarioFK(veterinarioFKCuidadoNuevo);
-
-                                // REALIZAR LA MODIFICACIÓN + INFORMAR SOBRE EL RESULTADO
-                                BDConexion.modificarCuidado(cuidado, new Callback() {
-                                    @Override
-                                    public void onFailure(Call call, IOException e) {
-                                        new Handler(Looper.getMainLooper()).post(() -> {
-                                            Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                            // Send result
-                                            if (isAdded()) {
-                                                sendResult(false);
-                                            }
-                                            dismiss();
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onResponse(Call call, Response response) throws IOException {
-                                        new Handler(Looper.getMainLooper()).post(() -> {
-                                            if (response.code() == 200) {
-                                                if (isAdded()) {
-                                                    sendResult(true);
-                                                }
-                                                Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                // Send result
-                                                if (isAdded()) {
-                                                    sendResult(false);
-                                                }
-                                                Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                            }
-                                            dismiss();
-                                        });
-                                    }
-                                });
-                            }
-                            else {
-                                Toast.makeText(context, "Fechas incorrectas.", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
+                .setPositiveButton(R.string.aceptar, null)
                 .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -207,6 +134,92 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawableResource(R.color.background);
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String fechaInicioNuevoStr = editTextFechaInicioCuidado.getText().toString();
+                        String fechaFinNuevoStr = editTextFechaFinCuidado.getText().toString();
+                        String descripcionCuidadoNuevo = editTextDescripcionCuidado.getText().toString();
+                        String posologiaCuidadoNuevo = editTextPosologiaCuidado.getText().toString();
+
+                        if (fechaInicioNuevoStr.isEmpty() || fechaFinNuevoStr.isEmpty() || descripcionCuidadoNuevo.isEmpty() || posologiaCuidadoNuevo.isEmpty() || (spinnerGatoFKCuidado.getSelectedItemPosition() == 0) || (spinnerVeterinarioFKCuidado.getSelectedItemPosition() == 0)) {
+                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (!comprobarFecha(fechaInicioNuevoStr) || !comprobarFecha(fechaFinNuevoStr)) {
+                            Toast.makeText(context, "Fechas incorrectas.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        String[] fi = fechaInicioNuevoStr.split("-");
+                        LocalDate fechaInicioCuidadoNuevo = LocalDate.of(Integer.parseInt(fi[0]), Integer.parseInt(fi[1]), Integer.parseInt(fi[2]));
+                        String[] ff = fechaFinNuevoStr.split("-");
+                        LocalDate fechaFinCuidadoNuevo = LocalDate.of(Integer.parseInt(ff[0]), Integer.parseInt(ff[1]), Integer.parseInt(ff[2]));
+
+                        String nombreGato = spinnerGatoFKCuidado.getSelectedItem().toString();
+                        int gatoFKCuidadoNuevo = gatos.stream()
+                                .filter(g -> g.getNombreGato().equals(nombreGato))
+                                .map(Gato::getIdGato)
+                                .findFirst()
+                                .orElse(-1);
+
+                        String nombreVeterinario = spinnerVeterinarioFKCuidado.getSelectedItem().toString();
+                        int veterinarioFKCuidadoNuevo = veterinarios.stream()
+                                .filter(ve -> (ve.getNombreVeterinario() + " " + ve.getApellidosVeterinario()).equals(nombreVeterinario))
+                                .map(Veterinario::getIdVeterinario)
+                                .findFirst()
+                                .orElse(-1);
+
+                        cuidado.setFechaInicioCuidado(fechaInicioCuidadoNuevo);
+                        cuidado.setFechaFinCuidado(fechaFinCuidadoNuevo);
+                        cuidado.setDescripcionCuidado(descripcionCuidadoNuevo);
+                        cuidado.setPosologiaCuidado(posologiaCuidadoNuevo);
+                        cuidado.setIdGatoFK(gatoFKCuidadoNuevo);
+                        cuidado.setIdVeterinarioFK(veterinarioFKCuidadoNuevo);
+
+                        // REALIZAR LA MODIFICACIÓN + INFORMAR SOBRE EL RESULTADO
+                        BDConexion.modificarCuidado(cuidado, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    // Send result
+                                    if (isAdded()) {
+                                        sendResult(false);
+                                    }
+                                    alertDialog.dismiss();
+                                });
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    if (response.code() == 200) {
+                                        if (isAdded()) {
+                                            sendResult(true);
+                                        }
+                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Send result
+                                        if (isAdded()) {
+                                            sendResult(false);
+                                        }
+                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    }
+                                    alertDialog.dismiss();
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
         return alertDialog;
     }
 

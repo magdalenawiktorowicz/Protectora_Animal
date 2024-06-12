@@ -122,80 +122,7 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
         spinnerProtectoraFKColonia.setOnItemSelectedListener(this);
 
         builder.setView(v)
-                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (!editTextNombreColonia.getText().toString().isBlank() &&
-                                !editTextCpColonia.getText().toString().isBlank() &&
-                                !editTextLatitudColonia.getText().toString().isBlank() &&
-                                !editTextLongitudColonia.getText().toString().isBlank() &&
-                                spinnerAyuntamientoFKColonia.getSelectedItemPosition() != 0 &&
-                                spinnerProtectoraFKColonia.getSelectedItemPosition() != 0) {
-                            String nombreColoniaNuevo = editTextNombreColonia.getText().toString();
-                            int cpColoniaNuevo = Integer.parseInt(editTextCpColonia.getText().toString());
-                            String latitudColoniaNuevo = editTextLatitudColonia.getText().toString();
-                            String longitudColoniaNuevo = editTextLongitudColonia.getText().toString();
-                            String direccionColoniaNuevo = editTextDireccionColonia.getText().toString();
-                            String ayuntamientoNombreNuevo = spinnerAyuntamientoFKColonia.getSelectedItem().toString();
-                            String protectoraNombreNuevo = spinnerProtectoraFKColonia.getSelectedItem().toString();
-                            int ayuntamientoFKNuevo = ayuntamientos.stream()
-                                    .filter(ay -> ay.getNombreAyuntamiento().equals(ayuntamientoNombreNuevo))
-                                    .map(Ayuntamiento::getIdAyuntamiento)
-                                    .findFirst()
-                                    .orElse(-1);
-                            int protectoraFKNuevo = protectoras.stream()
-                                    .filter(pr -> pr.getNombreProtectora().equals(protectoraNombreNuevo))
-                                    .map(Protectora::getIdProtectora)
-                                    .findFirst()
-                                    .orElse(-1);
-
-                            colonia.setNombreColonia(nombreColoniaNuevo);
-                            colonia.setCpColonia(cpColoniaNuevo);
-                            colonia.setLatitudColonia(latitudColoniaNuevo);
-                            colonia.setLongitudColonia(longitudColoniaNuevo);
-                            colonia.setDireccionColonia(direccionColoniaNuevo);
-                            colonia.setIdAyuntamientoFK1(ayuntamientoFKNuevo);
-                            colonia.setIdProtectoraFK2(protectoraFKNuevo);
-
-                            // REALIZAR LA MODIFICACIÓN + INFORMAR SOBRE EL RESULTADO
-                            BDConexion.modificarColonia(colonia, new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                        // Send result
-                                        if (isAdded()) {
-                                            sendResult(false);
-                                        }
-                                        dismiss();
-                                    });
-                                }
-
-                                @Override
-                                public void onResponse(Call call, Response response) throws IOException {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        if (response.code() == 200) {
-                                            if (isAdded()) {
-                                                sendResult(true);
-                                            }
-                                            Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            // Send result
-                                            if (isAdded()) {
-                                                sendResult(false);
-                                            }
-                                            Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                        }
-                                        dismiss();
-                                    });
-                                }
-                            });
-
-                        } else {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
+                .setPositiveButton(R.string.aceptar, null)
                 .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -204,6 +131,90 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawableResource(R.color.background);
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String nombreColoniaNuevo = editTextNombreColonia.getText().toString();
+                        String cpColoniaNuevoStr = editTextCpColonia.getText().toString();
+                        String latitudColoniaNuevo = editTextLatitudColonia.getText().toString();
+                        String longitudColoniaNuevo = editTextLongitudColonia.getText().toString();
+                        String direccionColoniaNuevo = editTextDireccionColonia.getText().toString();
+                        String ayuntamientoNombreNuevo = spinnerAyuntamientoFKColonia.getSelectedItem().toString();
+                        String protectoraNombreNuevo = spinnerProtectoraFKColonia.getSelectedItem().toString();
+                        int ayuntamientoFKNuevo = ayuntamientos.stream()
+                                .filter(ay -> ay.getNombreAyuntamiento().equals(ayuntamientoNombreNuevo))
+                                .map(Ayuntamiento::getIdAyuntamiento)
+                                .findFirst()
+                                .orElse(-1);
+                        int protectoraFKNuevo = protectoras.stream()
+                                .filter(pr -> pr.getNombreProtectora().equals(protectoraNombreNuevo))
+                                .map(Protectora::getIdProtectora)
+                                .findFirst()
+                                .orElse(-1);
+
+                        if (ayuntamientoFKNuevo == -1 || protectoraFKNuevo == -1 || nombreColoniaNuevo.isEmpty() || cpColoniaNuevoStr.isEmpty() || latitudColoniaNuevo.isEmpty() || longitudColoniaNuevo.isEmpty() || direccionColoniaNuevo.isEmpty()) {
+                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        int cpColoniaNuevo;
+                        try {
+                            cpColoniaNuevo = Integer.parseInt(cpColoniaNuevoStr);
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        colonia.setNombreColonia(nombreColoniaNuevo);
+                        colonia.setCpColonia(cpColoniaNuevo);
+                        colonia.setLatitudColonia(latitudColoniaNuevo);
+                        colonia.setLongitudColonia(longitudColoniaNuevo);
+                        colonia.setDireccionColonia(direccionColoniaNuevo);
+                        colonia.setIdAyuntamientoFK1(ayuntamientoFKNuevo);
+                        colonia.setIdProtectoraFK2(protectoraFKNuevo);
+
+                        // REALIZAR LA MODIFICACIÓN + INFORMAR SOBRE EL RESULTADO
+                        BDConexion.modificarColonia(colonia, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    // Send result
+                                    if (isAdded()) {
+                                        sendResult(false);
+                                    }
+                                    alertDialog.dismiss();
+                                });
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    if (response.code() == 200) {
+                                        if (isAdded()) {
+                                            sendResult(true);
+                                        }
+                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Send result
+                                        if (isAdded()) {
+                                            sendResult(false);
+                                        }
+                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    }
+                                    alertDialog.dismiss();
+                                });
+                            }
+                        });
+
+                    }
+                });
+            }
+        });
+
         return alertDialog;
     }
 

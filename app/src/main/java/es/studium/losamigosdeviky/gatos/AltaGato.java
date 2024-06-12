@@ -126,67 +126,7 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
         spinnerColoniaFKGato.setOnItemSelectedListener(this);
 
         builder.setView(v)
-                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (!editTextNombreGato.getText().toString().isBlank() && !editTextSexoGato.getText().toString().isBlank() && !editTextDescripcionGato.getText().toString().isBlank() && !editTextFechaNacimientoGato.getText().toString().isBlank() && !editTextChipGato.getText().toString().isBlank() && spinnerColoniaFKGato.getSelectedItemPosition() != 0) {
-                            String nombreGato = editTextNombreGato.getText().toString();
-                            String sexoGato = editTextSexoGato.getText().toString();
-                            String descripcionGato = editTextDescripcionGato.getText().toString();
-                            int esEsterilizado = (switchEsterilizadoGato.isChecked() ? 1 : 0);
-                            String fotoGato = String.valueOf(imageUri);
-                            LocalDate fechaNacimientoGato = null;
-                            if (comprobarFecha(editTextFechaNacimientoGato.getText().toString())) {
-                                String[] fn = (editTextFechaNacimientoGato.getText().toString()).split("-");
-                                fechaNacimientoGato = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
-                            }
-                            String chipGato = editTextChipGato.getText().toString();
-                            String coloniaNombre = spinnerColoniaFKGato.getSelectedItem().toString();
-                            int coloniaFKGato = colonias.stream()
-                                    .filter(c -> (c.getNombreColonia()).equals(coloniaNombre))
-                                    .map(Colonia::getIdColonia)
-                                    .findFirst()
-                                    .orElse(-1);
-
-                            Gato newGato = new Gato(nombreGato, sexoGato, descripcionGato, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, coloniaFKGato);
-                            // DAR DE ALTA + INFORMAR SOBRE EL RESULTADO
-                            BDConexion.anadirGato(newGato, new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                        // Send result
-                                        if (isAdded()) {
-                                            sendResult(false);
-                                        }
-                                    });
-                                    dialog.dismiss();
-                                }
-
-                                @Override
-                                public void onResponse(Call call, Response response) throws IOException {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        if (response.code() == 200) {
-                                            if (isAdded()) {
-                                                sendResult(true);
-                                            }
-                                            Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            // Send result
-                                            if (isAdded()) {
-                                                sendResult(false);
-                                            }
-                                            Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    dialog.dismiss();
-                                }
-                            });
-                        } else {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
+                .setPositiveButton(R.string.aceptar, null)
                 .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -195,6 +135,77 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawableResource(R.color.background);
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String nombreGato = editTextNombreGato.getText().toString();
+                        String sexoGato = editTextSexoGato.getText().toString();
+                        String descripcionGato = editTextDescripcionGato.getText().toString();
+                        int esEsterilizado = (switchEsterilizadoGato.isChecked() ? 1 : 0);
+                        String fotoGato = String.valueOf(imageUri);
+                        LocalDate fechaNacimientoGato = null;
+                        if (comprobarFecha(editTextFechaNacimientoGato.getText().toString())) {
+                            String[] fn = (editTextFechaNacimientoGato.getText().toString()).split("-");
+                            fechaNacimientoGato = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
+                        } else {
+                            Toast.makeText(context, "Fecha incorrecta.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        String chipGato = editTextChipGato.getText().toString();
+                        String coloniaNombre = spinnerColoniaFKGato.getSelectedItem().toString();
+                        int coloniaFKGato = colonias.stream()
+                                .filter(c -> (c.getNombreColonia()).equals(coloniaNombre))
+                                .map(Colonia::getIdColonia)
+                                .findFirst()
+                                .orElse(-1);
+
+                        if (nombreGato.isEmpty() || sexoGato.isEmpty() || descripcionGato.isEmpty() || chipGato.isEmpty() || coloniaFKGato == -1) {
+                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        Gato newGato = new Gato(nombreGato, sexoGato, descripcionGato, esEsterilizado, fotoGato, fechaNacimientoGato, chipGato, coloniaFKGato);
+                        // DAR DE ALTA + INFORMAR SOBRE EL RESULTADO
+                        BDConexion.anadirGato(newGato, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    // Send result
+                                    if (isAdded()) {
+                                        sendResult(false);
+                                    }
+                                });
+                                alertDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    if (response.code() == 200) {
+                                        if (isAdded()) {
+                                            sendResult(true);
+                                        }
+                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Send result
+                                        if (isAdded()) {
+                                            sendResult(false);
+                                        }
+                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                alertDialog.dismiss();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
         return alertDialog;
     }
 

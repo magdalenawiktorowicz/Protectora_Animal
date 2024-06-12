@@ -97,72 +97,7 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
         spinnerProtectoraFKColonia.setOnItemSelectedListener(this);
 
         builder.setView(v)
-                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (!editTextNombreColonia.getText().toString().isBlank() &&
-                                !editTextCpColonia.getText().toString().isBlank() &&
-                                !editTextLatitudColonia.getText().toString().isBlank() &&
-                                !editTextLongitudColonia.getText().toString().isBlank() &&
-                                spinnerAyuntamientoFKColonia.getSelectedItemPosition() != 0 &&
-                                spinnerProtectoraFKColonia.getSelectedItemPosition() != 0) {
-
-                            String nombreColonia = editTextNombreColonia.getText().toString();
-                            int cpColonia = Integer.parseInt(editTextCpColonia.getText().toString());
-                            String latitudColonia = editTextLatitudColonia.getText().toString();
-                            String longitudColonia = editTextLongitudColonia.getText().toString();
-                            String direccionColonia = editTextDireccionColonia.getText().toString();
-                            String ayuntamientoNombre = spinnerAyuntamientoFKColonia.getSelectedItem().toString();
-                            String protectoraNombre = spinnerProtectoraFKColonia.getSelectedItem().toString();
-                            int ayuntamientoFK = ayuntamientos.stream()
-                                    .filter(ay -> ay.getNombreAyuntamiento().equals(ayuntamientoNombre))
-                                    .map(Ayuntamiento::getIdAyuntamiento)
-                                    .findFirst()
-                                    .orElse(-1);
-                            int protectoraFK = protectoras.stream()
-                                    .filter(pr -> pr.getNombreProtectora().equals(protectoraNombre))
-                                    .map(Protectora::getIdProtectora)
-                                    .findFirst()
-                                    .orElse(-1);
-
-                            // DAR DE ALTA + INFORMAR SOBRE EL RESULTADO
-                            BDConexion.anadirColonia(new Colonia(nombreColonia, cpColonia, latitudColonia, longitudColonia, direccionColonia, ayuntamientoFK, protectoraFK), new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                        // Send result
-                                        if (isAdded()) {
-                                            sendResult(false);
-                                        }
-                                        dialog.dismiss();
-                                    });
-                                }
-
-                                @Override
-                                public void onResponse(Call call, Response response) throws IOException {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        if (response.code() == 200) {
-                                            if (isAdded()) {
-                                                sendResult(true);
-                                            }
-                                            Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            // Send result
-                                            if (isAdded()) {
-                                                sendResult(false);
-                                            }
-                                            Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                        }
-                                        dialog.dismiss();
-                                    });
-                                }
-                            });
-                        } else {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
+                .setPositiveButton(R.string.aceptar, null)
                 .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -171,6 +106,81 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawableResource(R.color.background);
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String nombreColonia = editTextNombreColonia.getText().toString();
+                        String cpColoniaStr = editTextCpColonia.getText().toString();
+                        String latitudColonia = editTextLatitudColonia.getText().toString();
+                        String longitudColonia = editTextLongitudColonia.getText().toString();
+                        String direccionColonia = editTextDireccionColonia.getText().toString();
+                        String ayuntamientoNombre = spinnerAyuntamientoFKColonia.getSelectedItem().toString();
+                        String protectoraNombre = spinnerProtectoraFKColonia.getSelectedItem().toString();
+                        int ayuntamientoFK = ayuntamientos.stream()
+                                .filter(ay -> ay.getNombreAyuntamiento().equals(ayuntamientoNombre))
+                                .map(Ayuntamiento::getIdAyuntamiento)
+                                .findFirst()
+                                .orElse(-1);
+                        int protectoraFK = protectoras.stream()
+                                .filter(pr -> pr.getNombreProtectora().equals(protectoraNombre))
+                                .map(Protectora::getIdProtectora)
+                                .findFirst()
+                                .orElse(-1);
+
+                        if (ayuntamientoFK == -1 || protectoraFK == -1 || nombreColonia.isEmpty() || cpColoniaStr.isEmpty() || latitudColonia.isEmpty() || longitudColonia.isEmpty() || direccionColonia.isEmpty()) {
+                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        int cpColonia;
+                        try {
+                            cpColonia = Integer.parseInt(cpColoniaStr);
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // DAR DE ALTA + INFORMAR SOBRE EL RESULTADO
+                        BDConexion.anadirColonia(new Colonia(nombreColonia, cpColonia, latitudColonia, longitudColonia, direccionColonia, ayuntamientoFK, protectoraFK), new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    // Send result
+                                    if (isAdded()) {
+                                        sendResult(false);
+                                    }
+                                    alertDialog.dismiss();
+                                });
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    if (response.code() == 200) {
+                                        if (isAdded()) {
+                                            sendResult(true);
+                                        }
+                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Send result
+                                        if (isAdded()) {
+                                            sendResult(false);
+                                        }
+                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    }
+                                    alertDialog.dismiss();
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
         return alertDialog;
     }
 

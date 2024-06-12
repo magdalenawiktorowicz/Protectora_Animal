@@ -50,60 +50,7 @@ public class ModificacionProtectora extends DialogFragment {
         editTextCorreoProtectora.setText(protectora.getCorreoProtectora());
 
         builder.setView(v)
-                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (!(editTextNombreProtectora.getText().toString().isBlank()) && !(editTextDireccionProtectora.getText().toString().isBlank()) && !(editTextLocalidadProtectora.getText().toString().isBlank()) && !(editTextTelefonoProtectora.getText().toString()).isBlank() && !(editTextCorreoProtectora.getText().toString().isBlank())) {
-                            String nombreProtectoraNuevo = editTextNombreProtectora.getText().toString();
-                            String direccionProtectoraNuevo = editTextDireccionProtectora.getText().toString();
-                            String localidadProtectoraNuevo = editTextLocalidadProtectora.getText().toString();
-                            int telefonoProtectoraNuevo = Integer.parseInt(editTextTelefonoProtectora.getText().toString());
-                            String correoProtectoraNuevo = editTextCorreoProtectora.getText().toString();
-
-                            protectora.setNombreProtectora(nombreProtectoraNuevo);
-                            protectora.setDireccionProtectora(direccionProtectoraNuevo);
-                            protectora.setLocalidadProtectora(localidadProtectoraNuevo);
-                            protectora.setTelefonoProtectora(telefonoProtectoraNuevo);
-                            protectora.setCorreoProtectora(correoProtectoraNuevo);
-
-                            // REALIZAR LA MODIFICACIÓN + INFORMAR SOBRE EL RESULTADO
-                            BDConexion.modificarProtectora(protectora, new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                        // Send result
-                                        if (isAdded()) {
-                                            sendResult(false);
-                                        }
-                                        dismiss();
-                                    });
-                                }
-
-                                @Override
-                                public void onResponse(Call call, Response response) throws IOException {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        if (response.code() == 200) {
-                                            if (isAdded()) {
-                                                sendResult(true);
-                                            }
-                                            Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            // Send result
-                                            if (isAdded()) {
-                                                sendResult(false);
-                                            }
-                                            Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
-                                        }
-                                        dismiss();
-                                    });
-                                }
-                            });
-                        } else {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
+                .setPositiveButton(R.string.aceptar, null)
                 .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -112,6 +59,75 @@ public class ModificacionProtectora extends DialogFragment {
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawableResource(R.color.background);
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String nombreProtectoraNuevo = editTextNombreProtectora.getText().toString();
+                        String direccionProtectoraNuevo = editTextDireccionProtectora.getText().toString();
+                        String localidadProtectoraNuevo = editTextLocalidadProtectora.getText().toString();
+                        String telefonoProtectoraNuevoStr = editTextTelefonoProtectora.getText().toString();
+                        String correoProtectoraNuevo = editTextCorreoProtectora.getText().toString();
+
+                        if (nombreProtectoraNuevo.isEmpty() || direccionProtectoraNuevo.isEmpty() || localidadProtectoraNuevo.isEmpty() || telefonoProtectoraNuevoStr.isEmpty() || correoProtectoraNuevo.isEmpty()) {
+                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        int telefonoProtectoraNuevo;
+                        try {
+                            telefonoProtectoraNuevo = Integer.parseInt(telefonoProtectoraNuevoStr);
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        protectora.setNombreProtectora(nombreProtectoraNuevo);
+                        protectora.setDireccionProtectora(direccionProtectoraNuevo);
+                        protectora.setLocalidadProtectora(localidadProtectoraNuevo);
+                        protectora.setTelefonoProtectora(telefonoProtectoraNuevo);
+                        protectora.setCorreoProtectora(correoProtectoraNuevo);
+
+                        // REALIZAR LA MODIFICACIÓN + INFORMAR SOBRE EL RESULTADO
+                        BDConexion.modificarProtectora(protectora, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    // Send result
+                                    if (isAdded()) {
+                                        sendResult(false);
+                                    }
+                                    alertDialog.dismiss();
+                                });
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    if (response.code() == 200) {
+                                        if (isAdded()) {
+                                            sendResult(true);
+                                        }
+                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Send result
+                                        if (isAdded()) {
+                                            sendResult(false);
+                                        }
+                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    }
+                                    alertDialog.dismiss();
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
         return alertDialog;
     }
 
