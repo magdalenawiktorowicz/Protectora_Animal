@@ -28,27 +28,30 @@
         app:layout_constraintHorizontal_bias="0.021"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.592" />
+        app:layout_constraintVertical_bias="0.457" />
 
     <Spinner
         android:id="@+id/spinnerOrdenarAyuntamientos"
-        android:layout_width="225dp"
+        android:layout_width="245dp"
         android:layout_height="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewAyuntamientos"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewOrdenarAyuntamientos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.456"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.421" />
+        app:layout_constraintTop_toTopOf="@+id/textViewOrdenarAyuntamientos"
+        app:layout_constraintVertical_bias="0.437" />
 
     <Button
         android:id="@+id/buttonNuevoAyuntamiento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
         android:text="@string/nuevo"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewAyuntamientos"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/spinnerOrdenarAyuntamientos"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.181" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

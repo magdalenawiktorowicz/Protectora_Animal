@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/item_content"
     android:orientation="vertical"
-    android:background="@color/orange_light"
     app:layout_anchorGravity="top">
+
     <TextView
         android:id="@+id/textViewNombreProtectora"
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
-        android:background="@color/orange"
+        android:background="@color/item_title"
         android:gravity="center"
         android:text="@string/protectora"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewDireccionProtectora"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="15dp"
+        android:layout_weight="1"
         android:gravity="left"
         android:text="@string/direccion" />
 
@@ -31,9 +33,9 @@
         android:id="@+id/textViewTelefonoProtectora"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="15dp"
+        android:layout_weight="1"
         android:gravity="left"
         android:text="@string/telefono" />
 
@@ -41,9 +43,9 @@
         android:id="@+id/textViewCorreoProtectora"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="15dp"
+        android:layout_weight="1"
         android:gravity="left"
         android:text="@string/correo" />
 

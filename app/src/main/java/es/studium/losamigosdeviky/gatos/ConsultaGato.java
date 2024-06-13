@@ -119,8 +119,6 @@ public class ConsultaGato extends Fragment implements AdapterView.OnItemSelected
 
         // establecer el título en la barra superior
         if (getActivity() != null) {
-            // establecer el color del fondo de la barra superior
-            ((MainActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.pink)));
             // establecer el título de la barra superior
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.gatos);
         }

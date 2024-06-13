@@ -10,4 +10,6 @@
     <color name="pink">#DA53B9</color>
     <color name="grey">#515151</color>
     <color name="seethrough">#00515151</color>
+    <color name="item_title">#FCD7B0</color>
+    <color name="item_content">#FEEBD7</color>
 </resources>

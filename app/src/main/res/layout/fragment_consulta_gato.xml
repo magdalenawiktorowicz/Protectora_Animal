@@ -34,12 +34,13 @@
         android:id="@+id/spinnerOrdenarGatos"
         android:layout_width="225dp"
         android:layout_height="35dp"
+        android:layout_marginBottom="3dp"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewGatos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.456"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.421"/>
+        app:layout_constraintVertical_bias="0.685" />
 
     <Button
         android:id="@+id/buttonNuevoGato"
