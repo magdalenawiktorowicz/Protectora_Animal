@@ -6,6 +6,7 @@
         <item name="windowNoTitle">false</item>
         <item name="colorPrimary">@color/main_darker</item>
         <item name="actionBarTheme">@style/MainTitles</item>
+        <item name="android:actionBarStyle">@style/MainTitles</item>
     </style>
 
     <style name="Theme.LosAmigosDeViky" parent="Base.Theme.LosAmigosDeViky" />
