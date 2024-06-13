@@ -7,12 +7,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +39,7 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
     Spinner spinnerAyuntamientoFKColonia, spinnerProtectoraFKColonia;
     private List<Ayuntamiento> ayuntamientos = new ArrayList<>();
     private List<Protectora> protectoras = new ArrayList<>();
+    Toast toast;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -131,7 +134,8 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
                                 .orElse(-1);
 
                         if (ayuntamientoFK == -1 || protectoraFK == -1 || nombreColonia.isEmpty() || cpColoniaStr.isEmpty() || latitudColonia.isEmpty() || longitudColonia.isEmpty() || direccionColonia.isEmpty()) {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -139,7 +143,8 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
                         try {
                             cpColonia = Integer.parseInt(cpColoniaStr);
                         } catch (NumberFormatException e) {
-                            Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -148,7 +153,8 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                    makeToast();
                                     // Send result
                                     if (isAdded()) {
                                         sendResult(false);
@@ -164,13 +170,15 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
                                         if (isAdded()) {
                                             sendResult(true);
                                         }
-                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     } else {
                                         // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     }
                                     alertDialog.dismiss();
                                 });
@@ -190,6 +198,15 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
         if (isAdded()) {
             getParentFragmentManager().setFragmentResult("altaColoniaRequestKey", result);
         }
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     @Override

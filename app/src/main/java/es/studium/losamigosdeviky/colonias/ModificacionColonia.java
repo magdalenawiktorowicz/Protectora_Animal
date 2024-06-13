@@ -11,12 +11,14 @@ import androidx.fragment.app.DialogFragment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -39,6 +41,7 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
     private List<Ayuntamiento> ayuntamientos = new ArrayList<>();
     private List<Protectora> protectoras = new ArrayList<>();
     Colonia colonia;
+    Toast toast;
 
     public ModificacionColonia(Colonia colonia) {
         this.colonia = colonia;
@@ -156,7 +159,8 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
                                 .orElse(-1);
 
                         if (ayuntamientoFKNuevo == -1 || protectoraFKNuevo == -1 || nombreColoniaNuevo.isEmpty() || cpColoniaNuevoStr.isEmpty() || latitudColoniaNuevo.isEmpty() || longitudColoniaNuevo.isEmpty() || direccionColoniaNuevo.isEmpty()) {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -164,7 +168,8 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
                         try {
                             cpColoniaNuevo = Integer.parseInt(cpColoniaNuevoStr);
                         } catch (NumberFormatException e) {
-                            Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -181,7 +186,8 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                    makeToast();
                                     // Send result
                                     if (isAdded()) {
                                         sendResult(false);
@@ -197,13 +203,15 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
                                         if (isAdded()) {
                                             sendResult(true);
                                         }
-                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     } else {
                                         // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     }
                                     alertDialog.dismiss();
                                 });
@@ -227,6 +235,15 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
         } else {
             Log.d("ModificacionColonia", "Fragment not added, result not sent");
         }
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     @Override

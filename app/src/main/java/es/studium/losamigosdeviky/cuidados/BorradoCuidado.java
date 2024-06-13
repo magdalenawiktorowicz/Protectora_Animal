@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class BorradoCuidado extends DialogFragment implements View.OnClickListen
     private TextView textViewMensajeConfirmacion;
     private Button btnSi, btnNo;
     private Context context;
+    Toast toast;
     public BorradoCuidado(Cuidado cuidado) {
         this.cuidado = cuidado;
     }
@@ -65,7 +67,8 @@ public class BorradoCuidado extends DialogFragment implements View.OnClickListen
                 @Override
                 public void onFailure(Call call, IOException e) {
                     new Handler(Looper.getMainLooper()).post(() -> {
-                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                        toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                        makeToast();
                         // Send result
                         if (isAdded()) {
                             sendResult(false);
@@ -81,19 +84,30 @@ public class BorradoCuidado extends DialogFragment implements View.OnClickListen
                             if (isAdded()) {
                                 sendResult(true);
                             }
-                            Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
+                            makeToast();
                         } else {
                             // Send result
                             if (isAdded()) {
                                 sendResult(false);
                             }
-                            Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                            makeToast();
                         }
                         dismiss();
                     });
                 }
             });
         }
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     private void sendResult(boolean success) {

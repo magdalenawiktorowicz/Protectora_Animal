@@ -11,9 +11,11 @@ import androidx.fragment.app.DialogFragment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -27,6 +29,7 @@ import okhttp3.Response;
 public class ModificacionProtectora extends DialogFragment {
     EditText editTextNombreProtectora, editTextDireccionProtectora, editTextLocalidadProtectora, editTextTelefonoProtectora, editTextCorreoProtectora;
     Protectora protectora;
+    Toast toast;
 
     public ModificacionProtectora(Protectora protectora) {
         this.protectora = protectora;
@@ -72,7 +75,8 @@ public class ModificacionProtectora extends DialogFragment {
                         String correoProtectoraNuevo = editTextCorreoProtectora.getText().toString();
 
                         if (nombreProtectoraNuevo.isEmpty() || direccionProtectoraNuevo.isEmpty() || localidadProtectoraNuevo.isEmpty() || telefonoProtectoraNuevoStr.isEmpty() || correoProtectoraNuevo.isEmpty()) {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -80,7 +84,8 @@ public class ModificacionProtectora extends DialogFragment {
                         try {
                             telefonoProtectoraNuevo = Integer.parseInt(telefonoProtectoraNuevoStr);
                         } catch (NumberFormatException e) {
-                            Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -95,7 +100,8 @@ public class ModificacionProtectora extends DialogFragment {
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                    makeToast();
                                     // Send result
                                     if (isAdded()) {
                                         sendResult(false);
@@ -111,13 +117,15 @@ public class ModificacionProtectora extends DialogFragment {
                                         if (isAdded()) {
                                             sendResult(true);
                                         }
-                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     } else {
                                         // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     }
                                     alertDialog.dismiss();
                                 });
@@ -129,6 +137,15 @@ public class ModificacionProtectora extends DialogFragment {
         });
 
         return alertDialog;
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     private void sendResult(boolean success) {

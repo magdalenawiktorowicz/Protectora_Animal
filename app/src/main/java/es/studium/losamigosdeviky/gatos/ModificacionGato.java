@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -71,6 +73,7 @@ public class ModificacionGato extends DialogFragment implements AdapterView.OnIt
     private String[] cameraPermissions;
     private String[] storagePermissions;
     Gato gato;
+    Toast toast;
 
     public ModificacionGato(Gato gato) {
         this.gato = gato;
@@ -173,7 +176,8 @@ public class ModificacionGato extends DialogFragment implements AdapterView.OnIt
                             String[] fn = (editTextFechaNacimientoGato.getText().toString()).split("-");
                             fechaNacimientoGatoNuevo = LocalDate.of(Integer.parseInt(fn[0]), Integer.parseInt(fn[1]), Integer.parseInt(fn[2]));
                         } else {
-                            Toast.makeText(context, "Fecha incorrecta.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Fecha incorrecta.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
                         String chipGatoNuevo = editTextChipGato.getText().toString();
@@ -185,7 +189,8 @@ public class ModificacionGato extends DialogFragment implements AdapterView.OnIt
                                 .orElse(-1);
 
                         if (nombreGatoNuevo.isEmpty() || sexoGatoNuevo.isEmpty() || descripcionGatoNuevo.isEmpty() || chipGatoNuevo.isEmpty() || coloniaFKGatoNuevo == -1) {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -202,7 +207,8 @@ public class ModificacionGato extends DialogFragment implements AdapterView.OnIt
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                    makeToast();
                                     // Send result
                                     if (isAdded()) {
                                         sendResult(false);
@@ -218,13 +224,15 @@ public class ModificacionGato extends DialogFragment implements AdapterView.OnIt
                                         if (isAdded()) {
                                             sendResult(true);
                                         }
-                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     } else {
                                         // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     }
                                     alertDialog.dismiss();
                                 });
@@ -368,6 +376,15 @@ public class ModificacionGato extends DialogFragment implements AdapterView.OnIt
     // pedir los permisos a la cámara
     private void requestCameraPermissions() {
         ActivityCompat.requestPermissions(getActivity(), cameraPermissions, CAMERA_REQUEST_CODE);
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     @Override

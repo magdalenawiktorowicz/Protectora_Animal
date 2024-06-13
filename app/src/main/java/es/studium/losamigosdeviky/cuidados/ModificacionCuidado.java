@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -45,6 +47,7 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
     private List<Gato> gatos = new ArrayList<>();
     private List<Veterinario> veterinarios = new ArrayList<>();
     Cuidado cuidado;
+    Toast toast;
 
     public ModificacionCuidado(Cuidado cuidado) {
         this.cuidado = cuidado;
@@ -147,12 +150,14 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
                         String posologiaCuidadoNuevo = editTextPosologiaCuidado.getText().toString();
 
                         if (fechaInicioNuevoStr.isEmpty() || fechaFinNuevoStr.isEmpty() || descripcionCuidadoNuevo.isEmpty() || posologiaCuidadoNuevo.isEmpty() || (spinnerGatoFKCuidado.getSelectedItemPosition() == 0) || (spinnerVeterinarioFKCuidado.getSelectedItemPosition() == 0)) {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
                         if (!comprobarFecha(fechaInicioNuevoStr) || !comprobarFecha(fechaFinNuevoStr)) {
-                            Toast.makeText(context, "Fechas incorrectas.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Fechas incorrectas.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -187,7 +192,8 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                    makeToast();
                                     // Send result
                                     if (isAdded()) {
                                         sendResult(false);
@@ -203,13 +209,15 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
                                         if (isAdded()) {
                                             sendResult(true);
                                         }
-                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     } else {
                                         // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     }
                                     alertDialog.dismiss();
                                 });
@@ -232,6 +240,15 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     private void sendResult(boolean success) {

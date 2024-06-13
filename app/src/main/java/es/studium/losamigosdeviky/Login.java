@@ -18,9 +18,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -39,8 +41,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public static final String Tipo = "tipoKey";
     public static final String Creds = "credencialesGuardadas";
     SharedPreferences sharedpreferences;
-
     String usuarioInput, contrasenaInput;
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,15 +129,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         // si el usuario existe en la tabla 'usuarios' de BD 'protectora', seguir a entrar en sesión
                         performLogin(usuarioInput, contrasenaInput, tipoUsuario);
                     } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                        builder.setMessage("Credenciales incorrectas")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+                        toast = Toast.makeText(getApplicationContext(), "Credenciales incorrectas.", Toast.LENGTH_SHORT);
+                        makeToast();
                     }
                 } catch (Exception e) {
 
@@ -155,7 +150,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 comprobarCreds();
             } else {
                 // caso negativo
-                Toast.makeText(this, "Internet permission denied", Toast.LENGTH_SHORT).show();
+                toast = Toast.makeText(this, "Internet permission denied", Toast.LENGTH_SHORT);
+                makeToast();
             }
         }
     }
@@ -190,8 +186,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             if (!usuarioInput.isEmpty() && !contrasenaInput.isEmpty()) {
                 comprobarCreds();
             } else {
-                Toast.makeText(this, "Por favor, introduce el nombre del usuario y contraseña", Toast.LENGTH_SHORT).show();
+                toast = Toast.makeText(this, "Por favor, introduce el nombre del usuario y contraseña", Toast.LENGTH_SHORT);
+                makeToast();
             }
         }
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }

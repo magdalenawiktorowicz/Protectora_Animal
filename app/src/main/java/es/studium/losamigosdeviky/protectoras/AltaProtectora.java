@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
@@ -26,6 +28,7 @@ import okhttp3.Response;
 public class AltaProtectora extends DialogFragment {
 
     EditText editTextNombreProtectora, editTextDireccionProtectora, editTextLocalidadProtectora, editTextTelefonoProtectora, editTextCorreoProtectora;
+    Toast toast;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -63,7 +66,8 @@ public class AltaProtectora extends DialogFragment {
                         String correoProtectora = editTextCorreoProtectora.getText().toString();
 
                         if (nombreProtectora.isEmpty() || direccionProtectora.isEmpty() || localidadProtectora.isEmpty() || telefonoProtectoraStr.isEmpty() || correoProtectora.isEmpty()) {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -71,7 +75,8 @@ public class AltaProtectora extends DialogFragment {
                         try {
                             telefonoProtectora = Integer.parseInt(telefonoProtectoraStr);
                         } catch (NumberFormatException e) {
-                            Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Introduce valores válidos para el código postal.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -80,7 +85,8 @@ public class AltaProtectora extends DialogFragment {
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                    makeToast();
                                     // Send result
                                     if (isAdded()) {
                                         sendResult(false);
@@ -96,13 +102,15 @@ public class AltaProtectora extends DialogFragment {
                                         if (isAdded()) {
                                             sendResult(true);
                                         }
-                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     } else {
                                         // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     }
                                     alertDialog.dismiss();
                                 });
@@ -115,6 +123,15 @@ public class AltaProtectora extends DialogFragment {
         });
 
         return alertDialog;
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     private void sendResult(boolean success) {

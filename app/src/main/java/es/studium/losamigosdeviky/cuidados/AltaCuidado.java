@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -44,6 +46,7 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
     Spinner spinnerGatoFKCuidado, spinnerVeterinarioFKCuidado;
     private List<Gato> gatos = new ArrayList<>();
     private List<Veterinario> veterinarios = new ArrayList<>();
+    Toast toast;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -126,12 +129,14 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                         String posologiaCuidado = editTextPosologiaCuidado.getText().toString();
 
                         if (fechaInicioStr.isEmpty() || fechaFinStr.isEmpty() || descripcionCuidado.isEmpty() || posologiaCuidado.isEmpty() || (spinnerGatoFKCuidado.getSelectedItemPosition() == 0) || (spinnerVeterinarioFKCuidado.getSelectedItemPosition() == 0)) {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
                         if (!comprobarFecha(fechaInicioStr) || !comprobarFecha(fechaFinStr)) {
-                            Toast.makeText(context, "Fechas incorrectas.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Fechas incorrectas.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -161,7 +166,8 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                    makeToast();
                                     if (isAdded()) {
                                         sendResult(false);
                                     }
@@ -176,12 +182,14 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                                         if (isAdded()) {
                                             sendResult(true);
                                         }
-                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     } else {
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     }
                                     alertDialog.dismiss();
                                 });
@@ -212,6 +220,15 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
         if (isAdded()) {
             getParentFragmentManager().setFragmentResult("altaCuidadoRequestKey", result);
         }
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     @Override

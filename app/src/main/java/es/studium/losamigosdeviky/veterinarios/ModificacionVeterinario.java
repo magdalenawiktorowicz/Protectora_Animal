@@ -11,9 +11,11 @@ import androidx.fragment.app.DialogFragment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -27,6 +29,7 @@ import okhttp3.Response;
 public class ModificacionVeterinario extends DialogFragment {
     EditText editTextNombreVeterinario, editTextApellidosVeterinario, editTextTelefonoVeterinario, editTextEspecialidadVeterinario;
     Veterinario veterinario;
+    Toast toast;
     public ModificacionVeterinario(Veterinario veterinario) {
         this.veterinario = veterinario;
     }
@@ -69,7 +72,8 @@ public class ModificacionVeterinario extends DialogFragment {
                         String especialidadVeterinarioNuevo = editTextEspecialidadVeterinario.getText().toString();
 
                         if (nombreVeterinarioNuevo.isEmpty() || apellidosVeterinarioNuevo.isEmpty() || telefonoVeterinarioNuevoStr.isEmpty() || especialidadVeterinarioNuevo.isEmpty()) {
-                            Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -77,7 +81,8 @@ public class ModificacionVeterinario extends DialogFragment {
                         try {
                             telefonoVeterinarioNuevo = Integer.parseInt(telefonoVeterinarioNuevoStr);
                         } catch (NumberFormatException e) {
-                            Toast.makeText(context, "Introduce valores válidos para el teléfono.", Toast.LENGTH_SHORT).show();
+                            toast = Toast.makeText(context, "Introduce valores válidos para el teléfono.", Toast.LENGTH_SHORT);
+                            makeToast();
                             return;
                         }
 
@@ -91,7 +96,8 @@ public class ModificacionVeterinario extends DialogFragment {
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                    Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                    toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                    makeToast();
                                     // Send result
                                     if (isAdded()) {
                                         sendResult(false);
@@ -107,13 +113,15 @@ public class ModificacionVeterinario extends DialogFragment {
                                         if (isAdded()) {
                                             sendResult(true);
                                         }
-                                        Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     } else {
                                         // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
-                                        Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT).show();
+                                        toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
+                                        makeToast();
                                     }
                                     alertDialog.dismiss();
                                 });
@@ -124,6 +132,15 @@ public class ModificacionVeterinario extends DialogFragment {
             }
         });
         return alertDialog;
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     private void sendResult(boolean success) {

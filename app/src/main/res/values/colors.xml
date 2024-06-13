@@ -8,8 +8,11 @@
     <color name="orange">#FFB725</color>
     <color name="orange_light">#FBE4B5</color>
     <color name="pink">#DA53B9</color>
+    <color name="light_pink">#CCAEC5</color>
     <color name="grey">#515151</color>
     <color name="seethrough">#00515151</color>
     <color name="item_title">#FCD7B0</color>
     <color name="item_content">#FEEBD7</color>
+    <color name="toast_color">#E8FBE4B5</color>
+    <color name="toast_text_color">#264038</color>
 </resources>

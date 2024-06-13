@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import es.studium.losamigosdeviky.ayuntamientos.ConsultaAyuntamiento;
@@ -32,6 +34,7 @@ public class Principal extends Fragment implements View.OnClickListener {
     FragmentTransaction ft;
     Fragment consultaAyuntamiento, consultaProtectora, consultaColonia, consultaVeterinario, consultaGato, consultaCuidado;
     SharedPreferences sharedPreferences;
+    Toast toast;
 
     public Principal() {
         // Required empty public constructor
@@ -139,13 +142,25 @@ public class Principal extends Fragment implements View.OnClickListener {
             }
 
         } else if (v.getId() == imageBtnHelp.getId()) {
+            toast = Toast.makeText(getContext(), "Selecciona la sección \nque quieres gestionar.", Toast.LENGTH_SHORT);
+            makeToast();
 
         } else if (v.getId() == btnBorrarCredenciales.getId()) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.clear();
             editor.commit();
             btnBorrarCredenciales.setEnabled(false);
-            Toast.makeText(getContext(), "Credenciales borradas", Toast.LENGTH_SHORT).show();
+            toast = Toast.makeText(getContext(), "Credenciales borradas", Toast.LENGTH_SHORT);
+            makeToast();
         }
+    }
+
+    private void makeToast() {
+        View toastView = toast.getView();
+        TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+        toastMessage.setTextAppearance(R.style.ToastStyle);
+        toastView.setBackground(getResources().getDrawable(R.drawable.toast_shape));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }
