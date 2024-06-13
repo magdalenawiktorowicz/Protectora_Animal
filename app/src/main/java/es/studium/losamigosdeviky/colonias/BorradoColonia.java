@@ -26,7 +26,6 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class BorradoColonia extends DialogFragment implements View.OnClickListener {
-
     Colonia colonia;
     private TextView textViewMensajeConfirmacion;
     private Button btnSi, btnNo;
@@ -66,14 +65,12 @@ public class BorradoColonia extends DialogFragment implements View.OnClickListen
                     new Handler(Looper.getMainLooper()).post(() -> {
                         toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                         makeToast();
-                        // Send result
                         if (isAdded()) {
                             sendResult(false);
                         }
                         dismiss();
                     });
                 }
-
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     new Handler(Looper.getMainLooper()).post(() -> {
@@ -84,7 +81,6 @@ public class BorradoColonia extends DialogFragment implements View.OnClickListen
                             toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
                             makeToast();
                         } else {
-                            // Send result
                             if (isAdded()) {
                                 sendResult(false);
                             }

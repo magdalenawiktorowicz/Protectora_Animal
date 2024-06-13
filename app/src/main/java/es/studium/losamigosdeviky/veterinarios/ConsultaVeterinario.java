@@ -1,7 +1,6 @@
 package es.studium.losamigosdeviky.veterinarios;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -33,7 +31,6 @@ import es.studium.losamigosdeviky.R;
 import es.studium.losamigosdeviky.RecyclerViewOnItemClickListener;
 
 public class ConsultaVeterinario extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
-
     List<Veterinario> veterinarios = new ArrayList<>();
     RecyclerView recyclerView;
     Spinner spinnerOrdenarVeterinarios;
@@ -116,7 +113,6 @@ public class ConsultaVeterinario extends Fragment implements AdapterView.OnItemS
 
         // establecer el título en la barra superior
         if (getActivity() != null) {
-            // establecer el título de la barra superior
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.veterinarios);
         }
     }
@@ -172,7 +168,6 @@ public class ConsultaVeterinario extends Fragment implements AdapterView.OnItemS
             public void onResult(final ArrayList<Veterinario> vets) {
                 if (vets != null) {
                     Log.d("ConsultaVeterinario", "Data fetched: " + vets.size() + " veterinarios");
-                    // Ensure this code runs on the main thread
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -219,6 +214,5 @@ public class ConsultaVeterinario extends Fragment implements AdapterView.OnItemS
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

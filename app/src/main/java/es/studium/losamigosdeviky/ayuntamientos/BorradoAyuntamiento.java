@@ -26,7 +26,6 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class BorradoAyuntamiento extends DialogFragment implements View.OnClickListener {
-
     Ayuntamiento ayuntamiento;
     private TextView textViewMensajeConfirmacion;
     private Button btnSi, btnNo;
@@ -65,7 +64,6 @@ public class BorradoAyuntamiento extends DialogFragment implements View.OnClickL
                     new Handler(Looper.getMainLooper()).post(() -> {
                         toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                         makeToast();
-                        // Send result
                         if (isAdded()) {
                             sendResult(false);
                         }
@@ -83,7 +81,6 @@ public class BorradoAyuntamiento extends DialogFragment implements View.OnClickL
                             toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
                             makeToast();
                         } else {
-                            // Send result
                             if (isAdded()) {
                                 sendResult(false);
                             }

@@ -65,7 +65,6 @@ public class ModificacionAyuntamiento extends DialogFragment {
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawableResource(R.color.background);
 
-        // Override onClick for the positive button
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
@@ -78,7 +77,6 @@ public class ModificacionAyuntamiento extends DialogFragment {
                         String direccionAyuntamientoNuevo = editTextDireccionAyuntamiento.getText().toString();
                         String cpAyuntamientoNuevoStr = editTextCpAyuntamiento.getText().toString();
 
-                        // Check if any field is empty
                         if (nombreAyuntamientoNuevo.isBlank() || telefonoAyuntamientoNuevoStr.isBlank() ||
                                 responsableAyuntamientoNuevo.isBlank() || direccionAyuntamientoNuevo.isBlank() ||
                                 cpAyuntamientoNuevoStr.isBlank()) {
@@ -87,7 +85,6 @@ public class ModificacionAyuntamiento extends DialogFragment {
                             return;
                         }
 
-                        // Validate and parse integers
                         int telefonoAyuntamientoNuevo;
                         int cpAyuntamientoNuevo;
                         try {
@@ -112,7 +109,6 @@ public class ModificacionAyuntamiento extends DialogFragment {
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                                     makeToast();
-                                    // Send result
                                     if (isAdded()) {
                                         sendResult(false);
                                     }

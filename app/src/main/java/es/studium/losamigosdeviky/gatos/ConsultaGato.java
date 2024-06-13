@@ -1,7 +1,6 @@
 package es.studium.losamigosdeviky.gatos;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -33,7 +32,6 @@ import es.studium.losamigosdeviky.R;
 import es.studium.losamigosdeviky.RecyclerViewOnItemClickListener;
 
 public class ConsultaGato extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
-
     List<Gato> gatos = new ArrayList<>();
     RecyclerView recyclerView;
     Spinner spinnerOrdenarGatos;
@@ -119,7 +117,6 @@ public class ConsultaGato extends Fragment implements AdapterView.OnItemSelected
 
         // establecer el título en la barra superior
         if (getActivity() != null) {
-            // establecer el título de la barra superior
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.gatos);
         }
     }
@@ -235,7 +232,5 @@ public class ConsultaGato extends Fragment implements AdapterView.OnItemSelected
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

@@ -27,7 +27,6 @@ import okhttp3.Response;
 
 
 public class BorradoGato extends DialogFragment implements View.OnClickListener {
-
     Gato gato;
     private TextView textViewMensajeConfirmacion;
     private Button btnSi, btnNo;
@@ -67,14 +66,12 @@ public class BorradoGato extends DialogFragment implements View.OnClickListener 
                     new Handler(Looper.getMainLooper()).post(() -> {
                         toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                         makeToast();
-                        // Send result
                         if (isAdded()) {
                             sendResult(false);
                         }
                         dismiss();
                     });
                 }
-
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     new Handler(Looper.getMainLooper()).post(() -> {

@@ -7,14 +7,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -41,7 +39,6 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSelectedListener {
-
     EditText editTextFechaInicioCuidado, editTextFechaFinCuidado, editTextDescripcionCuidado, editTextPosologiaCuidado;
     Spinner spinnerGatoFKCuidado, spinnerVeterinarioFKCuidado;
     private List<Gato> gatos = new ArrayList<>();
@@ -58,7 +55,6 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
         editTextFechaFinCuidado = v.findViewById(R.id.editTextAltaFechaFinCuidado);
         editTextDescripcionCuidado = v.findViewById(R.id.editTextAltaDescripcionCuidado);
         editTextPosologiaCuidado = v.findViewById(R.id.editTextAltaPosologiaCuidado);
-
         spinnerGatoFKCuidado = v.findViewById(R.id.spinnerAltaGatoFKCuidado);
         spinnerVeterinarioFKCuidado = v.findViewById(R.id.spinnerAltaVeterinarioFKCuidado);
 
@@ -101,7 +97,6 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                 }
             }
         });
-
         spinnerGatoFKCuidado.setOnItemSelectedListener(this);
         spinnerVeterinarioFKCuidado.setOnItemSelectedListener(this);
 
@@ -116,7 +111,6 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
 
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawableResource(R.color.background);
-
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
@@ -199,13 +193,12 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                 });
             }
         });
-
         return alertDialog;
     }
 
     private boolean comprobarFecha(String string) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        dateFormat.setLenient(false); // Ensures strict parsing
+        dateFormat.setLenient(false);
         try {
             dateFormat.parse(string);
             return true;
@@ -232,12 +225,8 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

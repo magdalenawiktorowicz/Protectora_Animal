@@ -120,7 +120,6 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
                 }
             }
         });
-
         spinnerAyuntamientoFKColonia.setOnItemSelectedListener(this);
         spinnerProtectoraFKColonia.setOnItemSelectedListener(this);
 
@@ -188,7 +187,6 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                                     makeToast();
-                                    // Send result
                                     if (isAdded()) {
                                         sendResult(false);
                                     }
@@ -206,7 +204,6 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
                                         toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
                                         makeToast();
                                     } else {
-                                        // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
@@ -217,12 +214,10 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
                                 });
                             }
                         });
-
                     }
                 });
             }
         });
-
         return alertDialog;
     }
 
@@ -247,12 +242,8 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

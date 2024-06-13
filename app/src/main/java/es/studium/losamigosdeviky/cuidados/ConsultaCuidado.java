@@ -1,7 +1,6 @@
 package es.studium.losamigosdeviky.cuidados;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -31,13 +30,8 @@ import es.studium.losamigosdeviky.BDConexion;
 import es.studium.losamigosdeviky.MainActivity;
 import es.studium.losamigosdeviky.R;
 import es.studium.losamigosdeviky.RecyclerViewOnItemClickListener;
-import es.studium.losamigosdeviky.gatos.AltaGato;
-import es.studium.losamigosdeviky.gatos.BorradoGato;
-import es.studium.losamigosdeviky.gatos.Gato;
-import es.studium.losamigosdeviky.gatos.ModificacionGato;
 
 public class ConsultaCuidado extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
-
     List<Cuidado> cuidados = new ArrayList<>();
     RecyclerView recyclerView;
     Spinner spinnerOrdenarCuidados;
@@ -121,7 +115,6 @@ public class ConsultaCuidado extends Fragment implements AdapterView.OnItemSelec
 
         // establecer el título en la barra superior
         if (getActivity() != null) {
-            // establecer el título de la barra superior
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.cuidados);
         }
     }
@@ -226,6 +219,5 @@ public class ConsultaCuidado extends Fragment implements AdapterView.OnItemSelec
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

@@ -19,7 +19,6 @@ import es.studium.losamigosdeviky.veterinarios.VeterinarioCallback;
 
 
 public class CuidadosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
     private final TextView numeroCuidado;
     private final TextView veterinarioFKCuidado;
     private final TextView gatoFKCuidado;
@@ -27,7 +26,6 @@ public class CuidadosViewHolder extends RecyclerView.ViewHolder implements View.
     private final TextView fechaFinCuidado;
     private final TextView descripcionCuidado;
     private final TextView posologiaCuidado;
-
     private final RecyclerViewOnItemClickListener listener;
     private Context contexto;
 
@@ -54,7 +52,6 @@ public class CuidadosViewHolder extends RecyclerView.ViewHolder implements View.
 
     public void bindRow(@NonNull Cuidado cuidado) {
         final Cuidado currentCuidado = cuidado;
-
         numeroCuidado.setText(contexto.getResources().getString(R.string.cuidado) + " " + cuidado.getIdCuidado());
         fechaInicioCuidado.setText(contexto.getResources().getString(R.string.fechaInicio) + " " + cuidado.getFechaInicioCuidado());
         fechaFinCuidado.setText(contexto.getResources().getString(R.string.fechaFin) + " " + cuidado.getFechaFinCuidado());

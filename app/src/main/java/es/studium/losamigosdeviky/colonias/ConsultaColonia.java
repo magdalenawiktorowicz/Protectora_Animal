@@ -1,7 +1,6 @@
 package es.studium.losamigosdeviky.colonias;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -31,11 +29,8 @@ import es.studium.losamigosdeviky.BDConexion;
 import es.studium.losamigosdeviky.MainActivity;
 import es.studium.losamigosdeviky.R;
 import es.studium.losamigosdeviky.RecyclerViewOnItemClickListener;
-import es.studium.losamigosdeviky.ayuntamientos.AltaAyuntamiento;
-import es.studium.losamigosdeviky.ayuntamientos.Ayuntamiento;
 
 public class ConsultaColonia extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
-
     List<Colonia> colonias = new ArrayList<>();
     RecyclerView recyclerView;
     Spinner spinnerOrdenarColonias;
@@ -120,7 +115,6 @@ public class ConsultaColonia extends Fragment implements AdapterView.OnItemSelec
 
         // establecer el título en la barra superior
         if (getActivity() != null) {
-            // establecer el título de la barra superior
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.colonias);
         }
     }
@@ -176,7 +170,6 @@ public class ConsultaColonia extends Fragment implements AdapterView.OnItemSelec
             public void onResult(final ArrayList<Colonia> cols) {
                 if (cols != null) {
                     Log.d("ConsultaColonia", "Data fetched: " + cols.size() + " colonias");
-                    // Ensure this code runs on the main thread
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -219,17 +212,19 @@ public class ConsultaColonia extends Fragment implements AdapterView.OnItemSelec
         else if(spinnerOrdenarColonias.getSelectedItemPosition() == 1) {
             colonias.sort(Comparator.comparing((Colonia c) -> c.getCpColonia()));
             adapter.notifyDataSetChanged();
-        } else if (spinnerOrdenarColonias.getSelectedItemPosition() == 2) {
+        }
+        // ordenar por el ayuntamiento
+        else if (spinnerOrdenarColonias.getSelectedItemPosition() == 2) {
             colonias.sort(Comparator.comparing((Colonia c) -> c.getIdAyuntamientoFK1()));
             adapter.notifyDataSetChanged();
-        } else if (spinnerOrdenarColonias.getSelectedItemPosition() == 3) {
+        }
+        // ordenar por la protectora
+        else if (spinnerOrdenarColonias.getSelectedItemPosition() == 3) {
             colonias.sort(Comparator.comparing((Colonia c) -> c.getIdProtectoraFK2()));
             adapter.notifyDataSetChanged();
         }
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

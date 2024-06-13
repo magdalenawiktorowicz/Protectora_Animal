@@ -52,7 +52,6 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
         editTextLatitudColonia = v.findViewById(R.id.editTextAltaLatitudColonia);
         editTextLongitudColonia = v.findViewById(R.id.editTextAltaLongitudColonia);
         editTextDireccionColonia = v.findViewById(R.id.editTextAltaDireccionColonia);
-
         spinnerAyuntamientoFKColonia = v.findViewById(R.id.spinnerAltaAyuntamientoFKColonia);
         spinnerProtectoraFKColonia = v.findViewById(R.id.spinnerAltaProtectoraFKColonia);
 
@@ -155,7 +154,6 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                                     makeToast();
-                                    // Send result
                                     if (isAdded()) {
                                         sendResult(false);
                                     }
@@ -173,7 +171,6 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
                                         toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
                                         makeToast();
                                     } else {
-                                        // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
@@ -188,7 +185,6 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
                 });
             }
         });
-
         return alertDialog;
     }
 

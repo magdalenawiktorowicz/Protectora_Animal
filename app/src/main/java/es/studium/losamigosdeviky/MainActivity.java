@@ -6,15 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
-import es.studium.losamigosdeviky.ayuntamientos.ConsultaAyuntamiento;
 
 public class MainActivity extends AppCompatActivity {
-
     public static int tipoUsuario;
     FragmentManager fm = getSupportFragmentManager();
     Fragment principal;
@@ -24,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         principal = fm.findFragmentById(R.id.principal);
         if (principal == null) {
             ft = fm.beginTransaction();
@@ -32,5 +24,4 @@ public class MainActivity extends AppCompatActivity {
             ft.commit();
         }
     }
-
 }

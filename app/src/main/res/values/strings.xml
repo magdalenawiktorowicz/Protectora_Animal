@@ -35,7 +35,7 @@
     <string name="cancelar">Cancelar</string>
 
     <string name="eliminar">Eliminar</string>
-    <string name="mensajeConfirmacion">"¿Estás seguro/a de que quieres eliminar: "</string>
+    <string name="mensajeConfirmacion">"¿Estás seguro/a de que quieres eliminar: \n\n"</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
     <string name="protectora">Nombre:</string>

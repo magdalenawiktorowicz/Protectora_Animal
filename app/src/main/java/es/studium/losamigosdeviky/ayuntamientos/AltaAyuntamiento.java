@@ -63,7 +63,7 @@ public class AltaAyuntamiento extends DialogFragment {
                         String responsableAyuntamiento = editTextResponsableAyuntamiento.getText().toString();
                         String direccionAyuntamiento = editTextDireccionAyuntamiento.getText().toString();
                         String cpAyuntamientoStr = editTextCpAyuntamiento.getText().toString();
-
+                        // comprobar que los campos no están vacíos
                         if (nombreAyuntamiento.isBlank() || telefonoAyuntamientoStr.isBlank() ||
                                 responsableAyuntamiento.isBlank() || direccionAyuntamiento.isBlank() ||
                                 cpAyuntamientoStr.isBlank()) {
@@ -71,8 +71,7 @@ public class AltaAyuntamiento extends DialogFragment {
                             makeToast();
                             return;
                         }
-
-                        // Validate and parse integers
+                        // validar campos numéricos
                         int telefonoAyuntamiento;
                         int cpAyuntamiento;
                         try {
@@ -91,14 +90,12 @@ public class AltaAyuntamiento extends DialogFragment {
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                                     makeToast();
-                                    // Send result
                                     if (isAdded()) {
                                         sendResult(false);
                                     }
                                     alertDialog.dismiss();
                                 });
                             }
-
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
                                 new Handler(Looper.getMainLooper()).post(() -> {
@@ -109,7 +106,6 @@ public class AltaAyuntamiento extends DialogFragment {
                                         toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
                                         makeToast();
                                     } else {
-                                        // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
@@ -124,7 +120,6 @@ public class AltaAyuntamiento extends DialogFragment {
                 });
             }
         });
-
         return alertDialog;
     }
 

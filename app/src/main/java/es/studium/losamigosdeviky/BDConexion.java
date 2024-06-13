@@ -54,7 +54,6 @@ public class BDConexion {
                     boolean loginSuccess = false;
                     int tipoUsuario = -1;
                     if (response.isSuccessful()) {
-                        // Parse JSON response
                         String jsonResponse = response.body().string();
                         try {
                             JSONObject jsonObject = new JSONObject(jsonResponse);
@@ -65,7 +64,6 @@ public class BDConexion {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        // Post result back to the main thread
                         final boolean finalLoginSuccess = loginSuccess;
                         MainActivity.tipoUsuario = tipoUsuario;
                         final String finalNombreUsuario = nombreUsuario;
@@ -77,7 +75,6 @@ public class BDConexion {
                         });
                     }
                 } catch (IOException e) {
-                    // Handle failure
                     Log.e("BDConexion", "Error during login request", e);
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
@@ -110,7 +107,7 @@ public class BDConexion {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("BDConexion", "Network error: " + e.getMessage());
-                callback.onResult(new ArrayList<>()); // Return empty list on failure
+                callback.onResult(new ArrayList<>());
             }
 
             @Override
@@ -153,7 +150,6 @@ public class BDConexion {
         });
     }
 
-
     // Ayuntamiento - Alta
     public static void anadirAyuntamiento(Ayuntamiento ayuntamiento, Callback callback) {
         OkHttpClient client = new OkHttpClient();
@@ -175,12 +171,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -189,7 +185,6 @@ public class BDConexion {
     public static void modificarAyuntamiento(Ayuntamiento ayuntamiento, Callback callback) {
         OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/ayuntamientos.php").newBuilder();
-        // Add query parameters
         queryUrlBuilder.addQueryParameter("idAyuntamiento", String.valueOf(ayuntamiento.getIdAyuntamiento()));
         queryUrlBuilder.addQueryParameter("nombreAyuntamiento", ayuntamiento.getNombreAyuntamiento());
         queryUrlBuilder.addQueryParameter("telefonoAyuntamiento", String.valueOf(ayuntamiento.getTelefonoAyuntamiento()));
@@ -197,11 +192,9 @@ public class BDConexion {
         queryUrlBuilder.addQueryParameter("direccionAyuntamiento", ayuntamiento.getDireccionAyuntamiento());
         queryUrlBuilder.addQueryParameter("cpAyuntamiento", String.valueOf(ayuntamiento.getCpAyuntamiento()));
 
-        // Create request body (empty for PUT requests)
         RequestBody requestBody = new FormBody.Builder()
                 .build();
 
-        // Build the request
         Request request = new Request.Builder()
                 .url(queryUrlBuilder.build())
                 .put(requestBody)
@@ -211,12 +204,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -233,12 +226,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -263,8 +256,7 @@ public class BDConexion {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("BDConexion", "Network error: " + e.getMessage());
-                // Handle the error appropriately
-                callback.onResult(new ArrayList<>()); // Return empty list on failure
+                callback.onResult(new ArrayList<>());
             }
 
             @Override
@@ -302,7 +294,6 @@ public class BDConexion {
                 } else {
                     Log.e("BDConexion", "Response not successful: " + response.message());
                 }
-                // Pass the result to the callback
                 callback.onResult(protectoras);
             }
         });
@@ -329,12 +320,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -343,7 +334,6 @@ public class BDConexion {
     public static void modificarProtectora(Protectora protectora, Callback callback) {
         OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/protectoras.php").newBuilder();
-        // Add query parameters
         queryUrlBuilder.addQueryParameter("idProtectora", String.valueOf(protectora.getIdProtectora()));
         queryUrlBuilder.addQueryParameter("nombreProtectora", protectora.getNombreProtectora());
         queryUrlBuilder.addQueryParameter("direccionProtectora", protectora.getDireccionProtectora());
@@ -351,11 +341,9 @@ public class BDConexion {
         queryUrlBuilder.addQueryParameter("telefonoProtectora", String.valueOf(protectora.getTelefonoProtectora()));
         queryUrlBuilder.addQueryParameter("correoProtectora", protectora.getCorreoProtectora());
 
-        // Create request body (empty for PUT requests)
         RequestBody requestBody = new FormBody.Builder()
                 .build();
 
-        // Build the request
         Request request = new Request.Builder()
                 .url(queryUrlBuilder.build())
                 .put(requestBody)
@@ -365,12 +353,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -387,16 +375,15 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
-
 
     // Colonias - Consulta (todas o por id)
     public static void consultarColonias(final ColoniaCallback callback) {
@@ -418,7 +405,7 @@ public class BDConexion {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("BDConexion", "Network error: " + e.getMessage());
-                callback.onResult(new ArrayList<>()); // Return empty list on failure
+                callback.onResult(new ArrayList<>());
             }
 
             @Override
@@ -486,12 +473,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -500,7 +487,7 @@ public class BDConexion {
     public static void modificarColonia(Colonia colonia, Callback callback) {
         OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/colonias.php").newBuilder();
-        // Add query parameters
+
         queryUrlBuilder.addQueryParameter("idColonia", String.valueOf(colonia.getIdColonia()));
         queryUrlBuilder.addQueryParameter("nombreColonia", colonia.getNombreColonia());
         queryUrlBuilder.addQueryParameter("cpColonia", String.valueOf(colonia.getCpColonia()));
@@ -510,11 +497,9 @@ public class BDConexion {
         queryUrlBuilder.addQueryParameter("idAyuntamientoFK1", String.valueOf(colonia.getIdAyuntamientoFK1()));
         queryUrlBuilder.addQueryParameter("idProtectoraFK2", String.valueOf(colonia.getIdProtectoraFK2()));
 
-        // Create request body (empty for PUT requests)
         RequestBody requestBody = new FormBody.Builder()
                 .build();
 
-        // Build the request
         Request request = new Request.Builder()
                 .url(queryUrlBuilder.build())
                 .put(requestBody)
@@ -524,12 +509,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -546,12 +531,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -576,7 +561,7 @@ public class BDConexion {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("BDConexion", "Network error: " + e.getMessage());
-                callback.onResult(new ArrayList<>()); // Return empty list on failure
+                callback.onResult(new ArrayList<>());
             }
 
             @Override
@@ -637,12 +622,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -651,18 +636,15 @@ public class BDConexion {
     public static void modificarVeterinario(Veterinario veterinario, Callback callback) {
         OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/veterinarios.php").newBuilder();
-        // Add query parameters
         queryUrlBuilder.addQueryParameter("idVeterinario", String.valueOf(veterinario.getIdVeterinario()));
         queryUrlBuilder.addQueryParameter("nombreVeterinario", veterinario.getNombreVeterinario());
         queryUrlBuilder.addQueryParameter("apellidosVeterinario", veterinario.getApellidosVeterinario());
         queryUrlBuilder.addQueryParameter("telefonoVeterinario", String.valueOf(veterinario.getTelefonoVeterinario()));
         queryUrlBuilder.addQueryParameter("especialidadVeterinario", veterinario.getEspecialidadVeterinario());
 
-        // Create request body (empty for PUT requests)
         RequestBody requestBody = new FormBody.Builder()
                 .build();
 
-        // Build the request
         Request request = new Request.Builder()
                 .url(queryUrlBuilder.build())
                 .put(requestBody)
@@ -672,12 +654,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -694,12 +676,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -724,7 +706,7 @@ public class BDConexion {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("BDConexion", "Network error: " + e.getMessage());
-                callback.onResult(new ArrayList<>()); // Return empty list on failure
+                callback.onResult(new ArrayList<>());
             }
 
             @Override
@@ -799,14 +781,14 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String responseBody = response.body().string();
                 Log.d("API Response", responseBody);
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -815,7 +797,6 @@ public class BDConexion {
     public static void modificarGato(Gato gato, Callback callback) {
         OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/gatos.php").newBuilder();
-        // Add query parameters
         queryUrlBuilder.addQueryParameter("idGato", String.valueOf(gato.getIdGato()));
         queryUrlBuilder.addQueryParameter("nombreGato", gato.getNombreGato());
         queryUrlBuilder.addQueryParameter("sexoGato", gato.getSexoGato());
@@ -826,11 +807,9 @@ public class BDConexion {
         queryUrlBuilder.addQueryParameter("chipGato", gato.getChipGato());
         queryUrlBuilder.addQueryParameter("idColoniaFK4", String.valueOf(gato.getIdColoniaFK4()));
 
-        // Create request body (empty for PUT requests)
         RequestBody requestBody = new FormBody.Builder()
                 .build();
 
-        // Build the request
         Request request = new Request.Builder()
                 .url(queryUrlBuilder.build())
                 .put(requestBody)
@@ -840,12 +819,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -862,12 +841,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -892,7 +871,7 @@ public class BDConexion {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("BDConexion", "Network error: " + e.getMessage());
-                callback.onResult(new ArrayList<>()); // Return empty list on failure
+                callback.onResult(new ArrayList<>());
             }
 
             @Override
@@ -943,7 +922,7 @@ public class BDConexion {
     public static void anadirCuidado(Cuidado cuidado, Callback callback) {
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
-                .add("idCuidado", "") // possible error?
+                .add("idCuidado", "")
                 .add("fechaInicioCuidado", cuidado.getFechaInicioCuidado().toString())
                 .add("fechaFinCuidado", cuidado.getFechaFinCuidado().toString())
                 .add("descripcionCuidado", cuidado.getDescripcionCuidado())
@@ -961,14 +940,14 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String responseBody = response.body().string();
                 Log.d("API Response", responseBody);
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -977,7 +956,6 @@ public class BDConexion {
     public static void modificarCuidado(Cuidado cuidado, Callback callback) {
         OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder queryUrlBuilder = HttpUrl.parse("http://192.168.1.131/ApiProtectora/cuidados.php").newBuilder();
-        // Add query parameters
         queryUrlBuilder.addQueryParameter("idCuidado", String.valueOf(cuidado.getIdCuidado()));
         queryUrlBuilder.addQueryParameter("fechaInicioCuidado", cuidado.getFechaInicioCuidado().toString());
         queryUrlBuilder.addQueryParameter("fechaFinCuidado", cuidado.getFechaFinCuidado().toString());
@@ -986,11 +964,9 @@ public class BDConexion {
         queryUrlBuilder.addQueryParameter("idGatoFK5", String.valueOf(cuidado.getIdGatoFK()));
         queryUrlBuilder.addQueryParameter("idVeterinarioFK6", String.valueOf(cuidado.getIdVeterinarioFK()));
 
-        // Create request body (empty for PUT requests)
         RequestBody requestBody = new FormBody.Builder()
                 .build();
 
-        // Build the request
         Request request = new Request.Builder()
                 .url(queryUrlBuilder.build())
                 .put(requestBody)
@@ -1000,12 +976,12 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
@@ -1022,14 +998,13 @@ public class BDConexion {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onFailure(call, e); // Forward the failure to the provided callback
+                callback.onFailure(call, e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(call, response); // Forward the response to the provided callback
+                callback.onResponse(call, response);
             }
         });
     }
-
 }

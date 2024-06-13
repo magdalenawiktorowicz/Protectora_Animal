@@ -7,9 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -28,7 +26,6 @@ import android.widget.Toast;
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private static final int MY_PERMISSIONS_REQUEST_INTERNET = 1001;
-    // componentes de GUI
     EditText editTextUsuario, editTextClave;
     Button btnAcceder;
     SwitchCompat switchGuardarCredenciales;
@@ -63,7 +60,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             // pasar a la ventana principal a través del Intent
             Intent intentMain = new Intent(this, MainActivity.class);
             intentMain.putExtra("nombreUsuario", sharedpreferences.getString("nombreUsuario", ""));
-            intentMain.putExtra("tipoUsuario", -1);
+            intentMain.putExtra("tipoUsuario", sharedpreferences.getInt("tipoKey", -1));
             startActivity(intentMain);
             finish(); // deshabilitar el botón 'back'
         }
@@ -98,7 +95,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             };
             editTextUsuario.addTextChangedListener(textWatcher);
             editTextClave.addTextChangedListener(textWatcher);
-
             // método para comprobar permisos
             checkPermissions();
         }
@@ -132,9 +128,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         toast = Toast.makeText(getApplicationContext(), "Credenciales incorrectas.", Toast.LENGTH_SHORT);
                         makeToast();
                     }
-                } catch (Exception e) {
-
-                }
+                } catch (Exception e) {}
             }
         });
     }

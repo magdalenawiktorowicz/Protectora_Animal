@@ -7,14 +7,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -194,7 +192,6 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                                     makeToast();
-                                    // Send result
                                     if (isAdded()) {
                                         sendResult(false);
                                     }
@@ -212,7 +209,6 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
                                         toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
                                         makeToast();
                                     } else {
-                                        // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
@@ -227,13 +223,12 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
                 });
             }
         });
-
         return alertDialog;
     }
 
     private boolean comprobarFecha(String string) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        dateFormat.setLenient(false); // Ensures strict parsing
+        dateFormat.setLenient(false);
         try {
             dateFormat.parse(string);
             return true;
@@ -260,12 +255,8 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

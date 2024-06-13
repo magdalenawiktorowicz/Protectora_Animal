@@ -25,7 +25,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 public class BorradoProtectora extends DialogFragment implements View.OnClickListener {
-
     Protectora protectora;
     private TextView textViewMensajeConfirmacion;
     private Button btnSi, btnNo;
@@ -64,7 +63,6 @@ public class BorradoProtectora extends DialogFragment implements View.OnClickLis
                     new Handler(Looper.getMainLooper()).post(() -> {
                         toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                         makeToast();
-                        // Send result
                         if (isAdded()) {
                             sendResult(false);
                         }
@@ -82,7 +80,6 @@ public class BorradoProtectora extends DialogFragment implements View.OnClickLis
                             toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
                             makeToast();
                         } else {
-                            // Send result
                             if (isAdded()) {
                                 sendResult(false);
                             }

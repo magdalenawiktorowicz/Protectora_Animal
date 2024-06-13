@@ -26,7 +26,6 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class AltaProtectora extends DialogFragment {
-
     EditText editTextNombreProtectora, editTextDireccionProtectora, editTextLocalidadProtectora, editTextTelefonoProtectora, editTextCorreoProtectora;
     Toast toast;
 
@@ -87,7 +86,6 @@ public class AltaProtectora extends DialogFragment {
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                                     makeToast();
-                                    // Send result
                                     if (isAdded()) {
                                         sendResult(false);
                                     }
@@ -105,7 +103,6 @@ public class AltaProtectora extends DialogFragment {
                                         toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
                                         makeToast();
                                     } else {
-                                        // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
@@ -121,7 +118,6 @@ public class AltaProtectora extends DialogFragment {
                 });
             }
         });
-
         return alertDialog;
     }
 

@@ -16,7 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
 import android.view.Gravity;
@@ -24,19 +23,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,12 +39,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -62,14 +53,11 @@ import es.studium.losamigosdeviky.BDConexion;
 import es.studium.losamigosdeviky.R;
 import es.studium.losamigosdeviky.colonias.Colonia;
 import es.studium.losamigosdeviky.colonias.ColoniaCallback;
-import es.studium.losamigosdeviky.veterinarios.Veterinario;
-import es.studium.losamigosdeviky.veterinarios.VeterinarioCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
 public class AltaGato extends DialogFragment implements AdapterView.OnItemSelectedListener {
-
     ImageView imageViewFotoGato;
     EditText editTextNombreGato, editTextSexoGato, editTextDescripcionGato, editTextFechaNacimientoGato, editTextChipGato;
     SwitchCompat switchEsterilizadoGato;
@@ -125,7 +113,6 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                 }
             }
         });
-
         spinnerColoniaFKGato.setOnItemSelectedListener(this);
 
         builder.setView(v)
@@ -180,7 +167,6 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                                     makeToast();
-                                    // Send result
                                     if (isAdded()) {
                                         sendResult(false);
                                     }
@@ -198,7 +184,6 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                                         toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
                                         makeToast();
                                     } else {
-                                        // Send result
                                         if (isAdded()) {
                                             sendResult(false);
                                         }
@@ -213,7 +198,6 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                 });
             }
         });
-
         return alertDialog;
     }
 
@@ -227,7 +211,7 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
 
     private boolean comprobarFecha(String string) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        dateFormat.setLenient(false); // Ensures strict parsing
+        dateFormat.setLenient(false);
         try {
             dateFormat.parse(string);
             return true;

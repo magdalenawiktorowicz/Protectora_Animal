@@ -26,10 +26,8 @@ import es.studium.losamigosdeviky.protectoras.ConsultaProtectora;
 import es.studium.losamigosdeviky.veterinarios.ConsultaVeterinario;
 
 public class Principal extends Fragment implements View.OnClickListener {
-
     ImageButton imageBtnHelp;
     Button btnAyuntamientos, btnProtectoras, btnColonias, btnGatos, btnVeterinarios, btnCuidados, btnBorrarCredenciales;
-
     FragmentManager fm;
     FragmentTransaction ft;
     Fragment consultaAyuntamiento, consultaProtectora, consultaColonia, consultaVeterinario, consultaGato, consultaCuidado;
@@ -79,7 +77,6 @@ public class Principal extends Fragment implements View.OnClickListener {
             // establecer el título de la barra superior
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
         }
-
         return v;
     }
 
@@ -140,11 +137,9 @@ public class Principal extends Fragment implements View.OnClickListener {
                         .addToBackStack(null)
                         .commit();
             }
-
         } else if (v.getId() == imageBtnHelp.getId()) {
             toast = Toast.makeText(getContext(), "Selecciona la sección \nque quieres gestionar.", Toast.LENGTH_SHORT);
             makeToast();
-
         } else if (v.getId() == btnBorrarCredenciales.getId()) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.clear();

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +27,6 @@ import okhttp3.Response;
 
 
 public class BorradoCuidado extends DialogFragment implements View.OnClickListener {
-
     Cuidado cuidado;
     private TextView textViewMensajeConfirmacion;
     private Button btnSi, btnNo;
@@ -69,14 +66,12 @@ public class BorradoCuidado extends DialogFragment implements View.OnClickListen
                     new Handler(Looper.getMainLooper()).post(() -> {
                         toast = Toast.makeText(context, "Error: la operación no se ha realizado.", Toast.LENGTH_SHORT);
                         makeToast();
-                        // Send result
                         if (isAdded()) {
                             sendResult(false);
                         }
                         dismiss();
                     });
                 }
-
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     new Handler(Looper.getMainLooper()).post(() -> {
@@ -87,7 +82,6 @@ public class BorradoCuidado extends DialogFragment implements View.OnClickListen
                             toast = Toast.makeText(context, "La operación se ha realizado correctamente.", Toast.LENGTH_SHORT);
                             makeToast();
                         } else {
-                            // Send result
                             if (isAdded()) {
                                 sendResult(false);
                             }

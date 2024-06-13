@@ -118,7 +118,6 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
 
         // establecer el título en la barra superior
         if (getActivity() != null) {
-            // establecer el título de la barra superior
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.ayuntamientos);
         }
     }
@@ -140,7 +139,6 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), ((LinearLayoutManager) recyclerView.getLayoutManager()).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
-
         adapter = new AyuntamientosAdapter(ayuntamientos, new RecyclerViewOnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
@@ -227,6 +225,5 @@ public class ConsultaAyuntamiento extends Fragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }

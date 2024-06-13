@@ -33,7 +33,6 @@ import es.studium.losamigosdeviky.R;
 import es.studium.losamigosdeviky.RecyclerViewOnItemClickListener;
 
 public class ConsultaProtectora extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
-
     List<Protectora> protectoras = new ArrayList<>();
     RecyclerView recyclerView;
     Spinner spinnerOrdenarProtectoras;
@@ -116,7 +115,6 @@ public class ConsultaProtectora extends Fragment implements AdapterView.OnItemSe
 
         // establecer el título en la barra superior
         if (getActivity() != null) {
-            // establecer el título de la barra superior
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.protectoras);
         }
     }
@@ -217,7 +215,5 @@ public class ConsultaProtectora extends Fragment implements AdapterView.OnItemSe
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 }
