@@ -74,7 +74,7 @@ public class Principal extends Fragment implements View.OnClickListener {
 
         if (getActivity() != null) {
             // establecer el color del fondo de la barra superior
-            ((MainActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.pink)));
+            ((MainActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_lighter)));
             // establecer el título de la barra superior
             ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
         }

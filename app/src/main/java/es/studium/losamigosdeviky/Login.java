@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -44,6 +45,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+            // establecer el color del fondo de la barra superior
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_lighter)));
+            // establecer el título de la barra superior
+            getSupportActionBar().setTitle(R.string.app_name);
+
         // obtener una referencia a la colección de preferencias compartidas
         sharedpreferences = getSharedPreferences(LoginCredenciales, Context.MODE_PRIVATE);
         // obtener los valores del usuario y la clave
