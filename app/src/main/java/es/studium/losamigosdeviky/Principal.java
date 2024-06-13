@@ -48,8 +48,6 @@ public class Principal extends Fragment implements View.OnClickListener {
         View v = inflater.inflate(R.layout.fragment_principal, container, false);
 
         sharedPreferences = getContext().getSharedPreferences("LoginCredenciales", Context.MODE_PRIVATE);
-
-        Toast.makeText(getContext(), "" + MainActivity.tipoUsuario, Toast.LENGTH_SHORT).show();
         imageBtnHelp = v.findViewById(R.id.imageBtnHelp);
         imageBtnHelp.setOnClickListener(this);
         btnAyuntamientos = v.findViewById(R.id.btnAyuntamientos);
