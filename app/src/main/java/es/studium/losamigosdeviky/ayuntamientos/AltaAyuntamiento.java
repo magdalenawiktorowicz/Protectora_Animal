@@ -64,9 +64,9 @@ public class AltaAyuntamiento extends DialogFragment {
                         String direccionAyuntamiento = editTextDireccionAyuntamiento.getText().toString();
                         String cpAyuntamientoStr = editTextCpAyuntamiento.getText().toString();
 
-                        if (nombreAyuntamiento.isEmpty() || telefonoAyuntamientoStr.isEmpty() ||
-                                responsableAyuntamiento.isEmpty() || direccionAyuntamiento.isEmpty() ||
-                                cpAyuntamientoStr.isEmpty()) {
+                        if (nombreAyuntamiento.isBlank() || telefonoAyuntamientoStr.isBlank() ||
+                                responsableAyuntamiento.isBlank() || direccionAyuntamiento.isBlank() ||
+                                cpAyuntamientoStr.isBlank()) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;

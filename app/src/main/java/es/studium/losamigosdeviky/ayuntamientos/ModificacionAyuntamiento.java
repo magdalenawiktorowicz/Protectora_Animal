@@ -79,9 +79,9 @@ public class ModificacionAyuntamiento extends DialogFragment {
                         String cpAyuntamientoNuevoStr = editTextCpAyuntamiento.getText().toString();
 
                         // Check if any field is empty
-                        if (nombreAyuntamientoNuevo.isEmpty() || telefonoAyuntamientoNuevoStr.isEmpty() ||
-                                responsableAyuntamientoNuevo.isEmpty() || direccionAyuntamientoNuevo.isEmpty() ||
-                                cpAyuntamientoNuevoStr.isEmpty()) {
+                        if (nombreAyuntamientoNuevo.isBlank() || telefonoAyuntamientoNuevoStr.isBlank() ||
+                                responsableAyuntamientoNuevo.isBlank() || direccionAyuntamientoNuevo.isBlank() ||
+                                cpAyuntamientoNuevoStr.isBlank()) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;

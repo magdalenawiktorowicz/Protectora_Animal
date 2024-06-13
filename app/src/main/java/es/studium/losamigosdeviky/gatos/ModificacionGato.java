@@ -188,7 +188,7 @@ public class ModificacionGato extends DialogFragment implements AdapterView.OnIt
                                 .findFirst()
                                 .orElse(-1);
 
-                        if (nombreGatoNuevo.isEmpty() || sexoGatoNuevo.isEmpty() || descripcionGatoNuevo.isEmpty() || chipGatoNuevo.isEmpty() || coloniaFKGatoNuevo == -1) {
+                        if (nombreGatoNuevo.isBlank() || sexoGatoNuevo.isBlank() || descripcionGatoNuevo.isBlank() || chipGatoNuevo.isBlank() || coloniaFKGatoNuevo == -1) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;

@@ -74,7 +74,7 @@ public class ModificacionProtectora extends DialogFragment {
                         String telefonoProtectoraNuevoStr = editTextTelefonoProtectora.getText().toString();
                         String correoProtectoraNuevo = editTextCorreoProtectora.getText().toString();
 
-                        if (nombreProtectoraNuevo.isEmpty() || direccionProtectoraNuevo.isEmpty() || localidadProtectoraNuevo.isEmpty() || telefonoProtectoraNuevoStr.isEmpty() || correoProtectoraNuevo.isEmpty()) {
+                        if (nombreProtectoraNuevo.isBlank() || direccionProtectoraNuevo.isBlank() || localidadProtectoraNuevo.isBlank() || telefonoProtectoraNuevoStr.isBlank() || correoProtectoraNuevo.isBlank()) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;

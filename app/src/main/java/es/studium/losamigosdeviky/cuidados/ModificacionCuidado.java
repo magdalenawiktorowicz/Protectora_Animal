@@ -149,7 +149,7 @@ public class ModificacionCuidado extends DialogFragment implements AdapterView.O
                         String descripcionCuidadoNuevo = editTextDescripcionCuidado.getText().toString();
                         String posologiaCuidadoNuevo = editTextPosologiaCuidado.getText().toString();
 
-                        if (fechaInicioNuevoStr.isEmpty() || fechaFinNuevoStr.isEmpty() || descripcionCuidadoNuevo.isEmpty() || posologiaCuidadoNuevo.isEmpty() || (spinnerGatoFKCuidado.getSelectedItemPosition() == 0) || (spinnerVeterinarioFKCuidado.getSelectedItemPosition() == 0)) {
+                        if (fechaInicioNuevoStr.isBlank() || fechaFinNuevoStr.isBlank() || descripcionCuidadoNuevo.isBlank() || posologiaCuidadoNuevo.isBlank() || (spinnerGatoFKCuidado.getSelectedItemPosition() == 0) || (spinnerVeterinarioFKCuidado.getSelectedItemPosition() == 0)) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;

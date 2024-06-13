@@ -166,7 +166,7 @@ public class AltaGato extends DialogFragment implements AdapterView.OnItemSelect
                                 .findFirst()
                                 .orElse(-1);
 
-                        if (nombreGato.isEmpty() || sexoGato.isEmpty() || descripcionGato.isEmpty() || chipGato.isEmpty() || coloniaFKGato == -1) {
+                        if (nombreGato.isBlank() || sexoGato.isBlank() || descripcionGato.isBlank() || chipGato.isBlank() || coloniaFKGato == -1) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;

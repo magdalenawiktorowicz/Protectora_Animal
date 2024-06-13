@@ -133,7 +133,7 @@ public class AltaColonia extends DialogFragment implements AdapterView.OnItemSel
                                 .findFirst()
                                 .orElse(-1);
 
-                        if (ayuntamientoFK == -1 || protectoraFK == -1 || nombreColonia.isEmpty() || cpColoniaStr.isEmpty() || latitudColonia.isEmpty() || longitudColonia.isEmpty() || direccionColonia.isEmpty()) {
+                        if (ayuntamientoFK == -1 || protectoraFK == -1 || nombreColonia.isBlank() || cpColoniaStr.isBlank() || latitudColonia.isBlank() || longitudColonia.isBlank() || direccionColonia.isBlank()) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;

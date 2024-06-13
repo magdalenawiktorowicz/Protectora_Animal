@@ -158,7 +158,7 @@ public class ModificacionColonia extends DialogFragment implements AdapterView.O
                                 .findFirst()
                                 .orElse(-1);
 
-                        if (ayuntamientoFKNuevo == -1 || protectoraFKNuevo == -1 || nombreColoniaNuevo.isEmpty() || cpColoniaNuevoStr.isEmpty() || latitudColoniaNuevo.isEmpty() || longitudColoniaNuevo.isEmpty() || direccionColoniaNuevo.isEmpty()) {
+                        if (ayuntamientoFKNuevo == -1 || protectoraFKNuevo == -1 || nombreColoniaNuevo.isBlank() || cpColoniaNuevoStr.isBlank() || latitudColoniaNuevo.isBlank() || longitudColoniaNuevo.isBlank() || direccionColoniaNuevo.isBlank()) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;

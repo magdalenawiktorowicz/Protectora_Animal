@@ -62,7 +62,7 @@ public class AltaVeterinario extends DialogFragment {
                         String telefonoVeterinarioStr = editTextTelefonoVeterinario.getText().toString();
                         String especialidadVeterinario = editTextEspecialidadVeterinario.getText().toString();
 
-                        if (nombreVeterinario.isEmpty() || apellidosVeterinario.isEmpty() || telefonoVeterinarioStr.isEmpty() || especialidadVeterinario.isEmpty()) {
+                        if (nombreVeterinario.isBlank() || apellidosVeterinario.isBlank() || telefonoVeterinarioStr.isBlank() || especialidadVeterinario.isBlank()) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;

@@ -128,7 +128,7 @@ public class AltaCuidado extends DialogFragment implements AdapterView.OnItemSel
                         String descripcionCuidado = editTextDescripcionCuidado.getText().toString();
                         String posologiaCuidado = editTextPosologiaCuidado.getText().toString();
 
-                        if (fechaInicioStr.isEmpty() || fechaFinStr.isEmpty() || descripcionCuidado.isEmpty() || posologiaCuidado.isEmpty() || (spinnerGatoFKCuidado.getSelectedItemPosition() == 0) || (spinnerVeterinarioFKCuidado.getSelectedItemPosition() == 0)) {
+                        if (fechaInicioStr.isBlank() || fechaFinStr.isBlank() || descripcionCuidado.isBlank() || posologiaCuidado.isBlank() || (spinnerGatoFKCuidado.getSelectedItemPosition() == 0) || (spinnerVeterinarioFKCuidado.getSelectedItemPosition() == 0)) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;

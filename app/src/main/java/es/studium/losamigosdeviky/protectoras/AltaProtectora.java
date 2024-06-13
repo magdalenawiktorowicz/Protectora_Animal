@@ -65,7 +65,7 @@ public class AltaProtectora extends DialogFragment {
                         String telefonoProtectoraStr = editTextTelefonoProtectora.getText().toString();
                         String correoProtectora = editTextCorreoProtectora.getText().toString();
 
-                        if (nombreProtectora.isEmpty() || direccionProtectora.isEmpty() || localidadProtectora.isEmpty() || telefonoProtectoraStr.isEmpty() || correoProtectora.isEmpty()) {
+                        if (nombreProtectora.isBlank() || direccionProtectora.isBlank() || localidadProtectora.isBlank() || telefonoProtectoraStr.isBlank() || correoProtectora.isBlank()) {
                             toast = Toast.makeText(context, "Rellena todos los campos.", Toast.LENGTH_SHORT);
                             makeToast();
                             return;
